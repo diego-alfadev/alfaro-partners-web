@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+const CALENDAR_URL = "https://calendar.google.com/calendar/u/0/r/day"; // Placeholder - Diego, pon aquí el link de citas real
 ---
 
 <BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">
   <section class="hero">
     <div class="wrap">
       <div class="hero__grid rise">
-        <div>
+        <div class="hero__content">
           <div class="hero__eyebrow-row">
             <span class="hero__rule" aria-hidden="true"></span>
             <span class="eyebrow">Representación de alto nivel</span>
@@ -22,15 +23,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             proteja exclusivamente tus intereses. <strong>Personas antes que operaciones.</strong>
           </p>
           <div class="hero__cta">
-            <a class="btn btn--primary" href="#contacto">Agendar asesoramiento · 30 min</a>
+            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar asesoramiento · 30 min</a>
             <a class="btn btn--text" href="#servicios">Descubrir servicios →</a>
           </div>
         </div>
-        <div class="portrait">
+        <div class="portrait hero__portrait">
           <span class="portrait__corner tl" aria-hidden="true"></span>
           <span class="portrait__corner br" aria-hidden="true"></span>
           <div class="portrait__frame">
-            <img src="/images/alfaro-hero.jpg" alt="José María Alfaro" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="/images/alfaro-hero.png" alt="José María Alfaro" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="portrait__placeholder" style="display: none;">[ retrato editorial ]</div>
           </div>
           <div class="portrait__badge">
@@ -46,12 +47,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="strip">
     <div class="wrap strip__inner">
       <div class="strip__item">
-        <span class="strip__title">Presidente <a href="https://fai.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">FAI</a></span>
+        <span class="strip__title">Presidente <a href="https://fainmo.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">FAI</a></span>
         <span class="kicker">Representación institucional</span>
       </div>
       <div class="strip__sep" aria-hidden="true"></div>
       <div class="strip__item">
-        <span class="strip__title"><a href="https://nuevomilenio.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Nuevo Milenio</a> &amp; <a href="https://alquilabien.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Alquilabien</a></span>
+        <span class="strip__title"><a href="https://nuevomilenio-inmo.com" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Nuevo Milenio</a> &amp; <a href="https://alquilabien.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Alquilabien</a></span>
         <span class="kicker">20+ años de dirección</span>
       </div>
       <div class="strip__sep" aria-hidden="true"></div>
@@ -76,39 +77,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="cards-3">
         <article class="card">
           <span class="card__num">— Vendedores</span>
-          <h3 class="card__title">Venta Estratégica</h3>
-          <p class="card__body">Te represento para que vendas con seguridad, estrategia, tranquilidad y al máximo precio de mercado.</p>
-          <a href="#contacto" class="btn btn--text mt-4">Hablar de mi venta →</a>
+          <h3 class="card__title">Representación de Venta</h3>
+          <p class="card__body">
+            Te represento para que vendas con seguridad, estrategia, tranquilidad y al máximo precio de mercado. No soy un agente que "vende pisos". Soy la persona que protege tu patrimonio y maximiza el retorno de tu inversión, gestionando cada detalle para que tú no tengas que preocuparte por nada.
+          </p>
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Hablar de mi venta →</a>
+        </article>
+        
+        <article class="card">
+          <span class="card__num">— Arrendadores</span>
+          <h3 class="card__title">Gestión de Alquiler</h3>
+          <p class="card__body">
+            Alquilar no debería convertirse en una preocupación constante. Tu propiedad merece una gestión seria y personas de confianza. Mi compromiso es asegurar tu tranquilidad, seleccionando el mejor perfil y garantizando que tu activo esté siempre protegido y rentable.
+          </p>
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Proteger mi alquiler →</a>
         </article>
         
         <article class="card">
           <span class="card__num">— Compradores</span>
-          <h3 class="card__title">Adquisición Clara</h3>
-          <p class="card__body">No buscamos casas. Te ayudamos a tomar la decisión de compra correcta, con criterio y sin presión. Sin ruido inmobiliario, con claridad para decidir.</p>
-          <a href="#contacto" class="btn btn--text mt-4">Buscar con criterio →</a>
-        </article>
-        
-        <article class="card">
-          <span class="card__num">— Inversores</span>
-          <h3 class="card__title">Análisis de Viabilidad</h3>
-          <p class="card__body">Tu patrimonio necesita decisiones analizadas, no promesas. Estudiamos la viabilidad y rentabilidad real antes de que comprometas tu capital.</p>
-          <a href="#contacto" class="btn btn--text mt-4">Analizar inversión →</a>
+          <h3 class="card__title">Personal Shopper</h3>
+          <p class="card__body">
+            No buscamos casas. Te ayudamos a tomar la decisión de compra correcta, con criterio y sin presión. Sin ruido inmobiliario, con claridad para decidir. Me encargo de filtrar, negociar y auditar cada opción para que tu compra sea una inversión segura y libre de sorpresas.
+          </p>
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar con criterio →</a>
         </article>
       </div>
       
       <div class="cards-3" style="margin-top: clamp(1rem,2vw,2rem); justify-content: center;">
         <article class="card">
-          <span class="card__num">— Arrendadores</span>
-          <h3 class="card__title">Gestión Seria</h3>
-          <p class="card__body">Alquilar no debería convertirse en una preocupación constante. Tu propiedad merece una gestión seria y personas de confianza.</p>
-          <a href="#contacto" class="btn btn--text mt-4">Proteger mi alquiler →</a>
+          <span class="card__num">— Inversores</span>
+          <h3 class="card__title">Análisis de Capital</h3>
+          <p class="card__body">
+            Tu patrimonio necesita decisiones analizadas, no promesas. Estudiamos la viabilidad y rentabilidad real antes de que comprometas tu capital. Aportamos visión técnica y estratégica para operaciones de alto valor donde el riesgo no es una opción.
+          </p>
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Analizar inversión →</a>
         </article>
         
         <article class="card">
           <span class="card__num">— Inquilinos</span>
-          <h3 class="card__title">Búsqueda Humana</h3>
-          <p class="card__body">Encontrar hogar debería ser más humano y menos frustrante. Te ayudo a encontrar tu próximo alquiler de forma clara y sin abusos.</p>
-          <a href="#contacto" class="btn btn--text mt-4">Buscar alquiler →</a>
+          <h3 class="card__title">Búsqueda de Hogar</h3>
+          <p class="card__body">
+            Encontrar hogar debería ser más humano y menos frustrante. Te ayudo a encontrar tu próximo alquiler de forma clara y sin abusos. Represento tus intereses ante el mercado para que accedas a las mejores opciones con transparencia y respeto.
+          </p>
+          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar alquiler →</a>
         </article>
       </div>
     </div>
@@ -122,14 +133,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <section class="section" id="firma">
     <div class="wrap">
-      <div class="split">
-        <div class="portrait">
+      <div class="split split--firma">
+        <div class="portrait split__portrait">
           <div class="portrait__frame">
-            <img src="/images/despacho.jpg" alt="Firma y despacho" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="/images/despacho.png" alt="Firma y despacho" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="portrait__placeholder" style="display: none;">[ retrato editorial · despacho ]</div>
           </div>
         </div>
-        <div>
+        <div class="split__content">
           <p class="eyebrow" style="margin-bottom: var(--space-6)">— La firma</p>
           <p class="split__quote" style="font-family: var(--font-display);">
             "El rigor profesional y la ética no son opciones, son la base de cualquier
@@ -165,14 +176,63 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <div class="ornament" aria-hidden="true">
+    <span class="ornament__rule"></span>
+    <span class="ornament__diamond"></span>
+    <span class="ornament__rule"></span>
+  </div>
+
+  <section class="section obsidian--quiet" style="background: rgba(201,164,74,0.03);">
+    <div class="wrap">
+      <div class="split split--compromiso">
+        <div class="split__content">
+          <span class="eyebrow">— Mi Compromiso</span>
+          <h2 class="display" style="font-size: var(--fs-h2); margin: var(--space-6) 0 var(--space-8);">Representación <em class="italic-gold">sin fisuras</em></h2>
+          <p class="card__body" style="font-size: 1.1rem; max-width: 50ch;">
+            Mi enfoque es simple: tú eres mi único cliente. En un sector lleno de conflictos de interés, yo elijo el bando de la transparencia absoluta. No represento propiedades, represento personas y protejo su patrimonio con el rigor que merecen.
+          </p>
+          <div class="hero__cta" style="margin-top: var(--space-10);">
+            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar Asesoramiento</a>
+          </div>
+        </div>
+        <div class="surface surface--gold split__surface" style="padding: var(--space-12); border-radius: var(--radius-0);">
+          <h4 class="eyebrow" style="color: var(--color-offwhite); margin-bottom: var(--space-8);">¿Por qué ahora?</h4>
+          <ul style="list-style: none; padding: 0; display: grid; gap: var(--space-6);">
+            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
+              <span style="color: var(--color-gold);">▸</span>
+              <p style="margin:0; font-size: .95rem;">El mercado inmobiliario actual no perdona la falta de estrategia.</p>
+            </li>
+            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
+              <span style="color: var(--color-gold);">▸</span>
+              <p style="margin:0; font-size: .95rem;">La prevención de riesgos legales ahorra más que cualquier negociación.</p>
+            </li>
+            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
+              <span style="color: var(--color-gold);">▸</span>
+              <p style="margin:0; font-size: .95rem;">Tu tiempo es tu activo más valioso; yo me encargo del ruido.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true">
+    <span class="ornament__rule"></span>
+    <span class="ornament__diamond"></span>
+    <span class="ornament__rule"></span>
+  </div>
+
   <section class="cta" id="contacto">
     <div class="wrap wrap--narrow">
       <span class="eyebrow">Comienza aquí</span>
       <h2 class="cta__title" style="font-family: var(--font-display);">Agenda una <em class="italic-gold">conversación</em></h2>
       <p class="cta__lede">Treinta minutos que pueden redefinir el éxito de tu próxima operación inmobiliaria.</p>
       <div class="cta__buttons">
-        <a class="btn btn--primary btn--lg" href="#">Ver calendario</a>
-        <a class="btn btn--ghost btn--lg" href="#">WhatsApp directo</a>
+        <a class="btn btn--primary btn--lg" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Ver calendario</a>
+        <a class="btn btn--ghost btn--lg" href="https://wa.me/34666749676" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
+      </div>
+    </div>
+  </section>76" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
       </div>
     </div>
   </section>
