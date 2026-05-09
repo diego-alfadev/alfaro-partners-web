@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__grid rise">
+        <div>
+          <div class="hero__eyebrow-row">
+            <span class="hero__rule" aria-hidden="true"></span>
+            <span class="eyebrow">Representación de alto nivel</span>
+          </div>
+          <h1 class="hero__title" style="font-family: var(--font-display);">
+            <span class="greeting">Hola, soy</span>
+            <span>José María</span>
+            <span class="surname">Alfaro</span>
+          </h1>
+          <p class="hero__lede">
+            Más de 20 años impulsando las buenas prácticas y la transparencia en el sector.
+            Antes de tomar una decisión que afecte a tu patrimonio, habla con alguien que
+            proteja exclusivamente tus intereses. <strong>Personas antes que operaciones.</strong>
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#contacto">Agendar asesoramiento · 30 min</a>
+            <a class="btn btn--text" href="#servicios">Descubrir servicios →</a>
+          </div>
+        </div>
+        <div class="portrait">
+          <span class="portrait__corner tl" aria-hidden="true"></span>
+          <span class="portrait__corner br" aria-hidden="true"></span>
+          <div class="portrait__frame">
+            <img src="/images/alfaro-hero.jpg" alt="José María Alfaro" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="portrait__placeholder" style="display: none;">[ retrato editorial ]</div>
+          </div>
+          <div class="portrait__badge">
+            <p class="portrait__badge-num">2004</p>
+            <div class="portrait__badge-rule"></div>
+            <p class="portrait__badge-label">Trayectoria<br>empresarial</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap strip__inner">
+      <div class="strip__item">
+        <span class="strip__title">Presidente <a href="https://fai.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">FAI</a></span>
+        <span class="kicker">Representación institucional</span>
+      </div>
+      <div class="strip__sep" aria-hidden="true"></div>
+      <div class="strip__item">
+        <span class="strip__title"><a href="https://nuevomilenio.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Nuevo Milenio</a> &amp; <a href="https://alquilabien.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Alquilabien</a></span>
+        <span class="kicker">20+ años de dirección</span>
+      </div>
+      <div class="strip__sep" aria-hidden="true"></div>
+      <div class="strip__item">
+        <span class="strip__title"><a href="https://bpimadrid.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">BPI Madrid</a></span>
+        <span class="kicker">Buenas prácticas inmobiliarias</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="servicios">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Nuestros Servicios</span>
+        <h2 class="section-head__title">El valor de la <em class="italic-gold">transparencia</em></h2>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Representación sin conflicto de intereses. Me dirijo exclusivamente a ti, garantizando que cada decisión estratégica y cada acción se tome con el objetivo de maximizar tu beneficio.
+        </p>
+      </header>
+
+      <div class="cards-3">
+        <article class="card">
+          <span class="card__num">— Vendedores</span>
+          <h3 class="card__title">Venta Estratégica</h3>
+          <p class="card__body">Te represento para que vendas con seguridad, estrategia, tranquilidad y al máximo precio de mercado.</p>
+          <a href="#contacto" class="btn btn--text mt-4">Hablar de mi venta →</a>
+        </article>
+        
+        <article class="card">
+          <span class="card__num">— Compradores</span>
+          <h3 class="card__title">Adquisición Clara</h3>
+          <p class="card__body">No buscamos casas. Te ayudamos a tomar la decisión de compra correcta, con criterio y sin presión. Sin ruido inmobiliario, con claridad para decidir.</p>
+          <a href="#contacto" class="btn btn--text mt-4">Buscar con criterio →</a>
+        </article>
+        
+        <article class="card">
+          <span class="card__num">— Inversores</span>
+          <h3 class="card__title">Análisis de Viabilidad</h3>
+          <p class="card__body">Tu patrimonio necesita decisiones analizadas, no promesas. Estudiamos la viabilidad y rentabilidad real antes de que comprometas tu capital.</p>
+          <a href="#contacto" class="btn btn--text mt-4">Analizar inversión →</a>
+        </article>
+      </div>
+      
+      <div class="cards-3" style="margin-top: clamp(1rem,2vw,2rem); justify-content: center;">
+        <article class="card">
+          <span class="card__num">— Arrendadores</span>
+          <h3 class="card__title">Gestión Seria</h3>
+          <p class="card__body">Alquilar no debería convertirse en una preocupación constante. Tu propiedad merece una gestión seria y personas de confianza.</p>
+          <a href="#contacto" class="btn btn--text mt-4">Proteger mi alquiler →</a>
+        </article>
+        
+        <article class="card">
+          <span class="card__num">— Inquilinos</span>
+          <h3 class="card__title">Búsqueda Humana</h3>
+          <p class="card__body">Encontrar hogar debería ser más humano y menos frustrante. Te ayudo a encontrar tu próximo alquiler de forma clara y sin abusos.</p>
+          <a href="#contacto" class="btn btn--text mt-4">Buscar alquiler →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true">
+    <span class="ornament__rule"></span>
+    <span class="ornament__diamond"></span>
+    <span class="ornament__rule"></span>
+  </div>
+
+  <section class="section" id="firma">
+    <div class="wrap">
+      <div class="split">
+        <div class="portrait">
+          <div class="portrait__frame">
+            <img src="/images/despacho.jpg" alt="Firma y despacho" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="portrait__placeholder" style="display: none;">[ retrato editorial · despacho ]</div>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow" style="margin-bottom: var(--space-6)">— La firma</p>
+          <p class="split__quote" style="font-family: var(--font-display);">
+            "El rigor profesional y la ética no son opciones, son la base de cualquier
+            decisión que <em class="italic-gold" style="font-style:normal">proteja tu patrimonio</em>."
+          </p>
+          <p class="split__attribution" style="font-family: var(--font-display);">— José María Alfaro</p>
+
+          <div class="split__pillars">
+            <div class="pillar">
+              <span class="pillar__num" style="font-family: var(--font-display);">01</span>
+              <div>
+                <h4>Análisis estratégico</h4>
+                <p>Estudio exhaustivo de viabilidad y situación patrimonial real.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <span class="pillar__num" style="font-family: var(--font-display);">02</span>
+              <div>
+                <h4>Blindaje legal</h4>
+                <p>Prevención activa de riesgos legales y financieros de alto impacto.</p>
+              </div>
+            </div>
+            <div class="pillar">
+              <span class="pillar__num" style="font-family: var(--font-display);">03</span>
+              <div>
+                <h4>Representación</h4>
+                <p>Trazado de estrategia de representación exclusiva a medida.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contacto">
+    <div class="wrap wrap--narrow">
+      <span class="eyebrow">Comienza aquí</span>
+      <h2 class="cta__title" style="font-family: var(--font-display);">Agenda una <em class="italic-gold">conversación</em></h2>
+      <p class="cta__lede">Treinta minutos que pueden redefinir el éxito de tu próxima operación inmobiliaria.</p>
+      <div class="cta__buttons">
+        <a class="btn btn--primary btn--lg" href="#">Ver calendario</a>
+        <a class="btn btn--ghost btn--lg" href="#">WhatsApp directo</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

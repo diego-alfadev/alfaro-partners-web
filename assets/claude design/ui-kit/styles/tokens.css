@@ -1,0 +1,127 @@
+/* =============================================================================
+   ALFARO & PARTNERS · DESIGN TOKENS
+   Punto único de verdad. Importar PRIMERO en cualquier capa de la web.
+   En Astro: src/styles/tokens.css → import en src/layouts/BaseLayout.astro
+   ============================================================================= */
+
+:root {
+  /* ── Color · Digital Obsidian ─────────────────────────────────────────────
+     Paleta navy + off-white + acento dorado. Sin saturación pura: chroma
+     bajo y luminancias controladas para fatiga ocular mínima en oscuro. */
+  --color-obsidian-1000:#040912;   /* "void" — pre-fondo, footer */
+  --color-obsidian-950: #08111e;   /* base profunda */
+  --color-obsidian-900: #0e192a;   /* fondo principal — Navy del logo */
+  --color-obsidian-800: #131f33;   /* superficie elevada */
+  --color-obsidian-700: #1b2b41;   /* superficie elevada+ */
+  --color-obsidian-600: #243551;   /* hairline visible */
+  --color-obsidian-500: #324461;   /* divider intenso */
+
+  --color-offwhite:     #eeeceb;   /* texto principal sobre navy */
+  --color-mist:         #b8bdc7;   /* texto secundario */
+  --color-quill:        #6e7686;   /* texto terciario · metadatos */
+  --color-fog:          #4a5365;   /* placeholder · disabled */
+
+  --color-gold:         #c9a44a;   /* acento base */
+  --color-gold-light:   #efdc9a;   /* highlight · brillo dorado */
+  --color-gold-soft:    #d9bf7a;   /* secundario suave */
+  --color-gold-deep:    #8a6e2f;   /* profundo · sombras */
+  --color-gold-glow:    rgba(201,164,74,.18);
+
+  --color-success:      #3c8b6e;
+  --color-warning:      #c9963c;
+  --color-danger:       #b75353;
+
+  /* ── Tipografía ───────────────────────────────────────────────────────── */
+  --font-display:     "Times New Roman","Times","Liberation Serif",serif;
+  --font-display-alt: "Playfair Display","Times New Roman",serif;
+  --font-body:        "Inter","Helvetica Neue",Arial,sans-serif;
+  --font-mono:        ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  /* Escala fluida — clamp(min, fluid, max) */
+  --fs-eyebrow:    .68rem;
+  --fs-caption:    .75rem;
+  --fs-body-sm:    .875rem;
+  --fs-body:       1rem;
+  --fs-body-lg:    1.125rem;
+  --fs-h4:         clamp(1.15rem, .6vw + 1rem, 1.35rem);
+  --fs-h3:         clamp(1.4rem, 1vw + 1.1rem, 1.75rem);
+  --fs-h2:         clamp(2.2rem, 2.5vw + 1rem, 4rem);
+  --fs-h1:         clamp(3rem, 5vw + 1rem, 6.5rem);
+
+  --tracking-tight:    -.01em;
+  --tracking-display:   .005em;
+  --tracking-eyebrow:   .42em;
+  --tracking-mono:      .25em;
+  --tracking-caps:      .15em;
+
+  --leading-display: 1.08;
+  --leading-tight:   1.25;
+  --leading-base:    1.65;
+  --leading-loose:   1.85;
+
+  /* ── Espaciado · escala 4px ───────────────────────────────────────────── */
+  --space-0: 0;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
+  --space-section: clamp(5rem, 10vw, 10rem);
+
+  /* ── Layout ───────────────────────────────────────────────────────────── */
+  --container:        1280px;
+  --container-narrow: 880px;
+  --container-prose:  680px;
+  --gutter:           clamp(1.5rem, 4vw, 4rem);
+  --header-h:         88px;
+
+  /* ── Bordes · hairlines ───────────────────────────────────────────────── */
+  --hairline:        1px solid rgba(238,236,235,.06);
+  --hairline-strong: 1px solid rgba(238,236,235,.12);
+  --hairline-gold:   1px solid rgba(201,164,74,.22);
+  --radius-0: 0;          /* private banking · ángulos rectos por defecto */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-pill: 999px;
+
+  /* ── Sombras ──────────────────────────────────────────────────────────── */
+  --shadow-sm:    0 1px 2px rgba(0,0,0,.4);
+  --shadow-md:    0 18px 40px rgba(0,0,0,.45);
+  --shadow-lg:    0 40px 80px rgba(0,0,0,.55);
+  --shadow-gold:  0 18px 50px rgba(201,164,74,.22);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,.04);
+
+  /* ── Motion ───────────────────────────────────────────────────────────── */
+  --ease-out:  cubic-bezier(.21,.45,.32,.95);
+  --ease-soft: cubic-bezier(.4,0,.2,1);
+  --ease-in:   cubic-bezier(.6,0,.84,0);
+  --t-fast:    180ms;
+  --t-base:    360ms;
+  --t-slow:    720ms;
+  --t-pace:    1200ms;
+
+  /* ── Z-index ──────────────────────────────────────────────────────────── */
+  --z-bg:     -1;
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  50;
+  --z-overlay: 80;
+  --z-header: 100;
+  --z-modal:  200;
+}
+
+/* Utilidades expuestas para Astro · pueden usarse desde class= directamente */
+.text-offwhite { color: var(--color-offwhite); }
+.text-mist     { color: var(--color-mist); }
+.text-quill    { color: var(--color-quill); }
+.text-gold     { color: var(--color-gold); }
+.text-gold-light { color: var(--color-gold-light); }
