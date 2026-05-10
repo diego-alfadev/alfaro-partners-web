@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const CALENDAR_URL = "https://calendar.google.com/calendar/u/0/r/day"; // Placeholder - Diego, pon aquí el link de citas real
+import { BUSINESS_INFO } from '../lib/constants';
+
+const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
 ---
 
 <BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">

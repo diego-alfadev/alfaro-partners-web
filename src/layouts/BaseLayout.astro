@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { BUSINESS_INFO } from '../lib/constants';
 
 interface Props {
   title: string;
@@ -7,9 +8,7 @@ interface Props {
 }
 
 const { title, description = 'José María Alfaro - Representación Inmobiliaria Premium. Más de 20 años protegiendo tus intereses patrimoniales.' } = Astro.props;
-const CALENDAR_URL = "https://calendar.google.com/calendar/u/0/r/day"; // Placeholder - Diego, pon aquí el link de citas real
-const CONTACT_PHONE = "34666749676";
-const CONTACT_EMAIL = "jmaj07@gmail.com";
+const { calendarUrl: CALENDAR_URL, phone: CONTACT_PHONE, email: CONTACT_EMAIL } = BUSINESS_INFO;
 ---
 
 <!DOCTYPE html>
