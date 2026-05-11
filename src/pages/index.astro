@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { BUSINESS_INFO } from '../lib/constants';
 
-const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
+const { booking, social } = BUSINESS_INFO;
 ---
 
 <BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">
@@ -25,7 +25,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
             proteja exclusivamente tus intereses. <strong>Personas antes que operaciones.</strong>
           </p>
           <div class="hero__cta">
-            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar asesoramiento · 30 min</a>
+            <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer">Agendar asesoramiento · 30 min</a>
             <a class="btn btn--text" href="#servicios">Descubrir servicios →</a>
           </div>
         </div>
@@ -83,7 +83,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
           <p class="card__body">
             Te represento para que vendas con seguridad, estrategia, tranquilidad y al máximo precio de mercado. No soy un agente que "vende pisos". Soy la persona que protege tu patrimonio y maximiza el retorno de tu inversión, gestionando cada detalle para que tú no tengas que preocuparte por nada.
           </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Hablar de mi venta →</a>
+          <a href={booking.url} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Hablar de mi venta →</a>
         </article>
         
         <article class="card">
@@ -92,7 +92,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
           <p class="card__body">
             Alquilar no debería convertirse en una preocupación constante. Tu propiedad merece una gestión seria y personas de confianza. Mi compromiso es asegurar tu tranquilidad, seleccionando el mejor perfil y garantizando que tu activo esté siempre protegido y rentable.
           </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Proteger mi alquiler →</a>
+          <a href={booking.url} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Proteger mi alquiler →</a>
         </article>
         
         <article class="card">
@@ -101,7 +101,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
           <p class="card__body">
             No buscamos casas. Te ayudamos a tomar la decisión de compra correcta, con criterio y sin presión. Sin ruido inmobiliario, con claridad para decidir. Me encargo de filtrar, negociar y auditar cada opción para que tu compra sea una inversión segura y libre de sorpresas.
           </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar con criterio →</a>
+          <a href={booking.url} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar con criterio →</a>
         </article>
       </div>
       
@@ -112,7 +112,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
           <p class="card__body">
             Tu patrimonio necesita decisiones analizadas, no promesas. Estudiamos la viabilidad y rentabilidad real antes de que comprometas tu capital. Aportamos visión técnica y estratégica para operaciones de alto valor donde el riesgo no es una opción.
           </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Analizar inversión →</a>
+          <a href={booking.url} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Analizar inversión →</a>
         </article>
         
         <article class="card">
@@ -121,7 +121,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
           <p class="card__body">
             Encontrar hogar debería ser más humano y menos frustrante. Te ayudo a encontrar tu próximo alquiler de forma clara y sin abusos. Represento tus intereses ante el mercado para que accedas a las mejores opciones con transparencia y respeto.
           </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar alquiler →</a>
+          <a href={booking.url} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar alquiler →</a>
         </article>
       </div>
     </div>
@@ -194,7 +194,7 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
             Mi enfoque es simple: tú eres mi único cliente. En un sector lleno de conflictos de interés, yo elijo el bando de la transparencia absoluta. No represento propiedades, represento personas y protejo su patrimonio con el rigor que merecen.
           </p>
           <div class="hero__cta" style="margin-top: var(--space-10);">
-            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar Asesoramiento</a>
+            <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer">Agendar Asesoramiento</a>
           </div>
         </div>
         <div class="surface surface--gold split__surface" style="padding: var(--space-12); border-radius: var(--radius-0);">
@@ -230,8 +230,8 @@ const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
       <h2 class="cta__title" style="font-family: var(--font-display);">Agenda una <em class="italic-gold">conversación</em></h2>
       <p class="cta__lede">Treinta minutos que pueden redefinir el éxito de tu próxima operación inmobiliaria.</p>
       <div class="cta__buttons">
-        <a class="btn btn--primary btn--lg" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Ver calendario</a>
-        <a class="btn btn--ghost btn--lg" href="https://wa.me/34666749676" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
+        <a class="btn btn--primary btn--lg" href={booking.url} target="_blank" rel="noopener noreferrer">Ver calendario</a>
+        <a class="btn btn--ghost btn--lg" href={social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
       </div>
     </div>
   </section>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../lib/constants';
+---
+
+<BaseLayout
+  title="Aviso legal · Alfaro & Partners"
+  description="Aviso legal provisional de Alfaro & Partners pendiente de revisión jurídica."
+  path="aviso-legal/"
+>
+  <section class="section">
+    <div class="wrap wrap--prose prose">
+      <p class="eyebrow">Información legal</p>
+      <h1 class="section-head__title">Aviso legal</h1>
+      <p>
+        Esta página es un placeholder operativo mientras se incorpora el texto legal definitivo.
+        La información publicada en este sitio tiene carácter informativo y no constituye asesoramiento
+        jurídico, fiscal o financiero personalizado.
+      </p>
+      <p>
+        Para cualquier consulta relacionada con la titularidad, contenidos o uso del sitio, contacta con
+        {` ${BUSINESS_INFO.name} `} en <a class="text-gold" href={`mailto:${BUSINESS_INFO.email}`}>{BUSINESS_INFO.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
