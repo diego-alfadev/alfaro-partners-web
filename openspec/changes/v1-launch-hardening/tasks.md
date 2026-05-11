@@ -23,8 +23,8 @@
 
 - [x] 4.1 Inspect source for no `href="#"` in rendered footer/navigation.
 - [x] 4.2 Verify generated metadata by inspecting local or published HTML.
-- [ ] 4.3 Verify `robots.txt`, `sitemap-index.xml`, CSS, and public images return HTTP 200 after deploy.
-- [ ] 4.4 If UI changes are made, verify the page in a browser.
+- [x] 4.3 Verify `robots.txt`, `sitemap-index.xml`, CSS, and public images return HTTP 200 after deploy.
+- [x] 4.4 If UI changes are made, verify the page in a browser.
 
 ## 5. Optional follow-up
 

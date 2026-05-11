@@ -17,12 +17,12 @@ Standard mode. Strict TDD is disabled because this repo has no installed test ru
 - [x] 3.4 Add legal placeholder pages using `BaseLayout`.
 - [x] 4.1 Inspect source for no `href="#"` in footer/navigation.
 - [x] 4.2 Verify metadata by source inspection.
+- [x] 4.3 Verify `robots.txt`, `sitemap-index.xml`, CSS, and public images return HTTP 200 after deploy.
+- [x] 4.4 Verify the published page in a browser.
 
 ## Remaining Tasks
 
 - [ ] 3.1 Replace or explicitly confirm the booking URL in `src/lib/constants.ts`.
-- [ ] 4.3 Verify `robots.txt`, `sitemap-index.xml`, CSS, and public images return HTTP 200 after deploy.
-- [ ] 4.4 If UI changes are made, verify the page in a browser.
 
 ## Files Changed
 
@@ -39,11 +39,14 @@ Standard mode. Strict TDD is disabled because this repo has no installed test ru
 ## Verification Performed
 
 - Ran `bun run astro sync` successfully.
+- Ran `bun run build` successfully before deployment.
 - Inspected source for metadata and absence of dead `href="#"` links.
 - Confirmed `astro.config.mjs` still includes `@astrojs/sitemap`.
+- Deployed to `gh-pages` and verified published HTTP 200 responses for home, `robots.txt`, `sitemap-index.xml`, legal pages, CSS, and public images.
+- Opened the published site in the browser and confirmed the hero/header render with styles.
 
 ## Deviations
 
 - Legal pages are explicit placeholders pending legal review, per user approval.
 - Final booking URL is not available; `booking.status` remains `"placeholder"`.
-- Browser verification is pending because changes are not deployed yet and localhost browser use is unavailable in this session.
+- Browser verification was performed against the published GitHub Pages URL.
