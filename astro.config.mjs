@@ -7,6 +7,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://diego-alfadev.github.io',
+  base: '/alfaro-partners-web',
   vite: {
     plugins: [tailwindcss()]
   },
