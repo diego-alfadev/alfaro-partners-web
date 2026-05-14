@@ -1,0 +1,13 @@
+change: local-seo-social-proof
+artifact_store: openspec
+status: planned
+created: 2026-05-14
+phases:
+  proposal: complete
+  spec: complete
+  design: complete
+  tasks: complete
+  apply: complete
+  verify: complete
+delivery_strategy: single-pr
+scope_note: "Añade perfiles sociales y páginas SEO locales para Retiro, Ibiza Madrid y Barrio de Salamanca."

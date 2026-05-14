@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../../lib/constants';
+
+const { booking } = BUSINESS_INFO;
+---
+
+<BaseLayout
+  title="Vivir en Retiro · Representación inmobiliaria en Madrid"
+  description="Vivir en Retiro combina calidad de vida, zonas verdes y demanda patrimonial. Acompañamiento para comprar, vender o alquilar con criterio."
+  path="zonas/retiro/"
+>
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Madrid centro · Retiro</span>
+        <h1 class="section-head__title">Vivir en Retiro con criterio patrimonial</h1>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Retiro no se elige solo por ubicación. Se elige por equilibrio: vida urbana,
+          zonas verdes, demanda estable y una percepción de calidad que exige analizar
+          cada calle, finca y operación con calma.
+        </p>
+      </header>
+
+      <div class="split split--compromiso">
+        <div class="split__content">
+          <p class="eyebrow" style="margin-bottom: var(--space-6)">— Enfoque de zona</p>
+          <p class="split__quote" style="font-family: var(--font-display);">
+            "En Retiro, una buena operación no es solo encontrar una vivienda bonita:
+            es entender qué parte del valor viene del inmueble, de la finca y del entorno."
+          </p>
+          <div class="prose">
+            <p>
+              Para compradores e inquilinos, Retiro ofrece una vida cómoda y reconocible:
+              cercanía al parque, comercios consolidados, servicios y una sensación residencial
+              que no renuncia al centro de Madrid.
+            </p>
+            <p>
+              Para propietarios y arrendadores, la clave está en posicionar bien el activo:
+              precio, perfil de demanda, presentación, riesgos legales y capacidad real de negociación.
+            </p>
+          </div>
+        </div>
+        <div class="surface surface--gold" style="padding: var(--space-12);">
+          <h2 class="card__title">Cuándo tiene sentido que te representen</h2>
+          <ul style="list-style: none; padding: 0; display: grid; gap: var(--space-6);">
+            <li><span class="text-gold">▸</span> Si vas a vender y necesitas defender precio sin improvisar.</li>
+            <li><span class="text-gold">▸</span> Si compras y quieres filtrar ruido antes de comprometer capital.</li>
+            <li><span class="text-gold">▸</span> Si alquilas y buscas solvencia, tranquilidad y gestión seria.</li>
+          </ul>
+          <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer" style="margin-top: var(--space-8);">Hablar sobre Retiro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

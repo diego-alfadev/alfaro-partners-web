@@ -2,7 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { BUSINESS_INFO } from '../lib/constants';
 
-const { booking, social } = BUSINESS_INFO;
+const { booking, social, zones } = BUSINESS_INFO;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
 ---
 
 <BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">
@@ -224,6 +228,37 @@ const { booking, social } = BUSINESS_INFO;
     <span class="ornament__rule"></span>
   </div>
 
+  <section class="section" id="zonas">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Dónde estamos</span>
+        <h2 class="section-head__title">Madrid centro, zona a zona</h2>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Representación inmobiliaria en zonas donde la decisión no va solo de metros cuadrados:
+          va de estilo de vida, liquidez futura, seguridad jurídica y criterio patrimonial.
+        </p>
+      </header>
+
+      <div class="cards-3">
+        {zones.map((zone) => (
+          <article class="card">
+            <span class="card__num">— Madrid centro</span>
+            <h3 class="card__title">{zone.title}</h3>
+            <p class="card__body">{zone.description}</p>
+            <a href={withBase(zone.href)} class="btn btn--text mt-4">Explorar zona →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="ornament" aria-hidden="true">
+    <span class="ornament__rule"></span>
+    <span class="ornament__diamond"></span>
+    <span class="ornament__rule"></span>
+  </div>
+
   <section class="cta" id="contacto">
     <div class="wrap wrap--narrow">
       <span class="eyebrow">Comienza aquí</span>
@@ -233,6 +268,12 @@ const { booking, social } = BUSINESS_INFO;
         <a class="btn btn--primary btn--lg" href={booking.url} target="_blank" rel="noopener noreferrer">Ver calendario</a>
         <a class="btn btn--ghost btn--lg" href={social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
       </div>
+      <p class="field__hint" style="margin-top: var(--space-8);">
+        También puedes seguir Alfaro &amp; Partners en
+        <a class="text-gold" href={social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+        o conectar con José María Alfaro en
+        <a class="text-gold" href={social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+      </p>
     </div>
   </section>
 </BaseLayout>
