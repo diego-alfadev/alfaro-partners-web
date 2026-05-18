@@ -243,6 +243,11 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 }
 .btn--sm { padding: .65rem 1.25rem; font-size: 10px; }
 .btn--lg { padding: 1.25rem 2.75rem; font-size: 12px; }
+.btn--icon [data-icon] {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
 .btn--primary {
   background: linear-gradient(135deg, #a8862f 0%, #d6b660 50%, #efdc9a 100%);
   color: var(--color-obsidian-900);
@@ -385,24 +390,51 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
    ============================================================================= */
 .site-footer {
   border-top: var(--hairline);
-  padding-block: var(--space-16);
+  padding-block: var(--space-20) var(--space-10);
   background: var(--color-obsidian-1000);
 }
 .site-footer__inner {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-8);
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) 2fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
 }
-.site-footer p {
+.site-footer__brand {
+  display: grid;
+  gap: var(--space-5);
+}
+.site-footer__brand .brand__wordmark {
+  display: block;
+  font-size: .95rem;
+  letter-spacing: .24em;
+}
+.site-footer__brand p,
+.site-footer__fineprint {
   margin: 0;
   font-size: 11px;
   letter-spacing: .15em;
   color: var(--color-quill);
   text-transform: uppercase;
+  line-height: 1.8;
 }
-.site-footer__links { display: flex; gap: var(--space-8); }
+.site-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-10);
+}
+.site-footer__heading {
+  margin: 0 0 var(--space-5);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+.site-footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
 .site-footer__links a {
   font-size: 11px;
   letter-spacing: .25em;
@@ -411,6 +443,76 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   transition: color var(--t-base);
 }
 .site-footer__links a:hover { color: var(--color-gold); }
+.site-footer__fineprint {
+  grid-column: 1 / -1;
+  padding-top: var(--space-8);
+  border-top: var(--hairline);
+}
+
+.social-cards {
+  display: grid;
+  gap: var(--space-4);
+}
+.social-cards--center {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: var(--space-10);
+}
+.social-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid rgba(201,164,74,.18);
+  background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.005));
+  color: var(--color-offwhite);
+  text-align: left;
+  transition: transform var(--t-base) var(--ease-soft), border-color var(--t-base), background var(--t-base);
+}
+.social-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201,164,74,.42);
+  background: rgba(201,164,74,.06);
+}
+.social-card__icon {
+  flex: 0 0 38px;
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border: 1px solid rgba(201,164,74,.35);
+  border-radius: var(--radius-pill);
+  color: var(--color-gold);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.social-card__icon [data-icon],
+.float-wa [data-icon] {
+  width: 18px;
+  height: 18px;
+}
+.social-card strong {
+  display: block;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.social-card small {
+  display: block;
+  margin-top: .2rem;
+  color: var(--color-quill);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.social-card--wa .social-card__icon {
+  border-color: rgba(60,139,110,.45);
+  color: #7bd0ad;
+}
+@media (max-width: 960px) {
+  .site-footer__inner,
+  .site-footer__cols,
+  .social-cards--center {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* =============================================================================
    FLOATING WHATSAPP
@@ -720,6 +822,13 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   font-size: var(--fs-body-lg);
 }
 .cta__buttons { display: flex; gap: var(--space-6); justify-content: center; flex-wrap: wrap; }
+.cta__note {
+  max-width: 58ch;
+  margin: var(--space-6) auto 0;
+  color: var(--color-quill);
+  font-size: 12px;
+  line-height: 1.7;
+}
 
 /* =============================================================================
    MOTION

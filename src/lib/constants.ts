@@ -1,16 +1,19 @@
+const SITE_ORIGIN = import.meta.env.PUBLIC_SITE_URL ?? "https://diego-alfadev.github.io";
+const SITE_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
+
 export const BUSINESS_INFO = {
   name: "José María Alfaro",
   phone: "34666749676",
   email: "jmaj07@gmail.com",
   site: {
-    origin: "https://diego-alfadev.github.io",
-    basePath: "/alfaro-partners-web",
+    origin: SITE_ORIGIN,
+    basePath: SITE_BASE_PATH,
     defaultImage: "/images/alfaro-hero.png",
   },
   booking: {
     label: "Reservar cita",
-    url: "https://calendar.google.com/calendar/u/0/r/day",
-    status: "placeholder",
+    url: "https://calendar.app.google/GNnp9k79GQzsUsiv7",
+    status: "appointment-schedule",
   },
   social: {
     whatsapp: "https://wa.me/34666749676",
