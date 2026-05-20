@@ -59,6 +59,7 @@ jobs:
           name: alfaro-partners-dist
           path: dist/
           if-no-files-found: error
+          include-hidden-files: true
 
   deploy:
     name: Deploy dist to IONOS SFTP
