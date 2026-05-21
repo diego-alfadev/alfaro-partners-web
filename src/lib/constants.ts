@@ -8,7 +8,7 @@ export const BUSINESS_INFO = {
   site: {
     origin: SITE_ORIGIN,
     basePath: SITE_BASE_PATH,
-    defaultImage: "/images/alfaro-hero.png",
+    defaultImage: "/images/og-alfaro-partners.png",
   },
   booking: {
     label: "Reservar cita",

@@ -39,6 +39,7 @@ const withBase = (value: string) => `${basePath}${cleanPath(value)}`;
 const canonicalUrl = new URL(`${basePath}${cleanPath(path)}`, siteOrigin).toString();
 const imageUrl = new URL(withBase(image), siteOrigin).toString();
 const homeUrl = new URL(basePath, siteOrigin).toString();
+const isPngImage = imageUrl.endsWith('.png');
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'RealEstateAgent',
@@ -87,6 +88,12 @@ const schema = {
   <meta property="og:type" content={type} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={imageUrl} />
+  <meta property="og:image:secure_url" content={imageUrl} />
+  {isPngImage && <meta property="og:image:type" content="image/png" />}
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Alfaro & Partners" />
+  <meta property="og:locale" content="es_ES" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
