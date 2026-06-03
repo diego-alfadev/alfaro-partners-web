@@ -876,8 +876,9 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     height: 45vh; /* Enough height to show the face and torso */
     min-height: 350px;
     max-height: 500px;
-    width: 100vw; /* Full bleed */
-    margin-left: calc(-1 * var(--gutter)); /* Negative margin to full bleed */
+    width: calc(100% + (2 * var(--gutter))); /* Full bleed without viewport scrollbar drift */
+    max-width: none;
+    margin-inline: calc(-1 * var(--gutter)); /* Negative margin to full bleed */
     aspect-ratio: auto;
     border: none; /* No border in mobile */
     /* Strong fade at the bottom to transition into the text */
@@ -896,6 +897,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   .hero__content {
     position: relative;
     z-index: 10;
+    width: 100%;
+    max-width: 100%;
     margin-top: -120px; /* Pull text up over the faded bottom of the portrait */
     padding-top: 0;
     display: flex;
@@ -903,7 +906,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   }
   .hero__title { 
     order: 1;
-    font-size: clamp(2.4rem, 12vw, 3.5rem); 
+    font-size: clamp(2rem, 10vw, 3rem);
     margin-bottom: var(--space-4); 
     line-height: 1.05;
     text-shadow: 0 4px 12px rgba(14,25,42, 0.8); /* Readability over image */

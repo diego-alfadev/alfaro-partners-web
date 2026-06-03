@@ -3,7 +3,7 @@ const SITE_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
 
 export const BUSINESS_INFO = {
   name: "José María Alfaro",
-  phone: "34666749676",
+  phone: "34672504642",
   email: "jmaj07@gmail.com",
   site: {
     origin: SITE_ORIGIN,
@@ -12,11 +12,14 @@ export const BUSINESS_INFO = {
   },
   booking: {
     label: "Reservar cita",
-    url: "https://calendar.app.google/GNnp9k79GQzsUsiv7",
+    url: "https://calendar.app.google/BiHCEcbRa31MJNvS7",
     status: "appointment-schedule",
   },
+  analytics: {
+    googleTagId: import.meta.env.PUBLIC_GTAG_ID ?? import.meta.env.GTAG_ID ?? "G-S3CFMH1MHZ",
+  },
   social: {
-    whatsapp: "https://wa.me/34666749676",
+    whatsapp: "https://wa.me/34672504642",
     instagram: "https://www.instagram.com/alfaropartners/",
     linkedin: "https://www.linkedin.com/in/jose-mar%C3%ADa-alfaro-agente-inmobiliario/",
   },
