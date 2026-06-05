@@ -51,6 +51,7 @@ jobs:
         env:
           PUBLIC_SITE_URL: https://alfaropartners.es
           PUBLIC_BASE_PATH: /
+          PUBLIC_GTAG_ID: G-08PP9575QV
         run: bun run build:ionos
 
       - name: Upload build artifact

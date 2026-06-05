@@ -16,7 +16,7 @@ export const BUSINESS_INFO = {
     status: "appointment-schedule",
   },
   analytics: {
-    googleTagId: import.meta.env.PUBLIC_GTAG_ID ?? import.meta.env.GTAG_ID ?? "G-S3CFMH1MHZ",
+    googleTagId: import.meta.env.PUBLIC_GTAG_ID ?? import.meta.env.GTAG_ID ?? "G-08PP9575QV",
   },
   social: {
     whatsapp: "https://wa.me/34672504642",
