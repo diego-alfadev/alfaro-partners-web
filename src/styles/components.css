@@ -100,8 +100,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   background-image:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='2400' height='2400' viewBox='0 0 2400 2400'><defs><filter id='warp' x='-10%25' y='-10%25' width='120%25' height='120%25'><feTurbulence type='fractalNoise' baseFrequency='0.011' numOctaves='3' seed='17' stitchTiles='stitch' result='t'/><feDisplacementMap in='SourceGraphic' in2='t' scale='80' xChannelSelector='R' yChannelSelector='G'/><feGaussianBlur stdDeviation='0.35'/></filter><linearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%238a6e2f' stop-opacity='0'/><stop offset='12%25' stop-color='%23a8862f' stop-opacity='0.45'/><stop offset='42%25' stop-color='%23efdc9a' stop-opacity='0.85'/><stop offset='58%25' stop-color='%23c9a44a' stop-opacity='0.7'/><stop offset='82%25' stop-color='%238a6e2f' stop-opacity='0.4'/><stop offset='100%25' stop-color='%238a6e2f' stop-opacity='0'/></linearGradient><linearGradient id='g2' x1='100%25' y1='0%25' x2='0%25' y2='100%25'><stop offset='0%25' stop-color='%238a6e2f' stop-opacity='0'/><stop offset='30%25' stop-color='%23c9a44a' stop-opacity='0.55'/><stop offset='65%25' stop-color='%23d6b660' stop-opacity='0.6'/><stop offset='100%25' stop-color='%238a6e2f' stop-opacity='0'/></linearGradient><linearGradient id='g3' x1='0%25' y1='100%25' x2='100%25' y2='0%25'><stop offset='0%25' stop-color='%238a6e2f' stop-opacity='0'/><stop offset='40%25' stop-color='%23c9a44a' stop-opacity='0.5'/><stop offset='100%25' stop-color='%238a6e2f' stop-opacity='0'/></linearGradient></defs><g filter='url(%23warp)' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M-100,520 Q500,440 980,580 T1900,520 L2500,560' stroke='url(%23g1)' stroke-width='1.5'/><path d='M2500,1340 Q1880,1260 1400,1400 T520,1320 L-100,1280' stroke='url(%23g2)' stroke-width='1.2' opacity='0.9'/><path d='M-100,2080 Q420,1980 880,2120 T1700,2040 L2500,2120' stroke='url(%23g1)' stroke-width='1.1' opacity='0.78'/><path d='M1740,-100 L1840,280 L1660,560 L1920,860 L1780,1180' stroke='url(%23g3)' stroke-width='0.95' opacity='0.7'/><path d='M2480,200 L1980,360 L1640,560 L1240,640' stroke='url(%23g2)' stroke-width='0.85' opacity='0.65'/><path d='M-100,1700 L260,1820 L640,1740 L980,1860' stroke='url(%23g1)' stroke-width='0.9' opacity='0.65'/><path d='M460,860 Q640,940 800,860 T1180,900' stroke='url(%23g1)' stroke-width='0.7' opacity='0.55'/><path d='M1280,1040 Q1420,1180 1560,1100' stroke='url(%23g2)' stroke-width='0.6' opacity='0.5'/><path d='M880,1480 L1080,1560 L1240,1500' stroke='url(%23g2)' stroke-width='0.6' opacity='0.5'/><path d='M1860,1900 L2120,1740 L2380,1860' stroke='url(%23g3)' stroke-width='0.7' opacity='0.55'/><path d='M1340,200 L1480,340 L1620,260' stroke='url(%23g1)' stroke-width='0.6' opacity='0.45'/><path d='M1340,1850 L1380,1500 L1280,1280' stroke='url(%23g2)' stroke-width='0.5' opacity='0.4'/></g></svg>");
   background-size: 2400px 2400px;
-  background-position: 0 0;
-  background-repeat: repeat;
+  background-position: center top;
+  background-repeat: repeat-y;
   mix-blend-mode: screen;
   opacity: .42;
 }
@@ -505,6 +505,10 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 .social-card--wa .social-card__icon {
   border-color: rgba(60,139,110,.45);
   color: #7bd0ad;
+}
+.social-card--ig .social-card__icon {
+  border-color: rgba(201,164,74,.45);
+  color: #f0e0a6;
 }
 @media (max-width: 960px) {
   .site-footer__inner,
@@ -935,4 +939,62 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     gap: var(--space-4); 
   }
   .hero__cta .btn { width: 100%; justify-content: center; } /* Full width buttons on mobile */
+}
+
+@media (max-width: 480px) {
+  :root {
+    --gutter: 1rem;
+  }
+
+  .site-header__inner {
+    gap: .75rem;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .brand__logo {
+    height: auto;
+    max-height: 28px;
+    max-width: min(52vw, 190px);
+  }
+
+  .site-header .btn--ghost {
+    flex: 0 1 auto;
+    max-width: 44vw;
+    padding: .8rem 1rem;
+    font-size: 10px;
+    letter-spacing: .16em;
+  }
+
+  .hero__portrait .portrait__frame {
+    width: 100%;
+    margin-inline: 0;
+  }
+
+  .hero__content {
+    margin-top: -88px;
+    overflow: visible;
+  }
+
+  .hero__title {
+    max-width: 100%;
+    font-size: clamp(1.85rem, 9vw, 2.55rem);
+    overflow-wrap: normal;
+  }
+
+  .hero__title span {
+    max-width: 100%;
+  }
+
+  .hero__lede {
+    font-size: 1rem;
+  }
+
+  .float-wa {
+    right: 1rem;
+    bottom: 1rem;
+  }
 }
