@@ -12,7 +12,7 @@ export const BUSINESS_INFO = {
   },
   booking: {
     label: "Reservar cita",
-    url: "https://calendar.app.google/BiHCEcbRa31MJNvS7",
+    url: "https://calendar.app.google/XVToXQ879KGeQ9qg6",
     status: "appointment-schedule",
   },
   analytics: {
