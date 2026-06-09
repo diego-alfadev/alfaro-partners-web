@@ -2,8 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Icon } from 'astro-icon/components';
 import { BUSINESS_INFO } from '../lib/constants';
+import { getMediaReferences } from '../lib/mediaReferences';
 
 const { booking, social, zones } = BUSINESS_INFO;
+const featuredReferences = getMediaReferences().filter((reference) => reference.featured).slice(0, 3);
 const basePath = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -69,6 +71,32 @@ const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
       </div>
     </div>
   </div>
+
+  <section class="section authority-teaser" id="actualidad">
+    <div class="wrap">
+      <div class="authority-teaser__shell surface surface--deep">
+        <div class="authority-teaser__intro">
+          <span class="eyebrow">Actualidad &amp; medios</span>
+          <h2 class="section-head__title">Una selección pensada para reforzar <em class="italic-gold">autoridad y criterio</em></h2>
+          <p class="section-head__lede">
+            Apariciones, entrevistas y referencias públicas que ayudan a entender cómo piensa José María Alfaro cuando habla de vivienda, mercado y representación.
+          </p>
+          <a class="btn btn--primary" href={withBase('actualidad/')}>Ver actualidad y referencias</a>
+        </div>
+
+        <div class="authority-teaser__grid">
+          {featuredReferences.map((reference) => (
+            <article class="authority-mini-card">
+              <span class={`authority-mini-card__type authority-mini-card__type--${reference.type}`}>{reference.type === 'video' ? 'Vídeo' : reference.type === 'linkedin' ? 'LinkedIn' : 'Medios'}</span>
+              <h3>{reference.title}</h3>
+              <p>{reference.excerpt}</p>
+              <a class="btn btn--text" href={reference.href} target="_blank" rel="noopener noreferrer">Abrir referencia →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section" id="servicios">
     <div class="wrap">
