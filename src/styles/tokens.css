@@ -32,9 +32,9 @@
   --color-danger:       #b75353;
 
   /* ── Tipografía ───────────────────────────────────────────────────────── */
-  --font-display:     "Times New Roman","Times","Liberation Serif",serif;
-  --font-display-alt: "Playfair Display","Times New Roman",serif;
-  --font-body:        "Inter","Helvetica Neue",Arial,sans-serif;
+  --font-display:     "Iowan Old Style","Baskerville","Times New Roman","Times",serif;
+  --font-display-alt: "Baskerville","Iowan Old Style","Times New Roman",serif;
+  --font-body:        "Aptos","Segoe UI","Helvetica Neue",Arial,sans-serif;
   --font-mono:        ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
   /* Escala fluida — clamp(min, fluid, max) */
@@ -45,8 +45,8 @@
   --fs-body-lg:    1.125rem;
   --fs-h4:         clamp(1.15rem, .6vw + 1rem, 1.35rem);
   --fs-h3:         clamp(1.4rem, 1vw + 1.1rem, 1.75rem);
-  --fs-h2:         clamp(2.2rem, 2.5vw + 1rem, 4rem);
-  --fs-h1:         clamp(3rem, 5vw + 1rem, 6.5rem);
+  --fs-h2:         clamp(2.1rem, 2.2vw + 1rem, 3.8rem);
+  --fs-h1:         clamp(3rem, 4.3vw + 1rem, 6rem);
 
   --tracking-tight:    -.01em;
   --tracking-display:   .005em;
@@ -82,7 +82,7 @@
   --container-narrow: 880px;
   --container-prose:  680px;
   --gutter:           clamp(1.5rem, 4vw, 4rem);
-  --header-h:         88px;
+  --header-h:         76px;
 
   /* ── Bordes · hairlines ───────────────────────────────────────────────── */
   --hairline:        1px solid rgba(238,236,235,.06);
