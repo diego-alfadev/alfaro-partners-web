@@ -1,238 +1,339 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
 import { BUSINESS_INFO } from '../lib/constants';
+import { getMediaReferences } from '../lib/mediaReferences';
 
-const { calendarUrl: CALENDAR_URL } = BUSINESS_INFO;
+const { booking, social, zones } = BUSINESS_INFO;
+const featuredReferences = getMediaReferences().filter((reference) => reference.featured).slice(0, 3);
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+const formatReferenceDate = (value: string) =>
+  new Intl.DateTimeFormat('es-ES', { month: 'short', year: 'numeric' })
+    .format(new Date(`${value}T12:00:00`))
+    .replace('.', '');
+
+const services = [
+  {
+    audience: 'Propietarios',
+    title: 'Venta con mandato de representación',
+    body: 'Estrategia, posicionamiento y negociación para vender bien, sin ruido y con el patrimonio protegido.',
+    featured: true,
+  },
+  {
+    audience: 'Arrendadores',
+    title: 'Gestión de alquiler con criterio',
+    body: 'Selección de perfil, prevención de riesgos y seguimiento para que el activo trabaje a tu favor.',
+  },
+  {
+    audience: 'Compradores',
+    title: 'Personal shopper inmobiliario',
+    body: 'Búsqueda, filtro y negociación para comprar con claridad, sin presión comercial y sin sorpresas.',
+  },
+  {
+    audience: 'Inversores',
+    title: 'Análisis de capital y viabilidad',
+    body: 'Lectura real del riesgo y del retorno antes de comprometer capital en operaciones de valor.',
+  },
+  {
+    audience: 'Inquilinos',
+    title: 'Búsqueda de hogar bien representada',
+    body: 'Acompañamiento para encontrar alquiler con transparencia, contexto de mercado y defensa de tus intereses.',
+  },
+];
+
+const pillars = [
+  {
+    title: 'Diagnóstico previo',
+    body: 'Antes de mover una pieza, se estudia la posición patrimonial, el contexto legal y el margen real de decisión.',
+  },
+  {
+    title: 'Negociación con mandato claro',
+    body: 'Cada conversación se conduce desde tus intereses, no desde la urgencia de cerrar una operación más.',
+  },
+  {
+    title: 'Ejecución y seguimiento',
+    body: 'El proceso se ordena, se documenta y se acompaña hasta que la decisión queda bien resuelta.',
+  },
+];
+
+const reasons = [
+  {
+    title: 'Contexto antes que prisa',
+    body: 'El mercado premia la información bien leída y castiga las decisiones tomadas por presión.',
+  },
+  {
+    title: 'Prevención antes que reparación',
+    body: 'Una mala negociación deja huella durante años. Anticipar el riesgo evita tener que corregirlo después.',
+  },
+  {
+    title: 'Representación antes que intermediación',
+    body: 'Tu tiempo y tu patrimonio necesitan a alguien que sepa cuándo avanzar y cuándo frenar.',
+  },
+];
+
+const signatureStats = [
+  { value: '20+', label: 'años de trayectoria' },
+  { value: 'Madrid', label: 'mercado principal' },
+  { value: '1 lado', label: 'tus intereses' },
+];
 ---
 
 <BaseLayout title="Alfaro & Partners · Representación Inmobiliaria Premium">
-  <section class="hero">
+  <section class="hero hero--home">
     <div class="wrap">
       <div class="hero__grid rise">
         <div class="hero__content">
           <div class="hero__eyebrow-row">
             <span class="hero__rule" aria-hidden="true"></span>
-            <span class="eyebrow">Representación de alto nivel</span>
+            <span class="eyebrow">Representación inmobiliaria premium</span>
           </div>
           <h1 class="hero__title" style="font-family: var(--font-display);">
-            <span class="greeting">Hola, soy</span>
-            <span>José María</span>
-            <span class="surname">Alfaro</span>
+            <span class="greeting">José María Alfaro</span>
+            <span>Tu patrimonio</span>
+            <span class="surname">bien representado</span>
           </h1>
-          <p class="hero__lede">
-            Más de 20 años impulsando las buenas prácticas y la transparencia en el sector.
-            Antes de tomar una decisión que afecte a tu patrimonio, habla con alguien que
-            proteja exclusivamente tus intereses. <strong>Personas antes que operaciones.</strong>
+          <p class="hero__lede hero__lede--compact">
+            Venta, compra, alquiler e inversión con una sola prioridad: proteger tus intereses con criterio y transparencia.
           </p>
           <div class="hero__cta">
-            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar asesoramiento · 30 min</a>
-            <a class="btn btn--text" href="#servicios">Descubrir servicios →</a>
+            <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer">Reservar cita</a>
+            <a class="btn btn--text" href="#servicios">Ver servicios</a>
           </div>
         </div>
+
         <div class="portrait hero__portrait">
-          <span class="portrait__corner tl" aria-hidden="true"></span>
-          <span class="portrait__corner br" aria-hidden="true"></span>
-          <div class="portrait__frame">
-            <img src={`${import.meta.env.BASE_URL}/images/alfaro-hero.png`} alt="José María Alfaro" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="portrait__frame portrait__frame--hero">
+            <img src={withBase('images/alfaro-hero.png')} alt="José María Alfaro" width="800" height="1200" fetchpriority="high" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="portrait__placeholder" style="display: none;">[ retrato editorial ]</div>
           </div>
-          <div class="portrait__badge">
+          <div class="portrait__badge portrait__badge--hero">
             <p class="portrait__badge-num">2004</p>
             <div class="portrait__badge-rule"></div>
-            <p class="portrait__badge-label">Trayectoria<br>empresarial</p>
+            <p class="portrait__badge-label">trayectoria<br />profesional</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="strip">
-    <div class="wrap strip__inner">
-      <div class="strip__item">
-        <span class="strip__title">Presidente <a href="https://fainmo.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">FAI</a></span>
-        <span class="kicker">Representación institucional</span>
-      </div>
-      <div class="strip__sep" aria-hidden="true"></div>
-      <div class="strip__item">
-        <span class="strip__title"><a href="https://nuevomilenio.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Nuevo Milenio</a> &amp; <a href="https://alquilabien.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">Alquilabien</a></span>
-        <span class="kicker">20+ años de dirección</span>
-      </div>
-      <div class="strip__sep" aria-hidden="true"></div>
-      <div class="strip__item">
-        <span class="strip__title"><a href="https://bpimadrid.es" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:underline; text-decoration-color:var(--color-gold);">BPI Madrid</a></span>
-        <span class="kicker">Buenas prácticas inmobiliarias</span>
+  <section class="trust-ribbon" aria-label="Entorno profesional de José María Alfaro" data-reveal>
+    <div class="wrap trust-ribbon__inner">
+      <article class="trust-ribbon__item">
+        <span class="trust-ribbon__label">FAI</span>
+        <h2>Presidencia y visión institucional</h2>
+        <p>Buenas prácticas y representación del sector desde un rol activo.</p>
+      </article>
+      <article class="trust-ribbon__item">
+        <span class="trust-ribbon__label">Operación</span>
+        <h2>Nuevo Milenio y Alquilabien</h2>
+        <p>Experiencia directa en venta, alquiler y decisiones patrimoniales complejas.</p>
+      </article>
+      <article class="trust-ribbon__item">
+        <span class="trust-ribbon__label">Madrid</span>
+        <h2>BPI Madrid y mercado local</h2>
+        <p>Lectura de barrio, contexto urbano y criterio de inversión en Madrid centro.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section authority-teaser" id="actualidad">
+    <div class="wrap">
+      <div class="authority-teaser__shell" data-reveal>
+        <div class="authority-teaser__intro">
+          <p class="authority-teaser__label">Actualidad y medios</p>
+          <h2 class="section-head__title">Cuando el mercado necesita criterio, José María <em class="italic-gold">toma la palabra</em></h2>
+          <p class="section-head__lede section-head__lede--left">
+            Intervenciones y entrevistas que explican una posición clara sobre vivienda, regulación y la responsabilidad de representar bien.
+          </p>
+          <a class="authority-teaser__all" href={withBase('actualidad/')}>
+            Explorar actualidad
+            <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+          </a>
+        </div>
+
+        <div class="authority-teaser__showcase">
+          {featuredReferences[0] && (
+            <a class="authority-feature" href={featuredReferences[0].href} target="_blank" rel="noopener noreferrer">
+              <div class="authority-feature__meta">
+                <span>{featuredReferences[0].source}</span>
+                <span>{formatReferenceDate(featuredReferences[0].publishedAt)}</span>
+              </div>
+              <h3>{featuredReferences[0].title}</h3>
+              <p>{featuredReferences[0].excerpt}</p>
+              <span class="authority-feature__action">
+                Leer intervención
+                <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+              </span>
+            </a>
+          )}
+
+          <div class="authority-teaser__list">
+            {featuredReferences.slice(1).map((reference) => (
+              <a class="authority-row" href={reference.href} target="_blank" rel="noopener noreferrer">
+                <div class="authority-row__meta">
+                  <span>{reference.source}</span>
+                  <span>{formatReferenceDate(reference.publishedAt)}</span>
+                </div>
+                <h3>{reference.title}</h3>
+                <p>{reference.excerpt}</p>
+                <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <section class="section" id="servicios">
+  <section class="section services-overview" id="servicios">
     <div class="wrap">
-      <header class="section-head">
-        <span class="eyebrow">Nuestros Servicios</span>
-        <h2 class="section-head__title">El valor de la <em class="italic-gold">transparencia</em></h2>
-        <hr class="hr-gold">
-        <p class="section-head__lede">
-          Representación sin conflicto de intereses. Me dirijo exclusivamente a ti, garantizando que cada decisión estratégica y cada acción se tome con el objetivo de maximizar tu beneficio.
+      <div class="services-overview__layout" data-reveal>
+        <div class="services-overview__intro">
+          <h2 class="section-head__title services-overview__title">¿Qué decisión tienes delante?</h2>
+          <p class="section-head__lede section-head__lede--left">
+            Cada servicio parte de una posición distinta. Todos comparten el mismo mandato: defender tu interés.
+          </p>
+          <blockquote class="services-overview__statement">
+            Una sola parte representada: <em>la tuya.</em>
+          </blockquote>
+        </div>
+
+        <div class="services-list">
+          {services.map((service) => (
+            <article class:list={["service-panel", service.featured && "service-panel--featured"]}>
+              <span class="service-panel__audience">{service.audience}</span>
+              <div>
+                <h3>{service.title}</h3>
+                <p>{service.body}</p>
+              </div>
+              <span class="service-panel__mark" aria-hidden="true">
+                <Icon name="lucide:arrow-right" />
+              </span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section signature" id="firma">
+    <div class="wrap">
+      <div class="signature__shell surface" data-reveal>
+        <div class="signature__grid">
+          <div class="portrait signature__portrait">
+            <div class="portrait__frame portrait__frame--signature">
+              <img src={withBase('images/despacho.png')} alt="Despacho y firma de José María Alfaro" width="800" height="1200" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="portrait__placeholder" style="display: none;">[ firma y despacho ]</div>
+            </div>
+          </div>
+
+          <div class="signature__content">
+            <p class="signature__quote" style="font-family: var(--font-display);">
+              El rigor profesional y la ética son la base de cualquier decisión que <em class="italic-gold">proteja tu patrimonio</em>.
+            </p>
+            <p class="signature__attribution">José María Alfaro</p>
+
+            <div class="signature__stats" aria-label="Datos de trayectoria">
+              {signatureStats.map((item) => (
+                <div class="signature__stat">
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div class="split__pillars signature__pillars">
+              {pillars.map((pillar) => (
+                <div class="pillar">
+                  <div>
+                    <h4>{pillar.title}</h4>
+                    <p>{pillar.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section conviction">
+    <div class="wrap conviction__grid" data-reveal>
+      <div class="conviction__content">
+        <h2 class="section-head__title conviction__title">Cerrar no basta. Hay que <em class="italic-gold">decidir bien</em>.</h2>
+        <p class="section-head__lede section-head__lede--left">
+          La velocidad sirve de poco si el resultado no protege tu posición, tu tiempo y tu patrimonio.
         </p>
-      </header>
-
-      <div class="cards-3">
-        <article class="card">
-          <span class="card__num">— Vendedores</span>
-          <h3 class="card__title">Representación de Venta</h3>
-          <p class="card__body">
-            Te represento para que vendas con seguridad, estrategia, tranquilidad y al máximo precio de mercado. No soy un agente que "vende pisos". Soy la persona que protege tu patrimonio y maximiza el retorno de tu inversión, gestionando cada detalle para que tú no tengas que preocuparte por nada.
-          </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Hablar de mi venta →</a>
-        </article>
-        
-        <article class="card">
-          <span class="card__num">— Arrendadores</span>
-          <h3 class="card__title">Gestión de Alquiler</h3>
-          <p class="card__body">
-            Alquilar no debería convertirse en una preocupación constante. Tu propiedad merece una gestión seria y personas de confianza. Mi compromiso es asegurar tu tranquilidad, seleccionando el mejor perfil y garantizando que tu activo esté siempre protegido y rentable.
-          </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Proteger mi alquiler →</a>
-        </article>
-        
-        <article class="card">
-          <span class="card__num">— Compradores</span>
-          <h3 class="card__title">Personal Shopper</h3>
-          <p class="card__body">
-            No buscamos casas. Te ayudamos a tomar la decisión de compra correcta, con criterio y sin presión. Sin ruido inmobiliario, con claridad para decidir. Me encargo de filtrar, negociar y auditar cada opción para que tu compra sea una inversión segura y libre de sorpresas.
-          </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar con criterio →</a>
-        </article>
       </div>
-      
-      <div class="cards-3" style="margin-top: clamp(1rem,2vw,2rem); justify-content: center;">
-        <article class="card">
-          <span class="card__num">— Inversores</span>
-          <h3 class="card__title">Análisis de Capital</h3>
-          <p class="card__body">
-            Tu patrimonio necesita decisiones analizadas, no promesas. Estudiamos la viabilidad y rentabilidad real antes de que comprometas tu capital. Aportamos visión técnica y estratégica para operaciones de alto valor donde el riesgo no es una opción.
-          </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Analizar inversión →</a>
-        </article>
-        
-        <article class="card">
-          <span class="card__num">— Inquilinos</span>
-          <h3 class="card__title">Búsqueda de Hogar</h3>
-          <p class="card__body">
-            Encontrar hogar debería ser más humano y menos frustrante. Te ayudo a encontrar tu próximo alquiler de forma clara y sin abusos. Represento tus intereses ante el mercado para que accedas a las mejores opciones con transparencia y respeto.
-          </p>
-          <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer" class="btn btn--text mt-4">Buscar alquiler →</a>
-        </article>
+
+      <div class="conviction__panel surface surface--deep">
+        <ul class="conviction__list">
+          {reasons.map((reason) => (
+            <li>
+              <strong>{reason.title}</strong>
+              <span>{reason.body}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
 
-  <div class="ornament" aria-hidden="true">
-    <span class="ornament__rule"></span>
-    <span class="ornament__diamond"></span>
-    <span class="ornament__rule"></span>
-  </div>
-
-  <section class="section" id="firma">
+  <section class="section districts" id="zonas">
     <div class="wrap">
-      <div class="split split--firma">
-        <div class="portrait split__portrait">
-          <div class="portrait__frame">
-            <img src={`${import.meta.env.BASE_URL}/images/despacho.png`} alt="Firma y despacho" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
-            <div class="portrait__placeholder" style="display: none;">[ retrato editorial · despacho ]</div>
-          </div>
-        </div>
-        <div class="split__content">
-          <p class="eyebrow" style="margin-bottom: var(--space-6)">— La firma</p>
-          <p class="split__quote" style="font-family: var(--font-display);">
-            "El rigor profesional y la ética no son opciones, son la base de cualquier
-            decisión que <em class="italic-gold" style="font-style:normal">proteja tu patrimonio</em>."
-          </p>
-          <p class="split__attribution" style="font-family: var(--font-display);">— José María Alfaro</p>
+      <div class="districts__intro" data-reveal>
+        <h2 class="section-head__title">Madrid centro, barrio a barrio</h2>
+        <p class="section-head__lede section-head__lede--left districts__lede">
+          Retiro, Ibiza y Barrio de Salamanca no se leen igual. Cada zona exige una estrategia distinta de entrada, salida y negociación.
+        </p>
+      </div>
 
-          <div class="split__pillars">
-            <div class="pillar">
-              <span class="pillar__num" style="font-family: var(--font-display);">01</span>
-              <div>
-                <h4>Análisis estratégico</h4>
-                <p>Estudio exhaustivo de viabilidad y situación patrimonial real.</p>
-              </div>
-            </div>
-            <div class="pillar">
-              <span class="pillar__num" style="font-family: var(--font-display);">02</span>
-              <div>
-                <h4>Blindaje legal</h4>
-                <p>Prevención activa de riesgos legales y financieros de alto impacto.</p>
-              </div>
-            </div>
-            <div class="pillar">
-              <span class="pillar__num" style="font-family: var(--font-display);">03</span>
-              <div>
-                <h4>Representación</h4>
-                <p>Trazado de estrategia de representación exclusiva a medida.</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="districts__grid" data-reveal>
+        {zones.map((zone, index) => (
+          <a class={`district-card district-card--${index + 1}`} href={withBase(zone.href)}>
+            <span class="district-card__kicker">Madrid centro</span>
+            <h3>{zone.title}</h3>
+            <p>{zone.description}</p>
+            <span class="district-card__link">Explorar zona</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <div class="ornament" aria-hidden="true">
-    <span class="ornament__rule"></span>
-    <span class="ornament__diamond"></span>
-    <span class="ornament__rule"></span>
-  </div>
-
-  <section class="section obsidian--quiet" style="background: rgba(201,164,74,0.03);">
-    <div class="wrap">
-      <div class="split split--compromiso">
-        <div class="split__content">
-          <span class="eyebrow">— Mi Compromiso</span>
-          <h2 class="display" style="font-size: var(--fs-h2); margin: var(--space-6) 0 var(--space-8);">Representación <em class="italic-gold">sin fisuras</em></h2>
-          <p class="card__body" style="font-size: 1.1rem; max-width: 50ch;">
-            Mi enfoque es simple: tú eres mi único cliente. En un sector lleno de conflictos de interés, yo elijo el bando de la transparencia absoluta. No represento propiedades, represento personas y protejo su patrimonio con el rigor que merecen.
-          </p>
-          <div class="hero__cta" style="margin-top: var(--space-10);">
-            <a class="btn btn--primary" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Agendar Asesoramiento</a>
-          </div>
-        </div>
-        <div class="surface surface--gold split__surface" style="padding: var(--space-12); border-radius: var(--radius-0);">
-          <h4 class="eyebrow" style="color: var(--color-offwhite); margin-bottom: var(--space-8);">¿Por qué ahora?</h4>
-          <ul style="list-style: none; padding: 0; display: grid; gap: var(--space-6);">
-            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
-              <span style="color: var(--color-gold);">▸</span>
-              <p style="margin:0; font-size: .95rem;">El mercado inmobiliario actual no perdona la falta de estrategia.</p>
-            </li>
-            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
-              <span style="color: var(--color-gold);">▸</span>
-              <p style="margin:0; font-size: .95rem;">La prevención de riesgos legales ahorra más que cualquier negociación.</p>
-            </li>
-            <li style="display: flex; gap: var(--space-4); align-items: baseline;">
-              <span style="color: var(--color-gold);">▸</span>
-              <p style="margin:0; font-size: .95rem;">Tu tiempo es tu activo más valioso; yo me encargo del ruido.</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="ornament" aria-hidden="true">
-    <span class="ornament__rule"></span>
-    <span class="ornament__diamond"></span>
-    <span class="ornament__rule"></span>
-  </div>
-
-  <section class="cta" id="contacto">
+  <section class="cta" id="contacto" data-reveal>
     <div class="wrap wrap--narrow">
       <span class="eyebrow">Comienza aquí</span>
-      <h2 class="cta__title" style="font-family: var(--font-display);">Agenda una <em class="italic-gold">conversación</em></h2>
-      <p class="cta__lede">Treinta minutos que pueden redefinir el éxito de tu próxima operación inmobiliaria.</p>
+      <h2 class="cta__title" style="font-family: var(--font-display);">Reserva una conversación con <em class="italic-gold">criterio</em></h2>
+      <p class="cta__lede">Treinta minutos para ordenar la decisión antes de mover tu patrimonio.</p>
       <div class="cta__buttons">
-        <a class="btn btn--primary btn--lg" href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">Ver calendario</a>
-        <a class="btn btn--ghost btn--lg" href="https://wa.me/34666749676" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
+        <a class="btn btn--primary btn--lg" href={booking.url} target="_blank" rel="noopener noreferrer">Reservar cita</a>
+        <a class="btn btn--ghost btn--lg" href={social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </div>
+      <p class="cta__note">Reserva online directa o primer contacto por WhatsApp, según el punto en el que estés.</p>
     </div>
   </section>
+
+  <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems = document.querySelectorAll('[data-reveal]');
+
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+      document.documentElement.classList.add('reveal-ready');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.14 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    }
+  </script>
 </BaseLayout>

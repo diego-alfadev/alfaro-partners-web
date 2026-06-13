@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../lib/constants';
+---
+
+<BaseLayout
+  title="Cookies · Alfaro & Partners"
+  description="Política de cookies provisional de Alfaro & Partners pendiente de revisión jurídica."
+  path="cookies/"
+  robots="noindex, follow"
+>
+  <section class="section">
+    <div class="wrap wrap--prose prose">
+      <p class="eyebrow">Cookies</p>
+      <h1 class="section-head__title">Política de cookies</h1>
+      <p>
+        Esta página es un placeholder operativo mientras se incorpora la política de cookies definitiva.
+        En esta versión de lanzamiento no se ha incorporado analítica propia ni un sistema de seguimiento
+        publicitario dentro del sitio.
+      </p>
+      <p>
+        Si tienes dudas sobre el uso de cookies o servicios externos enlazados desde la web, escribe a
+        <a class="text-gold" href={`mailto:${BUSINESS_INFO.email}`}>{BUSINESS_INFO.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

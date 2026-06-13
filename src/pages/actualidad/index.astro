@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getMediaReferences, mediaHubTags } from '../../lib/mediaReferences';
+
+const references = getMediaReferences();
+const gridReferences = [...references].sort((a, b) => Number(b.featured) - Number(a.featured));
+const totalReferences = references.length;
+const totalSources = new Set(references.map((reference) => reference.source)).size;
+const featuredCount = references.filter((reference) => reference.featured).length;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+
+const typeLabels = {
+  press: 'Prensa',
+  video: 'Vídeo',
+  linkedin: 'LinkedIn',
+  article: 'Artículo',
+} as const;
+
+const formatDate = (value: string) => new Intl.DateTimeFormat('es-ES', {
+  year: 'numeric',
+  month: 'long',
+}).format(new Date(`${value}T00:00:00`));
+---
+
+<BaseLayout
+  title="Actualidad y referencias en medios · Alfaro & Partners"
+  description="Selección curada de apariciones, entrevistas y referencias públicas de José María Alfaro sobre vivienda, mercado y representación inmobiliaria."
+  path="/actualidad/"
+  robots="noindex, follow"
+>
+  <section class="section media-hub-hero">
+    <div class="wrap">
+      <div class="media-hub-hero__shell surface">
+        <div class="media-hub-hero__content">
+          <span class="eyebrow">Actualidad</span>
+          <h1 class="section-head__title">Apariciones, entrevistas y análisis sobre <em class="italic-gold">vivienda y mercado inmobiliario</em></h1>
+          <p class="section-head__lede">
+            Referencias recientes en medios, entrevistas y publicaciones para seguir la visión de José María Alfaro sobre vivienda, patrimonio y mercado inmobiliario.
+          </p>
+          <div class="media-hub-hero__actions">
+            <a class="btn btn--primary" href="#archivo">Buscar en el archivo</a>
+          </div>
+        </div>
+        <aside class="media-hub-hero__visual" aria-label="Resumen de referencias">
+          <div class="media-hub-hero__mark">AP</div>
+          <p>Prensa, vídeo, LinkedIn y artículos seleccionados en un único archivo consultable.</p>
+          <div class="media-hub-hero__stats">
+            <div class="media-hub-hero__stat"><strong>{totalReferences}</strong> referencias</div>
+            <div class="media-hub-hero__stat"><strong>{featuredCount}</strong> destacadas</div>
+            <div class="media-hub-hero__stat"><strong>{totalSources}</strong> fuentes</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section media-hub-section media-hub-section--archive" id="archivo">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Archivo</span>
+        <h2 class="section-head__title">Busca por tema, fuente o tipo de intervención</h2>
+        <p class="section-head__lede">
+          Encuentra rápidamente referencias sobre alquiler, compraventa, herencias, no residentes y otros temas clave.
+        </p>
+      </header>
+
+      <div class="media-toolbar surface surface--deep" data-media-toolbar>
+        <div class="media-toolbar__top">
+          <label>
+            <span class="sr-only">Buscar referencias</span>
+            <input class="media-search" type="search" placeholder="Buscar por título, fuente o etiqueta" data-media-search />
+          </label>
+          <p class="media-result-count" data-media-count>{gridReferences.length} referencias visibles</p>
+        </div>
+        <div class="media-toolbar__chips">
+          <button class="media-chip is-active" type="button" data-media-chip data-tag="all">Todas</button>
+          {mediaHubTags.map((tag) => (
+            <button class="media-chip" type="button" data-media-chip data-tag={tag}>{tag}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="media-grid" data-media-grid>
+        {gridReferences.map((reference) => (
+          <article
+            class={`media-card surface${reference.featured ? ' media-card--featured' : ''}`}
+            data-media-item
+            data-media-title={reference.title.toLowerCase()}
+            data-media-source={reference.source.toLowerCase()}
+            data-media-tags={reference.tags.join('|').toLowerCase()}
+            data-media-type={reference.type}
+          >
+            <div class="media-card__badges">
+              <span class={`media-card__type media-card__type--${reference.type}`}>{typeLabels[reference.type]}</span>
+              {reference.featured && <span class="media-card__featured">Destacada</span>}
+            </div>
+            <div class="media-card__meta">
+              <span>{reference.source}</span>
+              <span aria-hidden="true">•</span>
+              <span>{formatDate(reference.publishedAt)}</span>
+            </div>
+            <h3 class="media-card__title">{reference.title}</h3>
+            <p class="media-card__excerpt">{reference.excerpt}</p>
+            <div class="media-tags">
+              {reference.tags.map((tag) => <span class="media-tag">#{tag}</span>)}
+            </div>
+            <div class="media-card__actions">
+              <a class="btn btn--text" href={reference.href} target="_blank" rel="noopener noreferrer">Ver referencia →</a>
+              <span class="media-card__source-link">{typeLabels[reference.type]}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="media-empty" data-media-empty>
+        No hemos encontrado referencias que coincidan con esa búsqueda. Prueba con otra etiqueta o borra el texto para volver al archivo completo.
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap wrap--narrow">
+      <span class="eyebrow">Siguiente paso</span>
+      <h2 class="cta__title">Si quieres contexto aplicado a tu caso, <em class="italic-gold">hablemos</em></h2>
+      <p class="cta__lede">La autoridad sirve de poco si no se traduce en criterio práctico para tomar mejores decisiones patrimoniales.</p>
+      <div class="cta__buttons">
+        <a class="btn btn--primary btn--lg" href={withBase('')}>
+          Volver a la portada
+        </a>
+        <a class="btn btn--ghost btn--lg" href={withBase('#contacto')}>
+          Ver vías de contacto
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const toolbar = document.querySelector('[data-media-toolbar]');
+    const searchInput = document.querySelector('[data-media-search]');
+    const chips = Array.from(document.querySelectorAll('[data-media-chip]'));
+    const items = Array.from(document.querySelectorAll('[data-media-grid] [data-media-item]'));
+    const count = document.querySelector('[data-media-count]');
+    const empty = document.querySelector('[data-media-empty]');
+
+    let activeTag = 'all';
+
+    const normalise = (value) => value.trim().toLowerCase();
+
+    const applyFilters = () => {
+      const query = normalise(searchInput?.value ?? '');
+      let visible = 0;
+
+      items.forEach((item) => {
+        const title = item.dataset.mediaTitle ?? '';
+        const source = item.dataset.mediaSource ?? '';
+        const tags = item.dataset.mediaTags ?? '';
+        const matchesTag = activeTag === 'all' || tags.split('|').includes(activeTag);
+        const haystack = `${title} ${source} ${tags}`;
+        const matchesQuery = query.length === 0 || haystack.includes(query);
+        const isVisible = matchesTag && matchesQuery;
+
+        item.style.display = isVisible ? '' : 'none';
+        if (isVisible) visible += 1;
+      });
+
+      if (count) {
+        count.textContent = `${visible} referencia${visible === 1 ? '' : 's'} visible${visible === 1 ? '' : 's'}`;
+      }
+
+      if (empty) {
+        empty.classList.toggle('is-visible', visible === 0);
+      }
+    };
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeTag = normalise(chip.dataset.tag ?? 'all');
+        chips.forEach((button) => button.classList.toggle('is-active', button === chip));
+        applyFilters();
+      });
+    });
+
+    searchInput?.addEventListener('input', applyFilters);
+    toolbar?.addEventListener('reset', applyFilters);
+    applyFilters();
+  </script>
+</BaseLayout>

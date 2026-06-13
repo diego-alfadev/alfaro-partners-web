@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../../lib/constants';
+
+const { booking } = BUSINESS_INFO;
+---
+
+<BaseLayout
+  title="Vivir en Ibiza, Madrid · Representación inmobiliaria"
+  description="Vivir en el barrio de Ibiza, Madrid: proximidad al Retiro, vida de barrio y decisiones inmobiliarias con criterio."
+  path="zonas/ibiza/"
+>
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Madrid centro · Barrio de Ibiza</span>
+        <h1 class="section-head__title">Vivir en Ibiza, Madrid: barrio, Retiro y decisión</h1>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Ibiza, en Madrid, es una zona con vida de barrio y una relación directa con el
+          entorno de Retiro. Su atractivo está en la mezcla entre proximidad, servicios,
+          restauración, movilidad y una demanda que valora lo cotidiano.
+        </p>
+      </header>
+
+      <div class="split split--compromiso">
+        <div class="split__content">
+          <p class="eyebrow" style="margin-bottom: var(--space-6)">— Enfoque de zona</p>
+          <p class="split__quote" style="font-family: var(--font-display);">
+            "Ibiza funciona cuando la decisión encaja con una forma concreta de vivir Madrid:
+            práctica, conectada y con una escala más humana."
+          </p>
+          <div class="prose">
+            <p>
+              Para quien busca vivienda, el barrio de Ibiza puede ofrecer una alternativa
+              muy sólida dentro de Madrid centro: cerca del Retiro, con comercio y servicios,
+              pero con una lectura distinta a las zonas más institucionales o representativas.
+            </p>
+            <p>
+              Para propietarios, la oportunidad está en entender qué perfil de demanda encaja
+              con cada inmueble y cómo presentar la operación sin caer en expectativas poco realistas.
+            </p>
+          </div>
+        </div>
+        <div class="surface surface--gold" style="padding: var(--space-12);">
+          <h2 class="card__title">Qué conviene analizar</h2>
+          <ul style="list-style: none; padding: 0; display: grid; gap: var(--space-6);">
+            <li><span class="text-gold">▸</span> La diferencia entre cercanía al Retiro y valor real del activo.</li>
+            <li><span class="text-gold">▸</span> La calidad de finca, orientación, ruido y estado de conservación.</li>
+            <li><span class="text-gold">▸</span> El perfil adecuado para venta, alquiler o inversión patrimonial.</li>
+          </ul>
+          <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer" style="margin-top: var(--space-8);">Hablar sobre Ibiza</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

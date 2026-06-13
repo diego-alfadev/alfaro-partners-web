@@ -1,0 +1,15 @@
+change: v1-launch-hardening
+artifact_store: openspec
+status: planned
+created: 2026-05-12
+phases:
+  proposal: complete
+  spec: complete
+  design: complete
+  tasks: complete
+  apply: partial
+  verify: partial
+delivery_strategy: single-pr
+scope_note: "Hardening de lanzamiento; no incluye la V1 multi-página ni artículos MDX."
+remaining:
+  - "Booking URL is still an explicit placeholder until Diego/José María provides the final booking destination."

@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../../lib/constants';
+
+const { zones, booking } = BUSINESS_INFO;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+---
+
+<BaseLayout
+  title="Zonas prime de Madrid · Alfaro & Partners"
+  description="Representación inmobiliaria en Retiro, Ibiza y Barrio de Salamanca para propietarios, compradores, arrendadores e inversores."
+  path="zonas/"
+>
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Madrid centro</span>
+        <h1 class="section-head__title">Zonas donde la decisión exige criterio</h1>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Retiro, Ibiza y Barrio de Salamanca comparten demanda, prestigio y escasez,
+          pero no se deciden igual. Cada zona requiere una lectura distinta de estilo
+          de vida, riesgo, liquidez y estrategia patrimonial.
+        </p>
+      </header>
+
+      <div class="cards-3">
+        {zones.map((zone) => (
+          <article class="card">
+            <span class="card__num">— Zona prime</span>
+            <h2 class="card__title">{zone.title}</h2>
+            <p class="card__body">{zone.description}</p>
+            <a href={withBase(zone.href)} class="btn btn--text mt-4">Ver enfoque →</a>
+          </article>
+        ))}
+      </div>
+
+      <div class="cta">
+        <span class="eyebrow">Representación</span>
+        <h2 class="cta__title">Antes de elegir zona, define estrategia</h2>
+        <p class="cta__lede">
+          Una buena decisión inmobiliaria empieza por saber qué zona encaja con tu situación,
+          tu horizonte y tu tolerancia al riesgo.
+        </p>
+        <a class="btn btn--primary btn--lg" href={booking.url} target="_blank" rel="noopener noreferrer">Agendar conversación</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

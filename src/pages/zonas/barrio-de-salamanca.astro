@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../../lib/constants';
+
+const { booking } = BUSINESS_INFO;
+---
+
+<BaseLayout
+  title="Vivir en Barrio de Salamanca · Representación inmobiliaria"
+  description="Barrio de Salamanca exige estrategia, discreción y análisis patrimonial. Representación para comprar, vender o alquilar en Madrid."
+  path="zonas/barrio-de-salamanca/"
+>
+  <section class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <span class="eyebrow">Madrid centro · Barrio de Salamanca</span>
+        <h1 class="section-head__title">Vivir en Barrio de Salamanca con estrategia</h1>
+        <hr class="hr-gold">
+        <p class="section-head__lede">
+          Barrio de Salamanca concentra reputación, escasez y exigencia. Aquí la operación
+          inmobiliaria requiere algo más que visibilidad: necesita discreción, análisis de
+          finca, lectura patrimonial y una estrategia de negociación bien definida.
+        </p>
+      </header>
+
+      <div class="split split--compromiso">
+        <div class="split__content">
+          <p class="eyebrow" style="margin-bottom: var(--space-6)">— Enfoque de zona</p>
+          <p class="split__quote" style="font-family: var(--font-display);">
+            "En Barrio de Salamanca, el riesgo no suele estar en encontrar interés:
+            está en confundir prestigio con una buena decisión."
+          </p>
+          <div class="prose">
+            <p>
+              Para compradores e inversores, el reto está en separar ubicación, finca,
+              estado real, liquidez futura y precio defendible. No todas las oportunidades
+              premium tienen el mismo recorrido.
+            </p>
+            <p>
+              Para vendedores y arrendadores, la representación permite proteger la operación:
+              seleccionar interlocutores, ordenar documentación, evitar exposición innecesaria
+              y negociar con una estrategia coherente.
+            </p>
+          </div>
+        </div>
+        <div class="surface surface--gold" style="padding: var(--space-12);">
+          <h2 class="card__title">Dónde aporta valor la representación</h2>
+          <ul style="list-style: none; padding: 0; display: grid; gap: var(--space-6);">
+            <li><span class="text-gold">▸</span> En operaciones donde la discreción importa.</li>
+            <li><span class="text-gold">▸</span> En activos con alto valor patrimonial o familiar.</li>
+            <li><span class="text-gold">▸</span> En decisiones donde conviene negociar sin presión.</li>
+          </ul>
+          <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer" style="margin-top: var(--space-8);">Hablar sobre Barrio de Salamanca</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

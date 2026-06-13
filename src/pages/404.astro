@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../lib/constants';
+
+const { social } = BUSINESS_INFO;
+---
+
+<BaseLayout
+  title="Página no encontrada · Alfaro & Partners"
+  description="La página solicitada no existe o ha cambiado de ubicación."
+  path="404/"
+  robots="noindex, follow"
+>
+  <section class="section">
+    <div class="wrap wrap--narrow prose">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="section-head__title">Página no encontrada</h1>
+      <p>
+        La dirección que has abierto no existe o ha cambiado. Puedes volver a la página principal
+        o contactar directamente con José María Alfaro.
+      </p>
+      <p>
+        <a class="btn btn--primary" href={import.meta.env.BASE_URL}>Volver al inicio</a>
+        <a class="btn btn--ghost" href={social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

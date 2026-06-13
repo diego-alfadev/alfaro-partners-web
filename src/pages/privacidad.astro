@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../lib/constants';
+---
+
+<BaseLayout
+  title="Privacidad · Alfaro & Partners"
+  description="Política de privacidad provisional de Alfaro & Partners pendiente de revisión jurídica."
+  path="privacidad/"
+  robots="noindex, follow"
+>
+  <section class="section">
+    <div class="wrap wrap--prose prose">
+      <p class="eyebrow">Privacidad</p>
+      <h1 class="section-head__title">Política de privacidad</h1>
+      <p>
+        Esta página es un placeholder operativo mientras se incorpora la política de privacidad definitiva.
+        Los canales de contacto enlazan a servicios externos elegidos por el usuario, como WhatsApp o el
+        sistema de reserva de cita.
+      </p>
+      <p>
+        Para ejercer cualquier solicitud relacionada con privacidad o protección de datos, contacta en
+        <a class="text-gold" href={`mailto:${BUSINESS_INFO.email}`}>{BUSINESS_INFO.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

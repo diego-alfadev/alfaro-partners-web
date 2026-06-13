@@ -1,0 +1,63 @@
+schema: spec-driven
+
+context: |
+  Tech stack: Astro 6 static site, TypeScript-flavored Astro components, Bun, Tailwind CSS 4 via Vite, vanilla CSS design tokens/components, @astrojs/sitemap.
+  Architecture: single Astro page at src/pages/index.astro using src/layouts/BaseLayout.astro, global CSS from src/styles/global.css, business constants in src/lib/constants.ts, static assets under public/.
+  Deployment: GitHub Pages currently serves from gh-pages branch root; source lives on main. Repository is under /Users/diego/projects/NM/git/alfaro&partners.
+  Testing: no dedicated unit/e2e test runner currently installed. Manual checks use curl against published GitHub Pages and Astro commands available through Bun.
+  Style: Spanish user-facing copy; code identifiers in English. Keep launch hardening small and avoid expanding into the full multi-page V1 unless explicitly scoped.
+
+strict_tdd: false
+
+testing:
+  strict_tdd: false
+  detected: 2026-05-12
+  runner:
+    framework: none
+    command: —
+  layers:
+    unit:
+      available: false
+      tool: —
+    integration:
+      available: false
+      tool: —
+    e2e:
+      available: false
+      tool: —
+  coverage:
+    available: false
+    command: —
+  quality:
+    linter:
+      available: false
+      command: —
+    type_checker:
+      available: false
+      command: bun run astro check
+      note: Requires adding @astrojs/check and typescript before it can run non-interactively.
+    formatter:
+      available: false
+      command: —
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes.
+    - Keep V1 launch hardening separate from full multi-page V1 scope.
+  specs:
+    - Use Given/When/Then format for scenarios.
+    - Use RFC 2119 keywords.
+  design:
+    - Prefer simple static Astro implementation over new runtime dependencies.
+    - Document SEO URL behavior under GitHub Pages base path.
+  tasks:
+    - Group tasks by phase.
+    - Include verification commands and published-site checks.
+  apply:
+    - Do not run bun build unless explicitly requested.
+    - Do not commit or push unless explicitly requested.
+  verify:
+    - Verify generated/public routes with curl or source inspection.
+    - If frontend appearance changes, verify in a browser when allowed.
+  archive:
+    - Preserve SDD artifacts unless user asks to archive the change.
