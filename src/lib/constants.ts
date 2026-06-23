@@ -3,6 +3,7 @@ const SITE_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "") || "/";
 
 export const BUSINESS_INFO = {
   name: "José María Alfaro",
+  brandName: "Alfaro & Partners",
   phone: "34672504642",
   email: "jmaj07@gmail.com",
   site: {

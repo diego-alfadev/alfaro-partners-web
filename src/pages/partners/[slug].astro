@@ -1,0 +1,244 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/partners.css';
+
+export async function getStaticPaths() {
+  const partners = await getCollection('partners', ({ data }) => data.published);
+
+  return partners.map((partner) => ({
+    params: { slug: partner.id },
+    props: { partner },
+  }));
+}
+
+interface Props {
+  partner: CollectionEntry<'partners'>;
+}
+
+const { partner } = Astro.props;
+const { data } = partner;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+const siteOrigin = Astro.site ?? new URL('https://alfaropartners.es');
+const pageUrl = new URL(`${basePath}partners/${partner.id}/`, siteOrigin).toString();
+const partnersUrl = new URL(`${basePath}partners/`, siteOrigin).toString();
+const homeUrl = new URL(basePath, siteOrigin).toString();
+const imageUrl = data.photo
+  ? new URL(`${basePath}${data.photo.replace(/^\/+/, '')}`, siteOrigin).toString()
+  : undefined;
+const pageTitle = data.seoTitle ?? `${data.name} | Partners | Alfaro & Partners`;
+const pageDescription = data.seoDescription ?? data.summary;
+const socialLabels = {
+  linkedin: 'LinkedIn',
+  instagram: 'Instagram',
+  tiktok: 'TikTok',
+};
+const entityId = `${pageUrl}#${data.kind}`;
+const entity = data.kind === 'person'
+  ? {
+      '@type': 'Person',
+      '@id': entityId,
+      name: data.name,
+      jobTitle: data.title,
+      description: data.summary,
+      url: pageUrl,
+      image: imageUrl,
+      telephone: data.contact?.phone,
+      email: data.contact?.email,
+      sameAs: data.socials.map((social) => social.url),
+      affiliation: { '@id': `${homeUrl}#organization` },
+      knowsAbout: data.expertise,
+      knowsLanguage: data.languages,
+      hasCredential: data.credentials.map((credential) => ({
+        '@type': 'EducationalOccupationalCredential',
+        name: credential.name,
+        url: credential.url,
+      })),
+    }
+  : {
+      '@type': 'Organization',
+      '@id': entityId,
+      name: data.name,
+      description: data.summary,
+      url: pageUrl,
+      image: imageUrl,
+      telephone: data.contact?.phone,
+      email: data.contact?.email,
+      sameAs: data.socials.map((social) => social.url),
+    };
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageTitle,
+      description: pageDescription,
+      mainEntity: { '@id': entityId },
+      ...(imageUrl ? { primaryImageOfPage: { '@type': 'ImageObject', url: imageUrl } } : {}),
+    },
+    entity,
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
+        { '@type': 'ListItem', position: 2, name: 'Partners', item: partnersUrl },
+        { '@type': 'ListItem', position: 3, name: data.name, item: pageUrl },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  path={`partners/${partner.id}/`}
+  type="profile"
+  structuredData={structuredData}
+>
+  <article class="partner-profile">
+    <section class="partner-profile__hero">
+      <div class="wrap partner-profile__hero-grid">
+        <div class="partner-profile__hero-copy">
+          <a class="partner-profile__back" href={withBase('partners/')}>
+            <Icon name="lucide:arrow-left" aria-hidden="true" />
+            Partners
+          </a>
+          <div>
+            <p class="partner-profile__relationship">{data.relationship}</p>
+            <h1 class="display">{data.name}</h1>
+            <p class="partner-profile__title">{data.title}</p>
+          </div>
+          <p class="partner-profile__summary">{data.summary}</p>
+          {data.contact?.whatsapp && (
+            <a class="btn btn--primary" href={data.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+              Hablar por WhatsApp
+            </a>
+          )}
+        </div>
+
+        <div class:list={["partner-profile__portrait", !data.photo && "partner-profile__portrait--placeholder"]}>
+          {data.photo ? (
+            <img
+              src={withBase(data.photo)}
+              alt={data.photoAlt ?? data.name}
+              width="761"
+              height="1279"
+              fetchpriority="high"
+              decoding="async"
+              data-partner-portrait={partner.id}
+              style={`view-transition-name: partner-${partner.id}-portrait`}
+            />
+          ) : (
+            <div class="partner-profile__initials" aria-label={`Fotografía de ${data.name}, pendiente`}>
+              <span>{data.initials}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="partner-profile__details">
+      <div class="wrap partner-profile__details-grid">
+        <div>
+          <h2 class="display">Responsabilidad y experiencia</h2>
+          <div class="partner-profile__responsibilities">
+            {data.responsibilities.map((responsibility) => (
+              <p>{responsibility}</p>
+            ))}
+          </div>
+        </div>
+
+        <aside class="partner-profile__facts" aria-label="Datos profesionales">
+          {data.expertise.length > 0 && (
+            <div>
+              <h3>Especialidad</h3>
+              <p>{data.expertise.join(', ')}</p>
+            </div>
+          )}
+          {data.languages.length > 0 && (
+            <div>
+              <h3>Idiomas</h3>
+              <p>{data.languages.join(', ')}</p>
+            </div>
+          )}
+          {data.contact?.phoneDisplay && (
+            <div>
+              <h3>Contacto directo</h3>
+              <a href={`tel:${data.contact.phone}`}>{data.contact.phoneDisplay}</a>
+            </div>
+          )}
+          {data.contact?.email && (
+            <div>
+              <h3>Correo</h3>
+              <a href={`mailto:${data.contact.email}`}>{data.contact.email}</a>
+            </div>
+          )}
+        </aside>
+      </div>
+    </section>
+
+    {data.credentials.length > 0 && (
+      <section class="partner-profile__credentials" aria-labelledby="credentials-title">
+        <div class="wrap">
+          <h2 id="credentials-title" class="display">Acreditaciones y entorno profesional</h2>
+          <div class="partner-profile__logo-wall">
+            {data.credentials.map((credential) => (
+              <a
+                class:list={["partner-profile__logo", `partner-profile__logo--${credential.surface}`]}
+                href={credential.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={credential.name}
+              >
+                <span class="partner-profile__logo-mark">
+                  <img src={withBase(credential.logo)} alt="" loading="lazy" decoding="async" />
+                </span>
+                <span class="partner-profile__logo-name">{credential.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {data.quote && (
+      <section class="partner-profile__quote">
+        <div class="wrap wrap--narrow">
+          <blockquote class="display">“{data.quote}”</blockquote>
+          <p>{data.name}</p>
+        </div>
+      </section>
+    )}
+
+    <section class="partner-profile__contact" aria-labelledby="partner-contact-title">
+      <div class="wrap partner-profile__contact-inner">
+        <div>
+          <h2 id="partner-contact-title" class="display">Una conversación directa, sin presión</h2>
+          <p>Cuéntale brevemente qué necesitas y {data.name} te responderá por el canal que prioriza.</p>
+        </div>
+        <div class="partner-profile__contact-actions">
+          {data.contact?.whatsapp && (
+            <a class="btn btn--primary" href={data.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+              Escribir por WhatsApp
+            </a>
+          )}
+          <div class="partner-profile__socials" aria-label="Perfiles profesionales">
+            {data.socials.map((social) => (
+              <a href={social.url} target="_blank" rel="me noopener noreferrer" aria-label={socialLabels[social.platform]}>
+                <Icon name={`simple-icons:${social.platform}`} aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

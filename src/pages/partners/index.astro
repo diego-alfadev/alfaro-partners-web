@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/partners.css';
+
+const partners = (await getCollection('partners', ({ data }) => data.published))
+  .sort((a, b) => a.data.order - b.data.order);
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+const siteOrigin = Astro.site ?? new URL('https://alfaropartners.es');
+const pageUrl = new URL(`${basePath}partners/`, siteOrigin).toString();
+const homeUrl = new URL(basePath, siteOrigin).toString();
+const pageTitle = 'Partners inmobiliarios en Madrid | Alfaro & Partners';
+const pageDescription = 'Conoce la red de profesionales y entidades que refuerzan la representación inmobiliaria de Alfaro & Partners en Madrid.';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: pageTitle,
+      description: pageDescription,
+      about: { '@id': `${homeUrl}#organization` },
+      mainEntity: { '@id': `${pageUrl}#partners` },
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${pageUrl}#partners`,
+      name: 'Partners de Alfaro & Partners',
+      numberOfItems: partners.length,
+      itemListElement: partners.map(({ id, data }, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: data.name,
+        url: new URL(`${basePath}partners/${id}/`, siteOrigin).toString(),
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
+        { '@type': 'ListItem', position: 2, name: 'Partners', item: pageUrl },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  path="partners/"
+  structuredData={structuredData}
+>
+  <section class="partners-intro">
+    <div class="wrap partners-intro__inner">
+      <p class="eyebrow">Partners</p>
+      <h1 class="display">Una red para <em class="italic-gold">representar mejor</em></h1>
+      <p>
+        Profesionales y entidades que aportan conocimiento especializado, coordinación y confianza al servicio de cada cliente.
+      </p>
+    </div>
+  </section>
+
+  <section class="partners-directory" aria-labelledby="partners-list-title">
+    <div class="wrap">
+      <h2 id="partners-list-title" class="sr-only">Listado de partners</h2>
+      <div class="partners-directory__list">
+        {partners.map(({ id, data }) => (
+          <a class:list={["partner-card", `partner-card--${data.kind}`]} href={withBase(`partners/${id}/`)}>
+            <div class="partner-card__portrait" aria-hidden="true">
+              {data.photo ? (
+                <img
+                  src={withBase(data.photo)}
+                  alt=""
+                  width="761"
+                  height="1279"
+                  loading="lazy"
+                  decoding="async"
+                  data-partner-portrait={id}
+                  style={`view-transition-name: partner-${id}-portrait`}
+                />
+              ) : (
+                <span>{data.initials}</span>
+              )}
+            </div>
+            <div class="partner-card__body">
+              <p class="partner-card__relationship">{data.relationship}</p>
+              <h3 class="display">{data.name}</h3>
+              <p class="partner-card__title">{data.title}</p>
+              {data.expertise.length > 0 && (
+                <div class="partner-card__tags" aria-label="Especialidades">
+                  {data.expertise.slice(0, 2).map((item) => <span>{item}</span>)}
+                </div>
+              )}
+              <p class="partner-card__summary">{data.summary}</p>
+              <span class="partner-card__action">
+                Ver perfil
+                <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

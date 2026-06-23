@@ -1,0 +1,68 @@
+{
+  "kind": "person",
+  "published": true,
+  "order": 1,
+  "name": "Augusto Zeolite",
+  "title": "Agente de Representación",
+  "relationship": "Asociado fundador",
+  "summary": "Augusto aporta coordinación, visión comercial y experiencia en marketing al modelo de representación de Alfaro & Partners. Trabaja desde la escucha, con una relación cercana y sin presión, para que cada decisión mantenga el interés del cliente en el centro.",
+  "seoTitle": "Augusto Zeolite | Agente de representación | Alfaro & Partners",
+  "seoDescription": "Conoce a Augusto Zeolite, asociado fundador y agente de representación en Alfaro & Partners, especializado en marketing y coordinación inmobiliaria.",
+  "quote": "Los intereses de mi cliente siempre en primer lugar",
+  "photo": "/images/partners/augusto-zeolite.webp",
+  "photoAlt": "Retrato profesional de Augusto Zeolite",
+  "initials": "AZ",
+  "expertise": [
+    "Marketing",
+    "Representación inmobiliaria"
+  ],
+  "responsibilities": [
+    "Coordinador General de FAI",
+    "Coordinador General de BPI Madrid",
+    "Agente Inmobiliario Registrado"
+  ],
+  "languages": [
+    "Español",
+    "Inglés"
+  ],
+  "contact": {
+    "phone": "+34624451948",
+    "phoneDisplay": "+34 624 45 19 48",
+    "whatsapp": "https://wa.me/34624451948",
+    "email": "augusto@alfaropartners.es"
+  },
+  "socials": [
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/in/augustozeolite"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/augusto.zeolite"
+    },
+    {
+      "platform": "tiktok",
+      "url": "https://www.tiktok.com/@augusto.zeolite"
+    }
+  ],
+  "credentials": [
+    {
+      "name": "Agente Inmobiliario Registrado",
+      "logo": "/images/partners/credentials/air.png",
+      "url": "https://formacionair.es",
+      "surface": "dark"
+    },
+    {
+      "name": "FAI Federación de Asociaciones Inmobiliarias",
+      "logo": "/images/partners/credentials/fai.png",
+      "url": "https://fainmo.es",
+      "surface": "light"
+    },
+    {
+      "name": "BPI Madrid",
+      "logo": "/images/partners/credentials/bpi-madrid.png",
+      "url": "https://www.bpimadrid.es",
+      "surface": "light"
+    }
+  ]
+}
