@@ -1,0 +1,316 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Icon } from 'astro-icon/components';
+import { BUSINESS_INFO } from '../lib/constants';
+
+const { booking } = BUSINESS_INFO;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
+const siteOrigin = Astro.site ?? new URL('https://alfaropartners.es');
+const homeUrl = new URL(basePath, siteOrigin).toString();
+const pageUrl = new URL(`${basePath}herencias-inmobiliarias/`, siteOrigin).toString();
+
+const processChapters = [
+  {
+    phase: 'Entender',
+    title: 'Saber qué se hereda antes de repartir.',
+    steps: [
+      ['Documentación', 'Certificados, testamento o declaración de herederos y la información básica del inmueble.'],
+      ['Herederos', 'Quiénes tienen derecho, en qué proporción y qué decisiones deberán compartir.'],
+      ['Inventario patrimonial', 'Bienes, derechos, deudas, cargas, obligaciones y gastos pendientes.'],
+    ],
+  },
+  {
+    phase: 'Valorar',
+    title: 'Poner cada valor en su sitio.',
+    steps: [
+      ['Valoración', 'Una estimación rigurosa del activo para poder repartir, adjudicar o negociar con claridad.'],
+      ['Aceptación y adjudicación', 'La formalización de la herencia y el reparto de los bienes entre herederos.'],
+      ['Fiscalidad', 'Impuestos y consecuencias presentes y futuras que deben coordinarse con el asesoramiento competente.'],
+    ],
+  },
+  {
+    phase: 'Decidir',
+    title: 'Elegir una estrategia, no una salida rápida.',
+    steps: [
+      ['Alternativas', 'Conservar, alquilar o vender se valoran desde el patrimonio completo, no solo desde la urgencia.'],
+      ['Acuerdo familiar', 'Las expectativas, la liquidez y los desacuerdos se hacen explícitos antes de bloquear el activo.'],
+      ['Ejecución', 'La decisión se lleva al mercado o se organiza con un mandato claro y una representación independiente.'],
+    ],
+  },
+];
+
+const values = [
+  {
+    name: 'Valor fiscal',
+    text: 'Sirve como referencia tributaria. Puede ser relevante para los impuestos, pero no determina lo que el mercado está dispuesto a pagar.',
+  },
+  {
+    name: 'Valor sentimental',
+    text: 'La familia puede otorgar un significado emocional a la vivienda. Merece respeto, pero no debe sustituir al análisis objetivo.',
+  },
+  {
+    name: 'Valor de mercado',
+    text: 'Es el valor probable de venta o alquiler en el contexto actual. Es la referencia útil para tomar decisiones inmobiliarias.',
+  },
+];
+
+const strategies = [
+  {
+    name: 'Conservar',
+    advantage: 'Mantener el activo dentro del patrimonio familiar.',
+    risk: 'Baja liquidez y posibles desacuerdos entre herederos.',
+  },
+  {
+    name: 'Alquilar',
+    advantage: 'Convertir la vivienda en una fuente de rentabilidad.',
+    risk: 'Gestión, mantenimiento y selección de inquilino.',
+  },
+  {
+    name: 'Vender',
+    advantage: 'Transformar el inmueble en liquidez inmediata.',
+    risk: 'Vender con urgencia o por debajo del valor real.',
+  },
+];
+
+const riskGroups = [
+  {
+    title: 'Decisiones precipitadas',
+    risks: ['Vender con prisa', 'No valorar correctamente', 'Tomar decisiones emocionales'],
+  },
+  {
+    title: 'Problemas sin resolver',
+    risks: ['Ignorar cargas o deudas', 'No planificar la fiscalidad', 'Mantener conflictos abiertos', 'Actuar sin representación'],
+  },
+];
+
+const intermediationPoints = ['Se centra en la operación', 'Busca cerrar una venta', 'Representa el inmueble', 'Aporta valor al ejecutar', 'Piensa en vender'];
+const representationPoints = ['Se centra en el cliente', 'Busca la mejor decisión', 'Representa a la persona', 'Aporta valor antes de decidir', 'Piensa en proteger el patrimonio'];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': `${pageUrl}#service`,
+      name: 'Representación inmobiliaria en herencias',
+      url: pageUrl,
+      serviceType: 'Asesoramiento y representación inmobiliaria',
+      provider: {
+        '@id': `${homeUrl}#organization`,
+        '@type': 'RealEstateAgent',
+        name: 'Alfaro & Partners',
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Madrid',
+      },
+      inLanguage: 'es-ES',
+      description: 'Criterio inmobiliario para familias que deben decidir qué hacer con un inmueble heredado.',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Inicio',
+          item: homeUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Herencias inmobiliarias',
+          item: pageUrl,
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Herencias inmobiliarias en Madrid · Alfaro & Partners"
+  description="Representación inmobiliaria para ordenar una vivienda heredada y decidir si conservar, alquilar, adjudicar o vender con criterio patrimonial."
+  path="/herencias-inmobiliarias/"
+  structuredData={structuredData}
+>
+  <section class="hero heritage-hero">
+    <div class="wrap">
+      <div class="hero__grid heritage-hero__grid rise">
+        <div class="hero__content heritage-hero__content">
+          <div class="hero__eyebrow-row">
+            <span class="hero__rule" aria-hidden="true"></span>
+            <span class="eyebrow">Herencias inmobiliarias</span>
+          </div>
+          <h1 class="hero__title heritage-hero__title">Entender antes de <em class="italic-gold">decidir.</em></h1>
+          <p class="hero__lede hero__lede--compact">Una herencia exige ordenar el activo, las obligaciones y las alternativas antes de decidir qué protege mejor a la familia.</p>
+          <div class="hero__cta heritage-hero__actions">
+            <a class="btn btn--primary" href={booking.url} target="_blank" rel="noopener noreferrer">Solicitar una consulta</a>
+            <a class="btn btn--text" href="#proceso">Entender el proceso</a>
+          </div>
+        </div>
+        <div class="portrait hero__portrait heritage-hero__portrait">
+          <div class="portrait__frame portrait__frame--hero">
+            <img src={withBase('images/despacho.png')} alt="José María Alfaro" width="800" height="1200" fetchpriority="high" />
+          </div>
+          <div class="portrait__badge portrait__badge--hero">
+            <p class="portrait__badge-num">9</p>
+            <div class="portrait__badge-rule"></div>
+            <p class="portrait__badge-label">etapas para<br />decidir mejor</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage-turning-point">
+    <div class="wrap heritage-turning-point__grid" data-reveal>
+      <div class="heritage-turning-point__heading">
+        <h2 class="section-head__title">Cuando una herencia es mucho más que una herencia.</h2>
+      </div>
+      <div class="heritage-turning-point__copy">
+        <p>Los primeros meses pueden condicionar el resultado durante años por el impacto económico, fiscal, personal y familiar de cada decisión.</p>
+        <p><strong>La información no basta.</strong> Hay que convertirla en una estrategia que permita ordenar el patrimonio, negociar con claridad y evitar que la urgencia marque el camino.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage-route" id="proceso">
+    <div class="wrap">
+      <header class="heritage-section-head" data-reveal>
+        <h2 class="section-head__title">De la documentación a la decisión estratégica.</h2>
+        <div>
+          <p>Una herencia inmobiliaria no se resuelve en un único acto. Cada fase condiciona la siguiente.</p>
+        </div>
+      </header>
+
+      <div class="heritage-route__chapters">
+        {processChapters.map((chapter) => (
+          <article class="heritage-route__chapter" data-reveal>
+            <div class="heritage-route__chapter-title">
+              <p>{chapter.phase}</p>
+              <h3>{chapter.title}</h3>
+            </div>
+            <ol>
+              {chapter.steps.map(([label, body]) => (
+                <li>
+                  <div><strong>{label}</strong><p>{body}</p></div>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage-values">
+    <div class="wrap">
+      <div class="heritage-values__head" data-reveal>
+        <h2 class="section-head__title">El error más caro es <strong>confundir valores</strong>.</h2>
+        <div>
+          <p>La valoración es la base para decidir con claridad sobre el reparto, la adjudicación, la conservación, el alquiler o la venta.</p>
+        </div>
+      </div>
+      <div class="heritage-values__grid" data-reveal>
+        {values.map((value) => (
+          <article>
+            <h3>{value.name}</h3>
+            <p>{value.text}</p>
+          </article>
+        ))}
+      </div>
+      <p class="heritage-values__note" data-reveal>Una diferencia relevante en la valoración puede tener consecuencias patrimoniales importantes. Valorar bien no es un detalle técnico.</p>
+    </div>
+  </section>
+
+  <section class="section heritage-strategy">
+    <div class="wrap heritage-strategy__grid">
+      <div class="heritage-strategy__heading" data-reveal>
+        <h2 class="section-head__title">No existe una respuesta universal. Existe la estrategia adecuada.</h2>
+        <p>La mejor decisión es la que protege mejor el patrimonio familiar, el momento de cada heredero y las posibilidades reales del activo.</p>
+      </div>
+      <div class="heritage-strategy__list" data-reveal>
+        {strategies.map((strategy) => (
+          <article>
+            <h3>{strategy.name}</h3>
+            <dl>
+              <div><dt>Ventaja</dt><dd>{strategy.advantage}</dd></div>
+              <div><dt>Riesgo</dt><dd>{strategy.risk}</dd></div>
+            </dl>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage-risks">
+    <div class="wrap heritage-risks__grid" data-reveal>
+      <div>
+        <h2 class="section-head__title">Muchos problemas no vienen de la herencia. Vienen de la decisión posterior.</h2>
+      </div>
+      <div class="heritage-risks__groups">
+        {riskGroups.map((group) => (
+          <article>
+            <h3>{group.title}</h3>
+            <ul>{group.risks.map((risk) => <li>{risk}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section heritage-representation">
+    <div class="wrap">
+      <div class="heritage-representation__intro" data-reveal>
+        <h2 class="section-head__title">Una herencia no necesita solo gestión. Necesita representación.</h2>
+        <div>
+          <span class="eyebrow">Por qué Alfaro & Partners</span>
+          <p>El asesoramiento jurídico y fiscal es imprescindible para ordenar la sucesión y cumplir las obligaciones. Aun así, muchas familias siguen necesitando una respuesta: <strong>¿cuál es la mejor decisión inmobiliaria?</strong></p>
+        </div>
+      </div>
+
+      <div class="heritage-representation__comparison surface surface--deep" data-reveal>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Intermediación</th>
+              <th scope="col">Representación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {intermediationPoints.map((point, index) => (
+              <tr>
+                <td>{point}</td>
+                <td><strong>{representationPoints[index]}</strong></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div class="heritage-representation__mandate">
+          <h3>Nuestro mandato</h3>
+          <p>Nunca recomendaremos vender una vivienda si creemos que existe una alternativa mejor para los intereses de nuestro cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="heritage-final-cta">
+    <div class="wrap heritage-final-cta__grid">
+      <div>
+        <span class="eyebrow">Guía completa</span>
+        <h2>¿Ha heredado una vivienda y necesita decidir con más contexto?</h2>
+      </div>
+      <div class="heritage-final-cta__content">
+        <p>Descargue la guía práctica completa para revisar el proceso, los riesgos y las alternativas antes de aceptar, adjudicar, conservar, alquilar o vender.</p>
+        <div class="heritage-final-cta__actions">
+          <a class="btn btn--primary" href={withBase('downloads/guia-herencias-inmobiliarias.pdf')} download>Descargar la guía <span>PDF · 1,5 MB</span></a>
+          <a class="inheritance-insight__link" href={booking.url} target="_blank" rel="noopener noreferrer">Solicitar una consulta <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
