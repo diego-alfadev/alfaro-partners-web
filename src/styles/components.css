@@ -89,7 +89,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     /* Profundidad (vignette) */
     radial-gradient(ellipse 110% 90% at 50% 50%, transparent 35%, rgba(0,0,0,.35) 100%),
     /* Variación tonal del material */
-    linear-gradient(168deg, #0a101f 0%, #0c1322 38%, #080e1b 100%);
+    linear-gradient(168deg, #0b101f 0%, #0d1322 38%, #090e1b 100%);
 }
 
 .obsidian::before,
@@ -187,7 +187,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: rgba(12,19,34,.72);
+  background: rgba(13,19,34,.72);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom: var(--hairline);
@@ -1038,14 +1038,14 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     font-size: clamp(2.2rem, 9vw, 3.15rem);
     margin-bottom: var(--space-4);
     line-height: 1.05;
-    text-shadow: 0 4px 12px rgba(12,19,34, 0.8); /* Readability over image */
+    text-shadow: 0 4px 12px rgba(13,19,34, 0.8); /* Readability over image */
   }
   .hero__eyebrow-row {
     order: 1;
     justify-content: flex-start;
     margin-bottom: var(--space-6);
     margin-top: var(--space-2);
-    text-shadow: 0 2px 8px rgba(12,19,34, 0.8);
+    text-shadow: 0 2px 8px rgba(13,19,34, 0.8);
   }
   .hero__lede {
     order: 3;
@@ -2785,13 +2785,13 @@ body {
 .district-card--1 {
   background-image:
     radial-gradient(circle at 20% 15%, rgba(201, 164, 74, .22), transparent 30%),
-    linear-gradient(160deg, rgba(22,31,48, .96), rgba(7,12,24, .96));
+    linear-gradient(160deg, rgba(24,31,48, .96), rgba(7,12,24, .96));
 }
 
 .district-card--2 {
   background-image:
     radial-gradient(circle at 80% 10%, rgba(140, 170, 210, .18), transparent 28%),
-    linear-gradient(160deg, rgba(14,24,42, .96), rgba(7,12,24, .96));
+    linear-gradient(160deg, rgba(16,24,42, .96), rgba(7,12,24, .96));
 }
 
 .district-card--3 {

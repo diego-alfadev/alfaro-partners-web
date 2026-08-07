@@ -8,17 +8,17 @@
   /* ── Color · Digital Obsidian ─────────────────────────────────────────────
      Paleta navy + off-white + acento dorado. Sin saturación pura: chroma
      bajo y luminancias controladas para fatiga ocular mínima en oscuro.
-     La rampa se ancla en el navy muestreado del logotipo (#0c1322) y se
+     La rampa se ancla en el navy del logotipo vectorial (#0d1322) y se
      deriva en OKLab conservando los saltos de luminancia originales. */
-  --color-obsidian-1000:#03060d;   /* "void" — pre-fondo, footer */
+  --color-obsidian-1000:#04060d;   /* "void" — pre-fondo, footer */
   --color-obsidian-950: #070c18;   /* base profunda */
-  --color-obsidian-900: #0c1322;   /* fondo principal — Navy del logo */
-  --color-obsidian-800: #11182a;   /* superficie elevada */
-  --color-obsidian-700: #182236;   /* superficie elevada+ */
-  --color-obsidian-600: #202b43;   /* hairline visible */
-  --color-obsidian-500: #2c3851;   /* divider intenso */
+  --color-obsidian-900: #0d1322;   /* fondo principal — Navy del logo */
+  --color-obsidian-800: #12182a;   /* superficie elevada */
+  --color-obsidian-700: #192236;   /* superficie elevada+ */
+  --color-obsidian-600: #222b43;   /* hairline visible */
+  --color-obsidian-500: #2e3851;   /* divider intenso */
 
-  --color-offwhite:     #eeecea;   /* texto principal sobre navy */
+  --color-offwhite:     #eeeceb;   /* texto principal sobre navy */
   --color-mist:         #b8bdc7;   /* texto secundario */
   --color-quill:        #6e7686;   /* texto terciario · metadatos */
   --color-fog:          #4a5365;   /* placeholder · disabled */
