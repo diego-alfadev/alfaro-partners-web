@@ -59,7 +59,7 @@
 .partner-card:hover {
   transform: translateY(-4px);
   border-color: rgba(201,164,74,.38);
-  box-shadow: 0 28px 70px rgba(4,9,18,.38);
+  box-shadow: 0 28px 70px rgba(3,6,13,.38);
 }
 
 .partner-card__portrait {
@@ -431,7 +431,7 @@
   padding: 1rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(4,9,18,.08);
+  border: 1px solid rgba(3,6,13,.08);
   background: #ecebea;
 }
 
@@ -457,7 +457,7 @@
 
 .partner-profile__quote {
   text-align: center;
-  background: rgba(4,9,18,.26);
+  background: rgba(3,6,13,.26);
 }
 
 .partner-profile__quote blockquote {
@@ -562,20 +562,20 @@
     order: -1;
     background:
       radial-gradient(circle at 50% 36%, rgba(201,164,74,.16), transparent 42%),
-      linear-gradient(180deg, rgba(255,255,255,.02), rgba(14,25,42,.1));
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(12,19,34,.1));
     -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
     mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
   }
 
   .partner-profile__back {
     margin-bottom: var(--space-8);
-    text-shadow: 0 2px 12px rgba(4,9,18,.82);
+    text-shadow: 0 2px 12px rgba(3,6,13,.82);
   }
 
   .partner-profile__relationship,
   .partner-profile__hero h1,
   .partner-profile__title {
-    text-shadow: 0 3px 18px rgba(4,9,18,.9);
+    text-shadow: 0 3px 18px rgba(3,6,13,.9);
   }
 
 }

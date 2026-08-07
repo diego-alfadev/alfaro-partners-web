@@ -7,16 +7,18 @@
 :root {
   /* ── Color · Digital Obsidian ─────────────────────────────────────────────
      Paleta navy + off-white + acento dorado. Sin saturación pura: chroma
-     bajo y luminancias controladas para fatiga ocular mínima en oscuro. */
-  --color-obsidian-1000:#040912;   /* "void" — pre-fondo, footer */
-  --color-obsidian-950: #08111e;   /* base profunda */
-  --color-obsidian-900: #0e192a;   /* fondo principal — Navy del logo */
-  --color-obsidian-800: #131f33;   /* superficie elevada */
-  --color-obsidian-700: #1b2b41;   /* superficie elevada+ */
-  --color-obsidian-600: #243551;   /* hairline visible */
-  --color-obsidian-500: #324461;   /* divider intenso */
+     bajo y luminancias controladas para fatiga ocular mínima en oscuro.
+     La rampa se ancla en el navy muestreado del logotipo (#0c1322) y se
+     deriva en OKLab conservando los saltos de luminancia originales. */
+  --color-obsidian-1000:#03060d;   /* "void" — pre-fondo, footer */
+  --color-obsidian-950: #070c18;   /* base profunda */
+  --color-obsidian-900: #0c1322;   /* fondo principal — Navy del logo */
+  --color-obsidian-800: #11182a;   /* superficie elevada */
+  --color-obsidian-700: #182236;   /* superficie elevada+ */
+  --color-obsidian-600: #202b43;   /* hairline visible */
+  --color-obsidian-500: #2c3851;   /* divider intenso */
 
-  --color-offwhite:     #eeeceb;   /* texto principal sobre navy */
+  --color-offwhite:     #eeecea;   /* texto principal sobre navy */
   --color-mist:         #b8bdc7;   /* texto secundario */
   --color-quill:        #6e7686;   /* texto terciario · metadatos */
   --color-fog:          #4a5365;   /* placeholder · disabled */
@@ -32,9 +34,9 @@
   --color-danger:       #b75353;
 
   /* ── Tipografía ───────────────────────────────────────────────────────── */
-  --font-display:     "Iowan Old Style","Baskerville","Times New Roman","Times",serif;
-  --font-display-alt: "Baskerville","Iowan Old Style","Times New Roman",serif;
-  --font-body:        "Aptos","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --font-display:     "Libre Baskerville","Iowan Old Style","Baskerville","Times New Roman",serif;
+  --font-display-alt: "Libre Baskerville","Baskerville","Iowan Old Style",serif;
+  --font-body:        "Satoshi","Aptos","Segoe UI","Helvetica Neue",Arial,sans-serif;
   --font-mono:        ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
   /* Escala fluida — clamp(min, fluid, max) */

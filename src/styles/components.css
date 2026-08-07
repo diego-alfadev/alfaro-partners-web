@@ -89,7 +89,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     /* Profundidad (vignette) */
     radial-gradient(ellipse 110% 90% at 50% 50%, transparent 35%, rgba(0,0,0,.35) 100%),
     /* Variación tonal del material */
-    linear-gradient(168deg, #0c1626 0%, #0e192a 38%, #0a1322 100%);
+    linear-gradient(168deg, #0a101f 0%, #0c1322 38%, #080e1b 100%);
 }
 
 .obsidian::before,
@@ -187,7 +187,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: rgba(14,25,42,.72);
+  background: rgba(12,19,34,.72);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom: var(--hairline);
@@ -429,7 +429,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   font: inherit;
   width: 100%;
   padding: .9rem 1rem;
-  background: rgba(8,17,30,.5);
+  background: rgba(7,12,24,.5);
   border: var(--hairline-strong);
   color: var(--color-offwhite);
   border-radius: var(--radius-0);
@@ -786,7 +786,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   line-height: 1.5;
 }
 
-.strip { background: rgba(8,17,30,.4); }
+.strip { background: rgba(7,12,24,.4); }
 .strip__inner {
   display: flex; flex-wrap: wrap;
   gap: var(--space-12);
@@ -1038,14 +1038,14 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
     font-size: clamp(2.2rem, 9vw, 3.15rem);
     margin-bottom: var(--space-4);
     line-height: 1.05;
-    text-shadow: 0 4px 12px rgba(14,25,42, 0.8); /* Readability over image */
+    text-shadow: 0 4px 12px rgba(12,19,34, 0.8); /* Readability over image */
   }
   .hero__eyebrow-row {
     order: 1;
     justify-content: flex-start;
     margin-bottom: var(--space-6);
     margin-top: var(--space-2);
-    text-shadow: 0 2px 8px rgba(14,25,42, 0.8);
+    text-shadow: 0 2px 8px rgba(12,19,34, 0.8);
   }
   .hero__lede {
     order: 3;
@@ -1250,7 +1250,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 .media-hub-hero__stat {
   padding: .7rem .8rem;
   border: 1px solid rgba(201,164,74,.16);
-  background: rgba(8,17,30,.42);
+  background: rgba(7,12,24,.42);
   color: var(--color-mist);
   font-size: .86rem;
   backdrop-filter: blur(12px);
@@ -1507,9 +1507,15 @@ body {
   margin-bottom: var(--space-10);
 }
 
+.hero__content {
+  container-type: inline-size;
+}
+
 .hero__title {
   max-width: 18ch;
-  font-size: clamp(3rem, 4vw + .4rem, 5.35rem);
+  /* Se dimensiona contra su columna, no contra el viewport: `.surname` va en
+     nowrap y con vw se salía de la caja al cambiar de tipografía. */
+  font-size: clamp(3rem, 10.5cqi, 5.35rem);
   margin-bottom: var(--space-8);
   text-wrap: balance;
 }
@@ -1570,7 +1576,7 @@ body {
 
 .trust-ribbon__item {
   padding: clamp(1.35rem, 2vw, 2rem);
-  background: rgba(8, 17, 30, .9);
+  background: rgba(7,12,24, .9);
   display: grid;
   gap: .55rem;
 }
@@ -1945,7 +1951,7 @@ body {
   gap: var(--space-5);
   padding: clamp(1.5rem, 3vw, 2.5rem);
   border: 1px solid rgba(201, 164, 74, .2);
-  background: rgba(8, 17, 30, .44);
+  background: rgba(7,12,24, .44);
 }
 
 .inheritance-insight__preview-label {
@@ -2502,7 +2508,7 @@ body {
   display: grid;
   align-content: space-between;
   gap: var(--space-6);
-  background: rgba(8, 17, 30, .78);
+  background: rgba(7,12,24, .78);
 }
 
 .inheritance-question span {
@@ -2628,7 +2634,7 @@ body {
 }
 
 .signature__stat {
-  background: rgba(8, 17, 30, .7);
+  background: rgba(7,12,24, .7);
   padding: 1rem 1rem 1.1rem;
   display: grid;
   gap: .2rem;
@@ -2751,7 +2757,7 @@ body {
 
 .district-card::before {
   background:
-    linear-gradient(180deg, transparent 18%, rgba(8, 17, 30, .84) 100%),
+    linear-gradient(180deg, transparent 18%, rgba(7,12,24, .84) 100%),
     radial-gradient(circle at 20% 20%, rgba(201, 164, 74, .16), transparent 34%);
 }
 
@@ -2779,13 +2785,13 @@ body {
 .district-card--1 {
   background-image:
     radial-gradient(circle at 20% 15%, rgba(201, 164, 74, .22), transparent 30%),
-    linear-gradient(160deg, rgba(26, 39, 58, .96), rgba(8, 17, 30, .96));
+    linear-gradient(160deg, rgba(22,31,48, .96), rgba(7,12,24, .96));
 }
 
 .district-card--2 {
   background-image:
     radial-gradient(circle at 80% 10%, rgba(140, 170, 210, .18), transparent 28%),
-    linear-gradient(160deg, rgba(16, 31, 51, .96), rgba(8, 17, 30, .96));
+    linear-gradient(160deg, rgba(14,24,42, .96), rgba(7,12,24, .96));
 }
 
 .district-card--3 {
@@ -3111,7 +3117,8 @@ body {
 .heritage-strategy__heading > p { max-width: 38ch; margin: var(--space-6) 0 0 auto; color: var(--color-mist); line-height: 1.72; }
 .heritage-strategy__list { border-top: 1px solid rgba(201, 164, 74, .24); }
 .heritage-strategy__list article { display: grid; grid-template-columns: minmax(9rem, .45fr) minmax(0, 1fr); gap: var(--space-8); padding: clamp(1.5rem, 3vw, 2.4rem) 0; border-bottom: 1px solid rgba(238, 236, 235, .1); }
-.heritage-strategy__list h3 { margin: 0; color: var(--color-offwhite); font-family: var(--font-display); font-size: clamp(1.7rem, 1.5vw + 1rem, 2.4rem); font-weight: 400; }
+/* Tope de 2rem: "Conservar" es la palabra más larga y por encima de ese tamaño se sale de su columna. */
+.heritage-strategy__list h3 { margin: 0; color: var(--color-offwhite); font-family: var(--font-display); font-size: clamp(1.7rem, 1.5vw + 1rem, 2rem); font-weight: 400; }
 .heritage-strategy__list dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); margin: 0; }
 .heritage-strategy__list dt { margin-bottom: .4rem; color: var(--color-gold); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .heritage-strategy__list dd { margin: 0; color: var(--color-mist); line-height: 1.65; }
