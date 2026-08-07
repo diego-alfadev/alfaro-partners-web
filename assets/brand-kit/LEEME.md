@@ -1,101 +1,138 @@
 # Alfaro & Partners · Kit de marca
 
-**Esta carpeta es la fuente.** Todo lo demás —flyers, tarjetas, vídeos, la web— se deriva de aquí.
+**Abre primero [`escaparate.html`](escaparate.html)** — doble clic. Es esta misma
+información, pero renderizada con los archivos reales de la carpeta.
 
-Si solo vas a leer una cosa: **fondo azul muy oscuro, texto casi blanco, dorado solo para lo que importa.**
+Esto de aquí es la versión en texto, para consultar rápido.
+
+---
+
+## Lo mínimo que hay que saber
+
+Fondo azul muy oscuro. Texto casi blanco. **Oro solo para una cosa por pieza.**
+
+| | |
+|---|---|
+| Azul | `#0D1322` |
+| Off-white | `#EEECEB` |
+| Oro | `#C9A44A` |
+| Titulares | Libre Baskerville |
+| Textos | Satoshi |
+
+---
+
+## Qué hay aquí
 
 ```
-brand-kit/
-├── logos/          → logotipo vectorial (SVG, PDF, .ai original)
-├── paleta/         → colores (.ase para Adobe, .json, tabla)
-├── tipografias/    → las dos fuentes y sus licencias
-└── LEEME.md        → esto
+logos/         logotipo vectorial
+paleta/        colores (.ase, .json, tabla)
+tipografias/   las dos fuentes y sus licencias
+escaparate.html
 ```
 
-> Aquí **no** hay flyers, tarjetas ni fotos de piezas impresas. Eso vive en el
-> Drive compartido, en `Finales Alfaro&Partners`. Esta carpeta es solo lo que
-> hace falta para *crear* una pieza nueva.
+Aquí **no** hay flyers, tarjetas ni fotos de piezas impresas. Eso está en el Drive
+compartido, en `Finales Alfaro&Partners`. Esta carpeta es solo lo necesario para
+*crear* algo nuevo.
 
 ---
 
 ## Logotipo
 
-El logotipo es **dibujo, no texto**. No se vuelve a escribir a mano, se coloca el archivo. Está vectorizado: no depende de que ninguna fuente esté instalada y se escala a cualquier tamaño sin perder nitidez.
+Es **dibujo, no texto**. No se reescribe a mano: se coloca el archivo. Está
+vectorizado, así que no depende de ninguna fuente instalada.
 
 | Archivo | Cuándo |
 |---|---|
-| `alfaro-partners-azul.svg` | Sobre fondo claro · digital |
-| `alfaro-partners-blanco.svg` | Sobre fondo oscuro · digital |
-| `alfaro-partners-monocromo.svg` | Hereda el color del contexto (`currentColor`). Para web y para cuando haga falta el logo en un color puntual |
-| `alfaro-partners-azul.pdf` / `-blanco.pdf` | Imprenta |
-| `alfaro-partners-original.ai` | Original de Illustrator. **No lo uses para maquetar** — es de donde salen los demás |
-
-Los SVG llevan el color como atributo `fill` en la raíz, sin hojas de estilo internas: se pueden incrustar en HTML sin que se pisen estilos.
+| `alfaro-partners-azul.svg` | Fondo claro · digital |
+| `alfaro-partners-blanco.svg` | Fondo oscuro · digital |
+| `alfaro-partners-oro.svg` | Solo estampación dorada en imprenta — ver abajo |
+| `alfaro-partners-monocromo.svg` | Hereda el color del contexto (`currentColor`) |
+| `*.pdf` | Imprenta |
+| `alfaro-partners-original.ai` | Original. De aquí salen los demás — no maquetes con él |
 
 ### Área de respiración
 
-Alrededor del logotipo tiene que quedar espacio vacío. Se mide con la letra **A** del propio logotipo:
+**X** = altura de la letra A del logotipo.
+**1X** a los lados · **0,5X** arriba y abajo.
 
-- **X** = altura de la A, de la base a la punta
-- **1X** a izquierda y derecha
-- **0,5X** arriba y abajo
+Ese hueco no lo pisa nada: ni foto, ni texto, ni borde. El diagrama está en el
+escaparate.
 
-Ese espacio no lo invade nada: ni una foto, ni un texto, ni un borde.
+### Sobre la versión en oro
+
+Existe, pero **no es la versión principal**. Su sitio es la estampación en caliente
+sobre papel — carpeta, tarjeta, sobre. Ahí es donde el oro tiene sentido físico.
+
+En pantalla, el logo va en blanco o en azul. Si el logotipo es dorado, el oro deja
+de ser el acento que señala lo importante y pasa a ser el color de fondo de la
+marca. Y entonces ya no señala nada.
 
 ### Qué no hacer
 
-- No lo estires ni lo comprimas — al escalar, proporción bloqueada
-- No le cambies el color fuera de las versiones de arriba
-- No lo pongas sobre una foto con detalle donde se pierda
-- No lo rehagas escribiendo el nombre con una fuente parecida
-- No separes el nombre de "REPRESENTACIÓN INMOBILIARIA"
+- Estirarlo o comprimirlo (al escalar, proporción bloqueada)
+- Recolorearlo fuera de las versiones de arriba
+- Rehacer el nombre escribiéndolo con una fuente parecida
+- Separar el nombre de «Representación inmobiliaria»
+- Ponerlo sobre una foto con detalle donde se pierda
 
 ---
 
 ## Color
 
-El azul de la marca es **`#0D1322`**. Está tomado del logotipo vectorial, que es la única fuente fiable — los PNG arrastran desviaciones de compresión.
+El azul sale del logotipo vectorial, que es la única fuente fiable: los PNG
+arrastran desviaciones de compresión.
 
-Los demás azules son variaciones para dar profundidad: una tarjeta algo más clara sobre el fondo, una línea divisoria, un pie más oscuro. No hace falta usarlos todos.
+Los demás azules son variaciones para dar profundidad — una tarjeta algo más clara
+sobre el fondo, una línea, un pie más oscuro. No hace falta usarlos todos.
 
-El **dorado `#C9A44A`** es el acento y funciona porque se usa poco: un botón, una palabra, una línea fina. Repartido por todas partes deja de significar nada.
+Los colores de estado (verde, ámbar, rojo) son avisos de interfaz. **No son colores
+de marca**: no los uses en una pieza gráfica.
 
-Los colores de estado (verde, ámbar, rojo) son avisos de interfaz. No son colores de marca — no los uses en una pieza gráfica.
+**Adobe:** doble clic en `paleta/alfaro-partners.ase` y aparecen agrupados en la
+biblioteca de muestras. Tabla completa en `paleta/paleta.md`.
 
-Tabla completa en `paleta/paleta.md`. Para Illustrator, Photoshop o InDesign: doble clic en `paleta/alfaro-partners.ase` y aparecen agrupados en la biblioteca de muestras.
-
-**Sobre el CMYK:** es orientativo, convertido sin perfil de color. Al impresor se le manda el **HEX o el RGB** y convierte él con el perfil de su máquina. Si le mandas el CMYK de la tabla, el azul saldrá distinto.
+**Imprenta:** manda el HEX o el RGB y que el impresor convierta con el perfil de su
+máquina. El CMYK de la tabla es orientativo; si se lo mandas tal cual, el azul
+saldrá distinto.
 
 ---
 
 ## Tipografía
 
-**Libre Baskerville** — titulares. Serif editorial, con carácter. La cursiva es especialmente buena para destacar una palabra dentro de un titular.
+**Si es grande, Baskerville. Si hay que leerlo, Satoshi.**
 
-**Satoshi** — todo lo demás: textos, pies, botones, etiquetas. Neutra a propósito.
+- **Libre Baskerville** — titulares. Está en `tipografias/`, se instala con doble clic.
+- **Satoshi** — textos, botones, etiquetas. Hay que descargarla:
+  [fontshare.com/fonts/satoshi](https://www.fontshare.com/fonts/satoshi) *(su licencia
+  no permite que la repartamos nosotros).*
 
-Regla práctica: **si es grande, Baskerville; si hay que leerlo, Satoshi.**
+Las etiquetas pequeñas en mayúsculas muy espaciadas son un recurso de la marca, no
+un accidente. Van en Satoshi.
 
-Las etiquetas pequeñas en mayúsculas con mucho espaciado entre letras (`REPRESENTACIÓN INMOBILIARIA PREMIUM`) son un recurso de la marca, no un accidente. Van en Satoshi.
+Detalle e instalación: `tipografias/LEEME.md`.
 
-Instalación y licencias: `tipografias/LEEME.md`.
-
-> **Ojo.** El logotipo está compuesto en Times New Roman, que **no** es la tipografía de la marca. Es normal: un logotipo se congela cuando se dibuja. No maquetes una pieza en Times "para que pegue con el logo" — usa Libre Baskerville y Satoshi.
+> **Ojo.** El logotipo está compuesto en Times New Roman, que **no** es la tipografía
+> de la marca. Un logotipo se congela cuando se dibuja. No maquetes una pieza en
+> Times para que pegue con el logo — usa Libre Baskerville y Satoshi.
 
 ---
 
 ## Para programadores
 
-La definición viva está en **`src/styles/tokens.css`**, no aquí. Ese archivo es lo que construye la web: rampa de color, escala tipográfica, espaciado, hairlines, sombras, easings y z-index.
+La definición viva es **`src/styles/tokens.css`** del repositorio de la web, no esta
+carpeta. Ahí están la rampa de color, la escala tipográfica, el espaciado, hairlines,
+sombras, easings y z-index.
 
-Los archivos de esta carpeta se derivan de él. Si cambia un color:
+Los archivos de aquí se derivan de ese fichero. Si cambia un color:
 
 1. Se cambia en `tokens.css`
-2. Se regeneran `paleta/*` desde ahí
+2. Se regeneran `paleta/*`
 3. Se vuelve a exportar la copia del Drive
 
-En ese orden y solo en ese orden. `tokens.css` manda.
+En ese orden. **`tokens.css` manda.**
 
-La rampa de azules está derivada en OKLab a partir de `#0D1322`, conservando los saltos de luminancia. No inventes escalones nuevos a ojo: si hace falta uno, se deriva con la misma fórmula.
+La rampa de azules está derivada en OKLab desde `#0D1322`, conservando los saltos de
+luminancia. Si hace falta un escalón nuevo, se deriva con la misma fórmula — no se
+inventa a ojo.
 
-Y para ver cómo se combina todo —cuánto aire, cómo cae el dorado sobre el azul, qué tamaño tiene un titular— la referencia es **alfaropartners.es**. Está construida exactamente con esto.
+Referencia viva: **alfaropartners.es**, construida exactamente con esto.
