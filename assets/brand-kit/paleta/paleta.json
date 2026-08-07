@@ -1,0 +1,28 @@
+{
+  "Obsidian": {
+    "Obsidian 1000 · Void": "#04060d",
+    "Obsidian 950 · Profundo": "#070c18",
+    "Obsidian 900 · Base": "#0d1322",
+    "Obsidian 800 · Superficie": "#12182a",
+    "Obsidian 700 · Superficie+": "#192236",
+    "Obsidian 600 · Hairline": "#222b43",
+    "Obsidian 500 · Divider": "#2e3851"
+  },
+  "Texto": {
+    "Off-white · Principal": "#eeeceb",
+    "Mist · Secundario": "#b8bdc7",
+    "Quill · Terciario": "#6e7686",
+    "Fog · Deshabilitado": "#4a5365"
+  },
+  "Oro": {
+    "Oro · Acento": "#c9a44a",
+    "Oro claro": "#efdc9a",
+    "Oro suave": "#d9bf7a",
+    "Oro profundo": "#8a6e2f"
+  },
+  "Estado": {
+    "Éxito": "#3c8b6e",
+    "Aviso": "#c9963c",
+    "Peligro": "#b75353"
+  }
+}
