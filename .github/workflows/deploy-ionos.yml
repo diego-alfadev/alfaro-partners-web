@@ -44,17 +44,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # El umbral está en "high" a propósito, no por comodidad.
-      # Lo único que queda por debajo son tres avisos del propio paquete `astro`
-      # (XSS en View Transitions, en spread de atributos y en directivas
-      # transition:* sobre islas hidratadas). Este sitio es estático: no usa
-      # View Transitions ni tiene islas hidratadas, así que no hay superficie
-      # real. Y `astro` es dependencia directa, de modo que un override no los
-      # alcanza — sólo los limpia subir a Astro >= 7.0.10.
-      #
-      # REVERTIR A `bun audit` A SECAS en cuanto se haga ese upgrade.
       - name: Audit dependencies
-        run: bun audit --audit-level=high
+        run: bun audit
 
       - name: Build for production
         env:
