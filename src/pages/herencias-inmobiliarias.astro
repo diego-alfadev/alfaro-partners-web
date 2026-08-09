@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialSplit from '../components/EditorialSplit.astro';
 import { Icon } from 'astro-icon/components';
 import { BUSINESS_INFO } from '../lib/constants';
 
@@ -189,19 +190,19 @@ const structuredData = {
 
       <div class="heritage-route__chapters">
         {processChapters.map((chapter) => (
-          <article class="heritage-route__chapter" data-reveal>
-            <div class="heritage-route__chapter-title">
+          <EditorialSplit as="article" class="heritage-route__chapter" sticky data-reveal>
+            <div slot="heading" class="heritage-route__chapter-title">
               <p>{chapter.phase}</p>
               <h3>{chapter.title}</h3>
             </div>
-            <ol>
+            <ol slot="content">
               {chapter.steps.map(([label, body]) => (
                 <li>
                   <div><strong>{label}</strong><p>{body}</p></div>
                 </li>
               ))}
             </ol>
-          </article>
+          </EditorialSplit>
         ))}
       </div>
     </div>
@@ -228,12 +229,12 @@ const structuredData = {
   </section>
 
   <section class="section heritage-strategy">
-    <div class="wrap heritage-strategy__grid">
-      <div class="heritage-strategy__heading" data-reveal>
+    <EditorialSplit class="wrap heritage-strategy__grid" sticky>
+      <div slot="heading" class="heritage-strategy__heading" data-reveal>
         <h2 class="section-head__title">No existe una respuesta universal. Existe la estrategia adecuada.</h2>
         <p>La mejor decisión es la que protege mejor el patrimonio familiar, el momento de cada heredero y las posibilidades reales del activo.</p>
       </div>
-      <div class="heritage-strategy__list" data-reveal>
+      <div slot="content" class="heritage-strategy__list" data-reveal>
         {strategies.map((strategy) => (
           <article>
             <h3>{strategy.name}</h3>
@@ -244,7 +245,7 @@ const structuredData = {
           </article>
         ))}
       </div>
-    </div>
+    </EditorialSplit>
   </section>
 
   <section class="section heritage-risks">

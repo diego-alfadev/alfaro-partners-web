@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialSplit from '../components/EditorialSplit.astro';
 import { Icon } from 'astro-icon/components';
 import { BUSINESS_INFO } from '../lib/constants';
 import { getMediaReferences } from '../lib/mediaReferences';
@@ -195,8 +196,8 @@ const signatureStats = [
 
   <section class="section services-overview" id="servicios">
     <div class="wrap">
-      <div class="services-overview__layout" data-reveal>
-        <div class="services-overview__intro">
+      <EditorialSplit class="services-overview__layout" sticky data-reveal>
+        <div slot="heading" class="services-overview__intro">
           <h2 class="section-head__title services-overview__title">¿Qué decisión tienes delante?</h2>
           <p class="section-head__lede section-head__lede--left">
             Cada servicio parte de una posición distinta. Todos comparten el mismo mandato: defender tu interés.
@@ -206,7 +207,7 @@ const signatureStats = [
           </blockquote>
         </div>
 
-        <div class="services-list">
+        <div slot="content" class="services-list">
           {services.map((service) => (
             <article class:list={["service-panel", service.featured && "service-panel--featured"]}>
               <span class="service-panel__audience">{service.audience}</span>
@@ -220,7 +221,7 @@ const signatureStats = [
             </article>
           ))}
         </div>
-      </div>
+      </EditorialSplit>
     </div>
   </section>
 

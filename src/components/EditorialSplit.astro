@@ -1,0 +1,52 @@
+---
+interface Props {
+  as?: 'article' | 'div';
+  class?: string;
+  sticky?: boolean;
+}
+
+const {
+  as: Tag = 'div',
+  class: className,
+  sticky = false,
+  ...attributes
+} = Astro.props;
+---
+
+<Tag class:list={['editorial-split', className]} data-editorial-split {...attributes}>
+  <div class:list={['editorial-split__heading', sticky && 'editorial-split__heading--sticky']}>
+    <slot name="heading" />
+  </div>
+  <div class="editorial-split__content">
+    <slot name="content" />
+  </div>
+</Tag>
+
+<style>
+  .editorial-split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 7rem);
+    align-items: start;
+  }
+
+  .editorial-split__heading,
+  .editorial-split__content {
+    min-width: 0;
+  }
+
+  .editorial-split__heading--sticky {
+    position: sticky;
+    top: calc(var(--header-h) + clamp(1rem, 2vw, 2rem));
+  }
+
+  @media (max-width: 960px) {
+    .editorial-split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .editorial-split__heading--sticky {
+      position: static;
+    }
+  }
+</style>
