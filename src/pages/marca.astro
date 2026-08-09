@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import paletaJson from '../../assets/brand-kit/paleta/paleta.json';
+import svgBlanco from '../../assets/brand-kit/logos/alfaro-partners-blanco.svg?raw';
+import svgAzul from '../../assets/brand-kit/logos/alfaro-partners-azul.svg?raw';
+import svgMono from '../../assets/brand-kit/logos/alfaro-partners-monocromo.svg?raw';
+
+const paleta: Record<string, Record<string, string>> = paletaJson;
+
+// El logotipo se inserta como SVG en línea para que herede el color del contexto
+// y para poder medir el área de respiración contra su propio viewBox.
+const limpia = (svg: string) => svg.replace(/\srole="img"|\saria-label="[^"]*"/g, '').trim();
+const logos = {
+  'alfaro-partners-blanco.svg': limpia(svgBlanco),
+  'alfaro-partners-azul.svg': limpia(svgAzul),
+  'alfaro-partners-monocromo.svg': limpia(svgMono),
+} as const;
+const logo = (nombre: keyof typeof logos) => logos[nombre];
+
+const VB_W = 352.63;
+const VB_H = 46.19;
+const ALTURA_A = 17.57; // altura de la "A" del logotipo, la unidad X del kit
+const ratioAlto = VB_H / VB_W;
+const xSobreAlto = ALTURA_A / VB_H;
+---
+
+<BaseLayout
+  title="Kit de marca · Alfaro & Partners"
+  description="Referencia interna de marca: logotipo, color y tipografía."
+  path="/marca/"
+  robots="noindex, nofollow"
+>
+  <main class="wrap marca">
+    <header class="marca__portada">
+      <p class="eyebrow">Uso interno</p>
+      <h1 class="display">Kit de marca</h1>
+      <p class="marca__entradilla">
+        Esta página se dibuja con los mismos tokens que construyen el resto del sitio.
+        Si algo cambia en la marca, cambia aquí solo. Los archivos para descargar están
+        en el Drive, en <strong>00 - KIT DE MARCA</strong>.
+      </p>
+    </header>
+
+    <section class="marca__bloque">
+      <p class="eyebrow">01 · Logotipo</p>
+      <h2 class="display">Tres versiones, un solo dibujo</h2>
+      <p class="marca__texto">
+        Vectorizado: no depende de ninguna fuente instalada y aguanta cualquier tamaño.
+        No se reescribe a mano — se coloca el archivo.
+      </p>
+
+      <div class="marca__lienzos">
+        <figure>
+          <div class="marca__lienzo marca__lienzo--oscuro" set:html={logo('alfaro-partners-blanco.svg')} />
+          <figcaption><b>Blanco</b> · sobre fondo oscuro</figcaption>
+        </figure>
+        <figure>
+          <div class="marca__lienzo marca__lienzo--claro" set:html={logo('alfaro-partners-azul.svg')} />
+          <figcaption><b>Azul</b> · sobre fondo claro</figcaption>
+        </figure>
+        <figure>
+          <div class="marca__lienzo marca__lienzo--oro" set:html={logo('alfaro-partners-monocromo.svg')} />
+          <figcaption><b>Monocromo</b> · hereda el color del contexto</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="marca__sub">Área de respiración</h3>
+      <p class="marca__texto">
+        <b>X</b> es la altura de la letra A del logotipo. Deja <b>1X</b> a los lados y{' '}
+        <b>0,5X</b> arriba y abajo. Ese hueco no lo pisa nada.
+      </p>
+      <div class="marca__aire" style={`--ratio:${ratioAlto};--xr:${xSobreAlto}`}>
+        <div class="marca__aire-caja">
+          <span class="marca__x marca__x--izq">1X</span>
+          <span class="marca__x marca__x--der">1X</span>
+          <span class="marca__x marca__x--arr">0,5X</span>
+          <span class="marca__x marca__x--aba">0,5X</span>
+          <div class="marca__aire-logo" set:html={logo('alfaro-partners-blanco.svg')} />
+        </div>
+      </div>
+    </section>
+
+    <section class="marca__bloque">
+      <p class="eyebrow">02 · Color</p>
+      <h2 class="display">Azul muy oscuro, casi blanco, y oro con cuentagotas</h2>
+      <p class="marca__texto">
+        El oro funciona porque se usa poco: un botón, una palabra, una línea fina.
+        Repartido por todas partes deja de significar nada.
+      </p>
+      {Object.entries(paleta).map(([grupo, colores]) => (
+        <>
+          <h3 class="marca__sub">{grupo}</h3>
+          <div class="marca__colores">
+            {Object.entries(colores).map(([nombre, hex]) => (
+              <figure>
+                <div class="marca__muestra" style={`background:${hex}`} />
+                <figcaption>
+                  <b>{nombre.split(' · ')[0]}</b>
+                  <code>{hex.toUpperCase()}</code>
+                  <span>{nombre.split(' · ')[1] ?? ''}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </>
+      ))}
+    </section>
+
+    <section class="marca__bloque">
+      <p class="eyebrow">03 · Tipografía</p>
+      <h2 class="display">Si es grande, Baskerville. Si hay que leerlo, Satoshi</h2>
+
+      <div class="marca__espec">
+        <p class="marca__etiqueta">Libre Baskerville · titulares</p>
+        <p class="marca__muestra-serif">Tu patrimonio <em class="italic-gold">bien representado</em></p>
+      </div>
+
+      <div class="marca__espec">
+        <p class="marca__etiqueta">Satoshi · textos, botones, etiquetas</p>
+        <p class="marca__texto">
+          Venta, compra, alquiler e inversión con una sola prioridad: proteger tus
+          intereses con criterio y transparencia.
+        </p>
+      </div>
+
+      <div class="marca__espec">
+        <p class="marca__etiqueta">Etiqueta de marca · Satoshi muy espaciada</p>
+        <p class="eyebrow">Representación inmobiliaria premium</p>
+      </div>
+
+      <p class="marca__nota">
+        El logotipo está compuesto en <b>Times New Roman</b>, que <b>no</b> es la
+        tipografía de la marca. Un logotipo se congela cuando se dibuja. No maquetes una
+        pieza en Times para que pegue con el logo.
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .marca { padding-block: clamp(3rem, 8vw, 7rem); }
+  .marca__portada { margin-bottom: clamp(3rem, 7vw, 6rem); }
+  .marca h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin: var(--space-4) 0 var(--space-6); }
+  .marca h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: var(--space-3) 0 var(--space-5); }
+  .marca__sub {
+    margin: var(--space-10) 0 var(--space-5);
+    color: var(--color-gold-light);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+  .marca__entradilla, .marca__texto { max-width: 62ch; color: var(--color-mist); line-height: var(--leading-base); }
+  .marca__bloque { padding-block: clamp(2.5rem, 6vw, 5rem); border-top: var(--hairline-strong); }
+
+  .marca__lienzos {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin-top: var(--space-8);
+  }
+  .marca__lienzos figure { margin: 0; }
+  .marca__lienzo { display: grid; place-items: center; padding: clamp(1.5rem, 4vw, 3rem); }
+  .marca__lienzo :global(svg) { width: min(320px, 90%); height: auto; }
+  .marca__lienzo--oscuro { background: var(--color-obsidian-800); }
+  .marca__lienzo--claro  { background: var(--color-offwhite); }
+  .marca__lienzo--oro    { background: var(--color-obsidian-800); color: var(--color-gold); }
+  .marca__lienzos figcaption { padding-top: var(--space-3); color: var(--color-quill); font-size: var(--fs-caption); }
+  .marca__lienzos figcaption b { color: var(--color-offwhite); font-weight: 500; }
+
+  .marca__aire {
+    --w: min(340px, 70vw);
+    display: grid;
+    place-items: center;
+    padding: clamp(2rem, 6vw, 3.5rem);
+    margin-top: var(--space-6);
+    background: var(--color-obsidian-800);
+  }
+  .marca__aire-caja {
+    --alto: calc(var(--w) * var(--ratio));
+    --x: calc(var(--alto) * var(--xr));
+    position: relative;
+    padding: calc(var(--x) * .5) var(--x);
+    outline: 1px dashed rgba(201, 164, 74, .55);
+  }
+  .marca__aire-logo :global(svg) { display: block; width: var(--w); height: auto; outline: 1px dashed rgba(238, 236, 235, .28); }
+  .marca__x { position: absolute; color: var(--color-gold); font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; }
+  .marca__x--izq { left: .35rem; top: 50%; transform: translateY(-50%); }
+  .marca__x--der { right: .35rem; top: 50%; transform: translateY(-50%); }
+  .marca__x--arr { top: .15rem; left: 50%; transform: translateX(-50%); }
+  .marca__x--aba { bottom: .15rem; left: 50%; transform: translateX(-50%); }
+
+  .marca__colores { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .marca__colores figure { margin: 0; }
+  .marca__muestra { height: 78px; border: var(--hairline-strong); }
+  .marca__colores figcaption { padding-top: var(--space-2); color: var(--color-quill); font-size: var(--fs-caption); line-height: 1.5; }
+  .marca__colores figcaption b { display: block; color: var(--color-offwhite); font-weight: 500; }
+  .marca__colores figcaption code { color: var(--color-gold); font-family: var(--font-mono); font-size: .72rem; }
+  .marca__colores figcaption span { display: block; }
+
+  .marca__espec { padding-block: var(--space-6); border-top: var(--hairline); }
+  .marca__etiqueta {
+    margin-bottom: var(--space-3);
+    color: var(--color-quill);
+    font-size: .65rem;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+  .marca__muestra-serif {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+    line-height: var(--leading-display);
+  }
+  .marca__nota {
+    max-width: 62ch;
+    margin-top: var(--space-8);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--color-gold);
+    color: var(--color-mist);
+  }
+</style>
