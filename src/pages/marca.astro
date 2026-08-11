@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import paletaJson from '../../assets/brand-kit/paleta/paleta.json';
+import geometria from '../../assets/brand-kit/logos/geometria.json';
 import svgBlanco from '../../assets/brand-kit/logos/alfaro-partners-blanco.svg?raw';
 import svgAzul from '../../assets/brand-kit/logos/alfaro-partners-azul.svg?raw';
 import svgMono from '../../assets/brand-kit/logos/alfaro-partners-monocromo.svg?raw';
@@ -17,11 +18,10 @@ const logos = {
 } as const;
 const logo = (nombre: keyof typeof logos) => logos[nombre];
 
-const VB_W = 352.63;
-const VB_H = 46.19;
-const ALTURA_A = 17.57; // altura de la "A" del logotipo, la unidad X del kit
-const ratioAlto = VB_H / VB_W;
-const xSobreAlto = ALTURA_A / VB_H;
+// La geometría se lee del kit, no se copia aquí: si Augusto retoca el
+// logotipo, se regenera geometria.json y el diagrama se ajusta solo.
+const ratioAlto = geometria.viewBoxAlto / geometria.viewBoxAncho;
+const xSobreAlto = geometria.alturaA / geometria.viewBoxAlto;
 ---
 
 <BaseLayout
