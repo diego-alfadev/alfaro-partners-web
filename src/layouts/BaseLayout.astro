@@ -188,8 +188,13 @@ const schema = {
   {googleTagId && <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}></script>}
   {googleTagId && (
     <script type="text/javascript" define:vars={{ googleTagId }}>
+      // gtag must be assigned onto window explicitly. Astro wraps any script
+      // using define:vars in an IIFE, so a bare `function gtag(){}` stays
+      // local to that closure and never reaches the global scope -- which
+      // silently disables every consumer that checks for window.gtag,
+      // including the lead-tracking listener at the bottom of this file.
       window.dataLayer = window.dataLayer || [];
-      function gtag(){window.dataLayer.push(arguments);}
+      window.gtag = function gtag(){window.dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', googleTagId);
     </script>
