@@ -2,8 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialSplit from '../components/EditorialSplit.astro';
 import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import { BUSINESS_INFO } from '../lib/constants';
 import { getMediaReferences } from '../lib/mediaReferences';
+import alfaroHero from '../assets/alfaro-hero.png';
+import despacho from '../assets/despacho.png';
 
 const { booking, social, zones } = BUSINESS_INFO;
 const featuredReferences = getMediaReferences().filter((reference) => reference.featured).slice(0, 3);
@@ -112,7 +115,7 @@ const signatureStats = [
 
         <div class="portrait hero__portrait">
           <div class="portrait__frame portrait__frame--hero">
-            <img src={withBase('images/alfaro-hero.png')} alt="José María Alfaro" width="800" height="1200" fetchpriority="high" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <Image src={alfaroHero} alt="José María Alfaro" width={800} height={1200} format="webp" quality={75} priority class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
             <div class="portrait__placeholder" style="display: none;">[ retrato editorial ]</div>
           </div>
           <div class="portrait__badge portrait__badge--hero">
@@ -261,7 +264,7 @@ const signatureStats = [
         <div class="signature__grid">
           <div class="portrait signature__portrait">
             <div class="portrait__frame portrait__frame--signature">
-              <img src={withBase('images/despacho.png')} alt="Despacho y firma de José María Alfaro" width="800" height="1200" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <Image src={despacho} alt="Despacho y firma de José María Alfaro" width={800} height={1200} format="webp" quality={75} decoding="async" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
               <div class="portrait__placeholder" style="display: none;">[ firma y despacho ]</div>
             </div>
           </div>

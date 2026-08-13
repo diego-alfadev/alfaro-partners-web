@@ -2,7 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialSplit from '../components/EditorialSplit.astro';
 import { Icon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import { BUSINESS_INFO } from '../lib/constants';
+import despacho from '../assets/despacho.png';
 
 const { booking } = BUSINESS_INFO;
 const basePath = import.meta.env.BASE_URL.endsWith('/')
@@ -155,7 +157,7 @@ const structuredData = {
         </div>
         <div class="portrait hero__portrait heritage-hero__portrait">
           <div class="portrait__frame portrait__frame--hero">
-            <img src={withBase('images/despacho.png')} alt="José María Alfaro" width="800" height="1200" fetchpriority="high" />
+            <Image src={despacho} alt="José María Alfaro" width={800} height={1200} format="webp" quality={75} priority />
           </div>
           <div class="portrait__badge portrait__badge--hero">
             <p class="portrait__badge-num">9</p>
