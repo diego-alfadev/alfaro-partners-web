@@ -1,4 +1,4 @@
-Options -Indexes
+Options -Indexes +FollowSymLinks
 
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
@@ -20,13 +20,86 @@ ErrorDocument 404 /404.html
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
+  # SEO hardening (SDD alfaro-seo-hardening, Phase 7) -- self-hosted Libre
+  # Baskerville woff2 files need the same long-lived cache as other assets.
+  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "\.(css|js|png|jpg|jpeg|webp|svg|ico)$">
+  # SEO hardening (SDD alfaro-seo-hardening, Phase 7): woff2|woff|ttf added --
+  # this pattern previously excluded self-hosted font files from the
+  # immutable cache header entirely (they would have shipped uncacheable).
+  <FilesMatch "\.(css|js|png|jpg|jpeg|webp|svg|ico|woff2|woff|ttf)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   <FilesMatch "\.(html|txt|xml)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
 </IfModule>
+
+# ---------------------------------------------------------------------------
+# SEO hardening (SDD alfaro-seo-hardening, Phase 2) — www -> canonical non-www
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Host-keyed only. Apache reads %{HTTP_HOST} verbatim from the request
+  # line -- it is never proxy-rewritten, so this condition cannot re-fire
+  # after its own redirect (the second request arrives with
+  # Host: alfaropartners.es, which no longer matches). Zero loop risk.
+  #
+  # NOTE: the HTTP -> HTTPS redirect (Phase 3 of this change) is
+  # intentionally NOT included here. It is blocked pending the proto-header
+  # probe below (Phase 1) -- see sdd/alfaro-seo-hardening/design, decision D1.
+  RewriteCond %{HTTP_HOST} ^www\.alfaropartners\.es$ [NC]
+  RewriteRule ^(.*)$ https://alfaropartners.es/$1 [R=301,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# SEO hardening (SDD alfaro-seo-hardening, Phase 2) — compression + charset
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript text/javascript
+  AddOutputFilterByType DEFLATE application/json application/xml application/rss+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+AddDefaultCharset UTF-8
+
+# ===========================================================================
+# PROBE ONLY -- DO NOT DEPLOY (SDD alfaro-seo-hardening, Phase 1)
+# ===========================================================================
+# This block is intentionally left commented out. It exists to answer one
+# question before Phase 3 (HTTP -> HTTPS redirect) can be safely written:
+# which forwarded-proto header does the IONOS TLS-terminating proxy actually
+# send to Apache? Guessing wrong here risks an infinite redirect loop
+# (design doc D1 -- see sdd/alfaro-seo-hardening/design).
+#
+# HOW TO RUN THIS PROBE AFTER DEPLOYING THIS FILE:
+#   1. Uncomment ONLY the <IfModule mod_headers.c> ... </IfModule> block
+#      below (remove the leading "# " from each of its lines).
+#   2. Deploy `public/.htaccess` alone -- no other change bundled with it.
+#   3. From a machine outside the site, run both of:
+#        curl -sI http://alfaropartners.es/  | rg -i x-dbg
+#        curl -sI https://alfaropartners.es/ | rg -i x-dbg
+#   4. Compare the four header values across the two responses. Whichever
+#      header's VALUE DIFFERS between the http:// and the https:// request
+#      is the one IONOS uses to forward the original scheme. That header
+#      name (in equality form, e.g. `RewriteCond %{HTTP:X-Forwarded-Proto}
+#      ^http$`) is the key Phase 3 needs.
+#   5. If NO header differs between the two responses: Phase 3 is NOT
+#      implementable via `.htaccess` on this host. Do not attempt it --
+#      fall back to the IONOS control-panel "force HTTPS" option, or leave
+#      HTTP unredirected (the canonical tag already covers ranking; the
+#      www -> non-www rule above already ships independently).
+#   6. Re-comment (or delete) this block and redeploy immediately after
+#      reading the result. It must never stay live alongside real traffic.
+#
+# <IfModule mod_headers.c>
+#   Header always set X-Dbg-Proto    "%{X-Forwarded-Proto}i"
+#   Header always set X-Dbg-Protocol "%{X-Forwarded-Protocol}i"
+#   Header always set X-Dbg-Ssl      "%{X-Forwarded-Ssl}i"
+#   Header always set X-Dbg-Https    "%{HTTPS}e"
+# </IfModule>
+# ===========================================================================
