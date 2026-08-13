@@ -1,7 +1,13 @@
 ---
 import '../styles/global.css';
 import { Icon } from 'astro-icon/components';
+import { Font } from 'astro:assets';
 import { BUSINESS_INFO } from '../lib/constants';
+
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
 
 interface Props {
   title: string;
@@ -11,7 +17,8 @@ interface Props {
   imageAlt?: string;
   type?: 'website' | 'article' | 'profile';
   robots?: string;
-  structuredData?: Record<string, unknown>;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: Breadcrumb[];
 }
 
 const {
@@ -23,13 +30,13 @@ const {
   type = 'website',
   robots = 'index, follow, max-image-preview:large',
   structuredData,
+  breadcrumbs,
 } = Astro.props;
 
 const {
   analytics,
   booking,
   phone: CONTACT_PHONE,
-  email: CONTACT_EMAIL,
   legal: LEGAL_LINKS,
   social,
   site,
@@ -46,8 +53,14 @@ const imageUrl = new URL(withBase(image), siteOrigin).toString();
 const homeUrl = new URL(basePath, siteOrigin).toString();
 const isPngImage = imageUrl.endsWith('.png');
 const googleTagId = import.meta.env.PROD ? analytics.googleTagId : undefined;
-const schema = {
-  '@context': 'https://schema.org',
+
+// SEO hardening (SDD alfaro-seo-hardening, Phase 6a): one @graph per page,
+// linked via @id references instead of the previous two disconnected
+// <script> blocks (organization schema here + a second one per page).
+// `email` is intentionally omitted -- jmaj07@gmail.com was a personal
+// address in a business node; no corporate address has been supplied yet
+// (see design doc D5 / spec REQ-10, still blocked on user input).
+const organizationNode = {
   '@type': 'RealEstateAgent',
   '@id': `${homeUrl}#organization`,
   name: BUSINESS_INFO.brandName,
@@ -55,7 +68,6 @@ const schema = {
   image: imageUrl,
   url: homeUrl,
   telephone: `+${CONTACT_PHONE}`,
-  email: CONTACT_EMAIL,
   description: 'Representación inmobiliaria premium y protección del patrimonio. Más de 20 años de experiencia impulsando las buenas prácticas.',
   address: {
     '@type': 'PostalAddress',
@@ -74,11 +86,62 @@ const schema = {
       url: BUSINESS_INFO.sites.fai,
     },
   ],
-  founder: {
-    '@type': 'Person',
-    '@id': `${homeUrl}#founder`,
-    name: BUSINESS_INFO.name,
+  founder: { '@id': `${homeUrl}#founder` },
+};
+
+// The E-E-A-T asset: José María Alfaro's FAI presidency belongs on the
+// Person node itself, not only referenced from RealEstateAgent.memberOf.
+const founderNode = {
+  '@type': 'Person',
+  '@id': `${homeUrl}#founder`,
+  name: BUSINESS_INFO.name,
+  jobTitle: 'Presidente de la Federación Nacional de Asociaciones Inmobiliarias (FAI)',
+  worksFor: { '@id': `${homeUrl}#organization` },
+  memberOf: {
+    '@type': 'Organization',
+    name: 'FAI',
+    url: BUSINESS_INFO.sites.fai,
   },
+  sameAs: [social.linkedin, social.instagram],
+  knowsAbout: ['Representación inmobiliaria', 'Herencias inmobiliarias', 'Mercado de vivienda en España'],
+};
+
+const breadcrumbNode = breadcrumbs?.length
+  ? {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonicalUrl}#breadcrumb`,
+      itemListElement: breadcrumbs.map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.name,
+        item: new URL(`${basePath}${cleanPath(crumb.path)}`, siteOrigin).toString(),
+      })),
+    }
+  : null;
+
+const webPageNode = {
+  '@type': 'WebPage',
+  '@id': `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: title,
+  isPartOf: { '@id': `${homeUrl}#organization` },
+  ...(breadcrumbNode ? { breadcrumb: { '@id': breadcrumbNode['@id'] } } : {}),
+};
+
+// `structuredData` accepts either a single node, an array of nodes, or a
+// full `{'@context', '@graph': [...]}` object (the shape the three existing
+// callers already pass) -- unwrapped and merged into the one page @graph.
+// Backward compatible: none of the three current callers need to change.
+const pageNodes = structuredData
+  ? (Array.isArray(structuredData) ? structuredData : [structuredData]).flatMap((entry) => {
+      const graphField = (entry as Record<string, unknown>)?.['@graph'];
+      return Array.isArray(graphField) ? (graphField as Record<string, unknown>[]) : [entry];
+    })
+  : [];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationNode, founderNode, webPageNode, breadcrumbNode, ...pageNodes].filter(Boolean),
 };
 ---
 
@@ -91,13 +154,11 @@ const schema = {
   <meta name="description" content={description} />
   <meta name="robots" content={robots} />
   <link rel="canonical" href={canonicalUrl} />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Libre Baskerville is self-hosted (SIL OFL) via Astro's fonts config --
+       see astro.config.mjs. Satoshi stays remote: Fontshare's Free Font
+       EULA prohibits self-hosting/redistributing the font files. -->
+  <Font cssVariable="--font-display-src" preload />
   <link rel="preconnect" href="https://api.fontshare.com" />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
-  />
   <link
     rel="stylesheet"
     href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
@@ -135,7 +196,6 @@ const schema = {
   )}
 
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-  {structuredData && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 </head>
 <body class="obsidian">
   <header class="site-header">

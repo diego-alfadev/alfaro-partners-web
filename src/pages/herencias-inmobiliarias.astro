@@ -92,6 +92,11 @@ const riskGroups = [
 const intermediationPoints = ['Se centra en la operación', 'Busca cerrar una venta', 'Representa el inmueble', 'Aporta valor al ejecutar', 'Piensa en vender'];
 const representationPoints = ['Se centra en el cliente', 'Busca la mejor decisión', 'Representa a la persona', 'Aporta valor antes de decidir', 'Piensa en proteger el patrimonio'];
 
+// SEO hardening (SDD alfaro-seo-hardening, Phase 6a): the BreadcrumbList
+// used to live here, disconnected from the rest of the schema and without
+// an @id. BaseLayout now builds the BreadcrumbList (with a resolving @id)
+// from the `breadcrumbs` prop below and links it into the single page
+// @graph -- do not duplicate it here.
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -113,25 +118,13 @@ const structuredData = {
       inLanguage: 'es-ES',
       description: 'Criterio inmobiliario para familias que deben decidir qué hacer con un inmueble heredado.',
     },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Inicio',
-          item: homeUrl,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Herencias inmobiliarias',
-          item: pageUrl,
-        },
-      ],
-    },
   ],
 };
+
+const breadcrumbs = [
+  { name: 'Inicio', path: '' },
+  { name: 'Herencias inmobiliarias', path: 'herencias-inmobiliarias/' },
+];
 ---
 
 <BaseLayout
@@ -139,6 +132,7 @@ const structuredData = {
   description="Representación inmobiliaria para ordenar una vivienda heredada y decidir si conservar, alquilar, adjudicar o vender con criterio patrimonial."
   path="/herencias-inmobiliarias/"
   structuredData={structuredData}
+  breadcrumbs={breadcrumbs}
 >
   <section class="hero heritage-hero">
     <div class="wrap">
