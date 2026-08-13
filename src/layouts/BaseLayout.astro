@@ -38,6 +38,7 @@ const {
   booking,
   phone: CONTACT_PHONE,
   address: OFFICE,
+  openingHours: OFFICE_HOURS,
   legal: LEGAL_LINKS,
   social,
   site,
@@ -75,8 +76,17 @@ const organizationNode = {
     streetAddress: OFFICE.street,
     addressLocality: OFFICE.locality,
     addressRegion: OFFICE.region,
+    postalCode: OFFICE.postalCode,
     addressCountry: OFFICE.country,
   },
+  // Sunday is simply absent rather than declared closed -- that is how
+  // schema.org expresses "not open", and Google reads it that way.
+  openingHoursSpecification: OFFICE_HOURS.map((slot) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: slot.days,
+    opens: slot.opens,
+    closes: slot.closes,
+  })),
   areaServed: {
     '@type': 'City',
     name: 'Madrid',
@@ -293,6 +303,19 @@ const schema = {
               </span>
             </a>
           </div>
+        </div>
+
+        <div>
+          <p class="site-footer__heading">Despacho</p>
+          {/* Visible NAP: Google weighs an address a person can read, not
+              only one in the markup. Must stay identical to the Google
+              Business listing and to the PostalAddress above. */}
+          <address class="site-footer__address">
+            <span>{OFFICE.street}</span>
+            <span>{OFFICE.postalCode} {OFFICE.locality} · {OFFICE.district}</span>
+            <a href={`tel:+${CONTACT_PHONE}`}>+34 672 50 46 42</a>
+            <span class="site-footer__hours">Lun a vie, 10:30–19:00 · Sáb, 10:30–13:30</span>
+          </address>
         </div>
 
         <div>

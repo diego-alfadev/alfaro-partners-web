@@ -6,16 +6,23 @@ export const BUSINESS_INFO = {
   brandName: "Alfaro & Partners",
   phone: "34672504642",
   email: "jmaj07@gmail.com",
-  // Physical office. Google needs a street address to show a local listing
-  // at all -- locality alone is not enough. postalCode is deliberately absent
-  // until confirmed: a wrong one is worse than none, since it has to match
-  // the Google Business Profile exactly.
+  // Physical office. Values taken verbatim from the live Google Maps listing
+  // so the site and the listing never disagree -- Google cross-checks them,
+  // and a mismatch weakens the local result or triggers a re-review.
   address: {
     street: "Calle de Narváez, 31",
+    district: "Retiro",
     locality: "Madrid",
     region: "Madrid",
+    postalCode: "28009",
     country: "ES",
   },
+  // Weekday hours are identical, so they collapse into one specification.
+  // Saturday is listed separately because it closes at midday.
+  openingHours: [
+    { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:30", closes: "19:00" },
+    { days: ["Saturday"], opens: "10:30", closes: "13:30" },
+  ],
   site: {
     origin: SITE_ORIGIN,
     basePath: SITE_BASE_PATH,

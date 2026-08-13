@@ -538,8 +538,12 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 }
 .site-footer__cols {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-10);
+  /* auto-fit rather than a fixed count: the column list grows over time and
+     this wraps instead of squeezing. The 8.5rem floor is what lets four
+     columns share the ~683px this track gets -- at 9rem only three fit and
+     the last one drops to an orphan row. Collapses to 1fr below 960px. */
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: var(--space-8) var(--space-8);
 }
 .site-footer__heading {
   margin: 0 0 var(--space-5);
@@ -562,6 +566,29 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   transition: color var(--t-base);
 }
 .site-footer__links a:hover { color: var(--color-gold); }
+.site-footer__address {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  line-height: 1.7;
+  color: var(--color-mist);
+}
+.site-footer__address a {
+  color: var(--color-mist);
+  transition: color var(--t-base);
+}
+.site-footer__address a:hover { color: var(--color-gold); }
+/* Hours drop the uppercase and wide tracking: digits become hard to read at
+   .15em, and this is secondary to the address and phone. */
+.site-footer__hours {
+  text-transform: none;
+  letter-spacing: .04em;
+  color: var(--color-quill);
+}
 .site-footer__fineprint {
   grid-column: 1 / -1;
   padding-top: var(--space-8);
