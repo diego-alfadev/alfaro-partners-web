@@ -8,7 +8,7 @@ import icon from 'astro-icon';
 
 const site = process.env.PUBLIC_SITE_URL ?? 'https://diego-alfadev.github.io';
 const base = process.env.PUBLIC_BASE_PATH ?? '/alfaro-partners-web';
-const sitemapExcludedPaths = ['/aviso-legal/', '/privacidad/', '/cookies/', '/actualidad/', '/marca/'];
+const sitemapExcludedPaths = ['/aviso-legal/', '/privacidad/', '/cookies/', '/marca/'];
 
 // https://astro.build/config
 export default defineConfig({
