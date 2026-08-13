@@ -1,0 +1,62 @@
+# GA4 measurement configuration for alfaropartners.es
+#
+# This file is the source of truth. If someone changes the configuration in the
+# GA4 web UI without updating this file, the two drift and the file starts
+# lying -- which defeats the point of tracking it here.
+
+measurement_id: "G-08PP9575QV"
+stream_url: "https://alfaropartners.es"
+
+# Numeric GA4 property ID (NOT the G-... measurement ID above). Required by the
+# Analytics Admin API. Found in GA4 under Admin > Property settings.
+property_id: "540440298"
+account_id: "396986347"
+property_name: "ALFARO&PARTNERS.ES"
+admin_account: "hola@alfaropartners.es"
+
+# Events promoted to "key events" -- what GA4 called "conversions" before 2024.
+# Without this, the event is recorded but never counts as a conversion.
+key_events:
+  - generate_lead
+
+# Recorded but deliberately NOT key events. `contact_click` covers mailto:
+# clicks: every mailto link for the firm lives on a legal page (aviso legal,
+# privacidad, cookies), so those are data-protection enquiries rather than
+# prospects. Promoting them would inflate conversions with compliance traffic.
+#
+# "What counts as a lead" is a business decision, not a technical one. If
+# Alfaro & Partners decide an email enquiry is a lead, promote this event and
+# update this file.
+non_key_events:
+  - contact_click
+
+# Event parameters only appear in reports once registered as custom dimensions.
+# They do NOT backfill: data is collected from the moment of creation onward,
+# so register these before driving any traffic you care about measuring.
+custom_dimensions:
+  - parameter: method
+    display_name: Lead method
+    description: How the lead was initiated - booking, whatsapp, phone or email
+    scope: EVENT
+
+  - parameter: cta_location
+    display_name: CTA location
+    description: Page region the CTA was clicked from - hero, footer, section id
+    scope: EVENT
+
+# Enhanced Measurement is enabled by default on web streams and already collects
+# outbound clicks and file downloads. The site's own listener deliberately does
+# NOT emit those events -- emitting them here too would double-count every
+# click. See the comment block in src/layouts/BaseLayout.astro.
+#
+# These are assertions to verify in the panel, not settings this file applies.
+enhanced_measurement:
+  outbound_clicks: expected_enabled
+  file_downloads: expected_enabled
+
+# GA4 defaults event data retention to 2 months, which erases the SEO-progress
+# history this property exists to track. Raised to 14 months (the free-tier
+# max) on 2026-08-13. User data was already at 14 months by default.
+data_retention:
+  event_data: 14_months
+  user_data: 14_months

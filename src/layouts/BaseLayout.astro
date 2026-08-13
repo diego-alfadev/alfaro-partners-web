@@ -280,6 +280,57 @@ const schema = {
     window.matchMedia('(min-width: 1201px)').addEventListener('change', (event) => {
       if (event.matches) setNavigationOpen(false);
     });
+
+    // GA4 lead tracking: one delegated capture-phase listener covers every
+    // current and future CTA. All CTAs open target="_blank", so the document is
+    // never unloaded -- no preventDefault/event_callback needed.
+    //
+    // Only `generate_lead` is emitted here. Generic outbound clicks and file
+    // downloads are deliberately NOT tracked: GA4 Enhanced Measurement already
+    // collects both by default, and duplicating them double-counts every click.
+    // tel: and mailto: are the opposite case -- Enhanced Measurement ignores
+    // them entirely, so without this they are invisible.
+    document.addEventListener('click', (event) => {
+      if (typeof window.gtag !== 'function') return;
+      if (!(event.target instanceof Element)) return;
+
+      const link = event.target.closest('a[href]');
+      if (!(link instanceof HTMLAnchorElement)) return;
+
+      let url;
+      try {
+        url = new URL(link.href, window.location.href);
+      } catch {
+        return;
+      }
+
+      // mailto: is deliberately NOT a lead. Every mailto link for the firm sits
+      // on a legal page (aviso legal, privacidad, cookies), so those clicks are
+      // data-protection enquiries, not prospects. Counting them would inflate
+      // the conversion number with compliance traffic. They still get recorded,
+      // just under an event that is not marked as a key event in GA4.
+      const intent =
+        url.hostname === 'calendar.app.google' ? ['generate_lead', 'booking'] :
+        url.hostname === 'wa.me' || url.hostname === 'api.whatsapp.com' ? ['generate_lead', 'whatsapp'] :
+        url.protocol === 'tel:' ? ['generate_lead', 'phone'] :
+        url.protocol === 'mailto:' ? ['contact_click', 'email'] :
+        null;
+
+      if (!intent) return;
+
+      const [eventName, method] = intent;
+
+      window.gtag('event', eventName, {
+        method,
+        link_url: url.href,
+        link_text: link.textContent?.trim() ?? '',
+        cta_location:
+          link.closest('[data-cta-location]')?.getAttribute('data-cta-location') ??
+          link.closest('section[id]')?.id ??
+          link.closest('header,footer')?.tagName.toLowerCase() ??
+          'unknown',
+      });
+    }, true);
   </script>
 </body>
 </html>
