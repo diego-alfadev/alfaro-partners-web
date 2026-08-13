@@ -54,6 +54,22 @@ enhanced_measurement:
   outbound_clicks: expected_enabled
   file_downloads: expected_enabled
 
+# Search Console did not exist for this site at all until 2026-08-13 -- it was
+# not merely unlinked. Without it there is no query, impression or position
+# data, which is most of what SEO decisions are actually made from.
+#
+# URL-prefix type rather than Domain: the domain already carried a Google
+# verification DNS record (from the Workspace setup), so this verified
+# automatically. A Domain property would also cover http:// and www, but a
+# single property is easier for a non-technical owner to reason about --
+# revisit once the HTTP-to-HTTPS redirect ships and http:// stops resolving.
+search_console:
+  property: "https://alfaropartners.es/"
+  type: url_prefix
+  verification: dns_domain_name_provider
+  linked_to_ga4: true
+  sitemap_submitted: "sitemap-index.xml"
+
 # GA4 defaults event data retention to 2 months, which erases the SEO-progress
 # history this property exists to track. Raised to 14 months (the free-tier
 # max) on 2026-08-13. User data was already at 14 months by default.
