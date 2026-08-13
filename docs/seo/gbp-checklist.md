@@ -9,25 +9,32 @@ El sitio ya declara un `RealEstateAgent` con datos estructurados (JSON-LD, `src/
 3. Igualar cada campo de NAP (Name, Address, Phone) con el JSON-LD del sitio — ver tabla de consistencia.
 4. Verificar la ficha (postal, teléfono o vídeo, según lo que ofrezca Google en el momento).
 
-## Bloqueo antes de crear la ficha
+## Estado de la dirección — desbloqueado el 13/08/2026
 
-El JSON-LD actual (`address` en `BaseLayout.astro`) solo declara:
+Resuelto: es un **despacho con dirección física**, no un negocio de área de servicio. José María publicó la dirección él mismo en LinkedIn al anunciar la apertura, así que es información pública.
+
+El JSON-LD (`address` en `BaseLayout.astro`, alimentado desde `BUSINESS_INFO.address` en `src/lib/constants.ts`) declara ahora:
 
 ```json
-{ "addressLocality": "Madrid", "addressCountry": "ES" }
+{
+  "streetAddress": "Calle de Narváez, 31",
+  "addressLocality": "Madrid",
+  "addressRegion": "Madrid",
+  "addressCountry": "ES"
+}
 ```
 
-**No hay calle ni código postal.** Google Business Profile exige una dirección física completa (o, si no se atiende al público en una dirección fija, configurar el perfil como "service-area business" ocultando la dirección exacta pero declarando el área de servicio). Decidir cuál de las dos rutas aplica **antes** de crear la ficha, porque cambiarlo después dispara una nueva revisión de Google:
+**Falta el código postal**, y se ha dejado fuera a propósito: un código postal equivocado es peor que ninguno, porque tiene que coincidir con el de la ficha de GBP y una discrepancia dispara una revisión de Google.
 
-- [ ] Decidir: ¿despacho con dirección física visible, o negocio de área de servicio sin dirección pública?
-- [ ] Si es dirección física: obtener calle + número + código postal exactos y añadirlos al JSON-LD (`PostalAddress.streetAddress`, `PostalAddress.postalCode`) en el mismo commit que se cree la ficha, para que ambas fuentes nazcan consistentes.
+- [ ] Confirmar el código postal exacto del despacho y añadir `postalCode` a `BUSINESS_INFO.address`, a ser posible en el mismo cambio en que se cree la ficha.
+- [ ] Decidir si la dirección debe además mostrarse **visible** en la web (pie de página). Google valora que el NAP sea legible para una persona, no solo para un robot; hoy la dirección existe únicamente en los datos estructurados.
 
 ## Consistencia NAP (Name, Address, Phone)
 
 | Campo | Valor en el JSON-LD del sitio | Acción en GBP |
 |---|---|---|
 | Nombre (Name) | `Alfaro & Partners` (`BUSINESS_INFO.brandName`) | Usar exactamente `Alfaro & Partners` — no añadir palabras clave al nombre del negocio (viola las normas de Google y genera inconsistencia). |
-| Dirección (Address) | Solo `Madrid, ES` — **incompleta**, ver bloqueo arriba | Completar antes de publicar la ficha. |
+| Dirección (Address) | `Calle de Narváez, 31 · Madrid, Madrid, ES` (`BUSINESS_INFO.address`) | Escribir la calle exactamente igual, incluida la coma antes del número. Añadir el código postal en ambos sitios a la vez cuando se confirme. |
 | Teléfono (Phone) | `+34672504642` (`BUSINESS_INFO.phone`) | Mismo número, mismo formato internacional, en la ficha y en cualquier directorio adicional (páginas amarillas, colegios profesionales, etc.). |
 | Sitio web | `https://alfaropartners.es` | Enlazar directo a la home, no a una landing de campaña. |
 | Categoría principal | — | "Agencia inmobiliaria" o "Agente inmobiliario" (evaluar cuál captura mejor el modelo de representación del cliente, no de intermediación). |
@@ -57,4 +64,4 @@ El JSON-LD actual (`address` en `BaseLayout.astro`) solo declara:
 
 ## Siguiente paso
 
-Una vez resuelta la dirección física (o decidido el modelo de área de servicio), actualizar `PostalAddress` en el JSON-LD de `BaseLayout.astro` en el mismo cambio en que se publique la ficha de GBP, para que ambas fuentes de NAP nazcan sincronizadas.
+La dirección ya no bloquea: se puede crear la ficha. Al hacerlo, confirmar el código postal y añadirlo a `BUSINESS_INFO.address` en el mismo momento, para que la web y la ficha no lleguen a divergir nunca.

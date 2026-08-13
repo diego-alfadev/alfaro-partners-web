@@ -37,6 +37,7 @@ const {
   analytics,
   booking,
   phone: CONTACT_PHONE,
+  address: OFFICE,
   legal: LEGAL_LINKS,
   social,
   site,
@@ -71,8 +72,10 @@ const organizationNode = {
   description: 'Representación inmobiliaria premium y protección del patrimonio. Más de 20 años de experiencia impulsando las buenas prácticas.',
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Madrid',
-    addressCountry: 'ES',
+    streetAddress: OFFICE.street,
+    addressLocality: OFFICE.locality,
+    addressRegion: OFFICE.region,
+    addressCountry: OFFICE.country,
   },
   areaServed: {
     '@type': 'City',

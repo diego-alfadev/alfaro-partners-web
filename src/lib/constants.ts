@@ -6,6 +6,16 @@ export const BUSINESS_INFO = {
   brandName: "Alfaro & Partners",
   phone: "34672504642",
   email: "jmaj07@gmail.com",
+  // Physical office. Google needs a street address to show a local listing
+  // at all -- locality alone is not enough. postalCode is deliberately absent
+  // until confirmed: a wrong one is worse than none, since it has to match
+  // the Google Business Profile exactly.
+  address: {
+    street: "Calle de Narváez, 31",
+    locality: "Madrid",
+    region: "Madrid",
+    country: "ES",
+  },
   site: {
     origin: SITE_ORIGIN,
     basePath: SITE_BASE_PATH,
