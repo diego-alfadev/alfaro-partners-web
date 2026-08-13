@@ -23,5 +23,8 @@
     "@iconify-json/lucide": "^1.2.114",
     "@iconify-json/simple-icons": "^1.2.87",
     "astro-icon": "^1.1.5"
+  },
+  "overrides": {
+    "@iconify/tools": "5.0.12"
   }
 }
