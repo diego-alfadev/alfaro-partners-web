@@ -1,0 +1,1451 @@
+<title>El SEO de Alfaro & Partners — punto de partida y decisiones</title>
+
+<style>
+  :root{
+    --navy-1000:#04060d; --navy-950:#070c18; --navy-900:#0d1322;
+    --navy-800:#12182a; --navy-700:#192236; --navy-600:#222b43; --navy-500:#2e3851;
+    --offwhite:#eeeceb; --mist:#b8bdc7; --quill:#6e7686;
+    --gold:#c9a44a; --gold-light:#efdc9a; --gold-deep:#8a6e2f;
+    --success:#3c8b6e; --warning:#c9963c; --danger:#b75353;
+
+    --bg:var(--navy-900); --bg-deep:var(--navy-1000); --surface:var(--navy-800);
+    --surface-2:var(--navy-700); --line:var(--navy-600); --line-strong:var(--navy-500);
+    --ink:var(--offwhite); --ink-2:var(--mist); --ink-3:var(--quill);
+    --accent:var(--gold); --accent-bright:var(--gold-light);
+    --code-bg:var(--navy-950);
+
+    --serp-link:#8ab4f8; --serp-url:#bdc1c6; --serp-desc:#9aa0a6; --serp-bg:#1f2023;
+
+    --font-display:"Libre Baskerville","Iowan Old Style",Baskerville,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:"Satoshi","Aptos","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+    --wrap:min(72rem,100% - 2.5rem);
+    --read:min(42rem,100%);
+    --r:3px;
+  }
+
+  @media (prefers-color-scheme:light){
+    :root{
+      --bg:#f5f3f0; --bg-deep:#eae6e0; --surface:#fffefc; --surface-2:#f7f4f0;
+      --line:#dcd6cc; --line-strong:#c4bcae;
+      --ink:#12182a; --ink-2:#3d4557; --ink-3:#6e7686;
+      --accent:#8a6e2f; --accent-bright:#6d5522;
+      --code-bg:#f0ece6;
+      --serp-link:#1a0dab; --serp-url:#4d5156; --serp-desc:#4d5156; --serp-bg:#ffffff;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f3f0; --bg-deep:#eae6e0; --surface:#fffefc; --surface-2:#f7f4f0;
+    --line:#dcd6cc; --line-strong:#c4bcae;
+    --ink:#12182a; --ink-2:#3d4557; --ink-3:#6e7686;
+    --accent:#8a6e2f; --accent-bright:#6d5522;
+    --code-bg:#f0ece6;
+    --serp-link:#1a0dab; --serp-url:#4d5156; --serp-desc:#4d5156; --serp-bg:#ffffff;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1322; --bg-deep:#04060d; --surface:#12182a; --surface-2:#192236;
+    --line:#222b43; --line-strong:#2e3851;
+    --ink:#eeeceb; --ink-2:#b8bdc7; --ink-3:#6e7686;
+    --accent:#c9a44a; --accent-bright:#efdc9a;
+    --code-bg:#070c18;
+    --serp-link:#8ab4f8; --serp-url:#bdc1c6; --serp-desc:#9aa0a6; --serp-bg:#1f2023;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:1.0625rem; line-height:1.68;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display); font-weight:400; text-wrap:balance; margin:0;}
+  p{margin:0;}
+  a{color:var(--accent-bright); text-underline-offset:3px;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  .wrap{width:var(--wrap); margin-inline:auto;}
+  .read{width:var(--read);}
+
+  section{padding-block:clamp(3.5rem,7vw,6rem); border-top:1px solid var(--line);}
+  .stack{display:flex; flex-direction:column; gap:1.35rem;}
+  .stack-lg{display:flex; flex-direction:column; gap:2.5rem;}
+  .stack-sm{display:flex; flex-direction:column; gap:.65rem;}
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.65rem; letter-spacing:.34em;
+    text-transform:uppercase; color:var(--accent); margin:0;
+    display:flex; align-items:center; gap:.75rem;
+  }
+  .eyebrow .n{
+    font-variant-numeric:tabular-nums; color:var(--ink-3);
+    border:1px solid var(--line-strong); border-radius:var(--r);
+    padding:.15rem .4rem; letter-spacing:.1em;
+  }
+  h2{font-size:clamp(1.75rem,2.7vw + 1rem,2.55rem); line-height:1.15; letter-spacing:-.01em;}
+  h3{font-size:clamp(1.2rem,.9vw + 1rem,1.45rem); line-height:1.3;}
+  h4{font-size:1.05rem; line-height:1.4;}
+  .lead{font-size:clamp(1.08rem,.5vw + 1rem,1.22rem); color:var(--ink-2);}
+  .muted{color:var(--ink-2);}
+  .small{font-size:.9rem; color:var(--ink-2);}
+  .tiny{font-size:.8rem; color:var(--ink-3);}
+  strong{font-weight:600; color:var(--ink);}
+  em{font-style:italic; color:var(--ink-2);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--accent) 5%, transparent) 100%),
+      var(--bg-deep);
+    border-top:0; border-bottom:1px solid var(--line);
+    padding-block:clamp(3rem,7vw,5.5rem);
+  }
+  .hero__grid{
+    display:grid; gap:clamp(2rem,4vw,3.5rem);
+    grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
+    align-items:end;
+  }
+  .hero__main{display:flex; flex-direction:column; gap:1.15rem;}
+  .hero h1{
+    font-size:clamp(2rem,3.6vw + 1rem,3.15rem); line-height:1.1;
+    letter-spacing:-.015em;
+  }
+  .hero .lead{max-width:46ch;}
+  .doc-tag{
+    font-family:var(--font-mono); font-size:.66rem; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--accent);
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .doc-tag::after{
+    content:""; flex:1; height:1px; max-width:5rem;
+    background:linear-gradient(90deg, var(--line-strong), transparent);
+  }
+
+  .hero__panel{
+    border:1px solid var(--line); border-top:2px solid var(--accent);
+    background:var(--surface); border-radius:var(--r);
+    padding:1.25rem 1.35rem 1rem;
+    display:flex; flex-direction:column; gap:.9rem;
+  }
+  .hero__panel-title{
+    font-family:var(--font-mono); font-size:.6rem; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--ink-3);
+  }
+  .kv{margin:0; display:flex; flex-direction:column; gap:.7rem;}
+  .kv > div{
+    display:flex; align-items:baseline; justify-content:space-between; gap:1rem;
+    padding-bottom:.7rem; border-bottom:1px solid var(--line);
+  }
+  .kv > div:last-child{border-bottom:0; padding-bottom:0;}
+  .kv dt{font-size:.85rem; color:var(--ink-2); line-height:1.35;}
+  .kv dd{
+    margin:0; font-family:var(--font-display); font-size:1.5rem; line-height:1;
+    color:var(--accent-bright); font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .kv dd.dim{color:var(--ink-3);}
+  .hero__panel-foot{
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.1em;
+    color:var(--ink-3); line-height:1.5;
+  }
+
+  @media (max-width:52rem){
+    .hero__grid{grid-template-columns:1fr; align-items:start;}
+  }
+
+  /* ---------- index ---------- */
+  .toc{
+    display:grid; gap:1px; background:var(--line);
+    border:1px solid var(--line); border-radius:var(--r); overflow:hidden;
+    grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  }
+  .toc a{
+    background:var(--surface); padding:.95rem 1.15rem; text-decoration:none;
+    display:flex; gap:.8rem; align-items:baseline; color:var(--ink);
+    transition:background .15s ease;
+  }
+  .toc a:hover{background:var(--surface-2);}
+  .toc .n{
+    font-family:var(--font-mono); font-size:.72rem; color:var(--accent);
+    font-variant-numeric:tabular-nums; flex:none;
+  }
+  .toc .t{font-size:.94rem; line-height:1.35;}
+  .toc .must{color:var(--accent-bright); font-size:.7rem; font-family:var(--font-mono); letter-spacing:.1em;}
+
+  /* ---------- callouts ---------- */
+  .box{
+    border:1px solid var(--line); border-left:2px solid var(--accent);
+    background:var(--surface); padding:1.3rem 1.45rem;
+    display:flex; flex-direction:column; gap:.65rem; border-radius:var(--r);
+  }
+  .box--warn{border-left-color:var(--warning);}
+  .box--do{border-left-color:var(--success);}
+  .box .eyebrow{color:var(--accent);}
+  .box--warn .eyebrow{color:var(--warning);}
+  .box--do .eyebrow{color:var(--success);}
+
+  /* ---------- SERP ---------- */
+  .serp-list{
+    display:flex; flex-direction:column; gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden;
+  }
+  .serp{background:var(--serp-bg); padding:1.05rem 1.3rem 1.15rem; display:flex; flex-direction:column; gap:.15rem;}
+  .serp .u{font-size:.78rem; color:var(--serp-url);}
+  .serp .t{font-family:Arial,Helvetica,sans-serif; font-size:1.08rem; line-height:1.3; color:var(--serp-link);}
+  .serp .d{font-size:.85rem; line-height:1.5; color:var(--serp-desc); max-width:62ch;}
+  .tag{
+    margin-top:.5rem; font-family:var(--font-mono); font-size:.63rem;
+    letter-spacing:.14em; text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:.45rem; align-self:flex-start;
+  }
+  .tag::before{content:""; width:.45rem; height:.45rem; border-radius:50%; flex:none;}
+  .t-ok{color:var(--success);}   .t-ok::before{background:var(--success);}
+  .t-mid{color:var(--warning);}  .t-mid::before{background:var(--warning);}
+  .t-bad{color:var(--danger);}   .t-bad::before{background:var(--danger);}
+
+  /* ---------- tables ---------- */
+  .tw{overflow-x:auto; border:1px solid var(--line); background:var(--surface); border-radius:var(--r);}
+  table{border-collapse:collapse; width:100%; min-width:32rem; font-size:.92rem;}
+  th,td{text-align:left; padding:.8rem 1.05rem; border-bottom:1px solid var(--line); vertical-align:top;}
+  tbody tr:last-child td{border-bottom:0;}
+  th{
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--ink-3); font-weight:400;
+    background:var(--surface-2); white-space:nowrap;
+  }
+  td.num{font-family:var(--font-mono); font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .was{color:var(--ink-3); text-decoration:line-through;}
+  .now{color:var(--success);}
+  .warn{color:var(--warning);}
+  .bad{color:var(--danger);}
+
+  /* ---------- chart ---------- */
+  .chart{
+    margin:0; border:1px solid var(--line); background:var(--surface);
+    border-radius:var(--r); padding:1.25rem 1.35rem 1rem;
+    display:flex; flex-direction:column; gap:.85rem;
+  }
+  .chart svg{width:100%; height:auto; display:block; overflow:visible;}
+  .c-grid line{stroke:var(--line); stroke-width:1;}
+  .c-axis text{
+    font-family:var(--font-mono); font-size:11px; fill:var(--ink-3);
+  }
+  .c-line{fill:none; stroke-width:2.5; stroke-linejoin:round; stroke-linecap:round;}
+  .c-accent{stroke:var(--accent);}
+  .c-dim{stroke:var(--line-strong);}
+  .c-dot{fill:var(--accent);}
+  .c-note{
+    font-family:var(--font-mono); font-size:11px; fill:var(--accent-bright);
+  }
+  .chart figcaption{
+    display:flex; flex-wrap:wrap; gap:.4rem 1.2rem;
+    border-top:1px solid var(--line); padding-top:.8rem;
+  }
+  .key{
+    font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em;
+    color:var(--ink-2); display:inline-flex; align-items:center; gap:.45rem;
+  }
+  .key::before{content:""; width:1.1rem; height:2px; border-radius:2px;}
+  .key--accent::before{background:var(--accent);}
+  .key--dim::before{background:var(--line-strong);}
+
+  /* ---------- funnel ---------- */
+  .funnel{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden;}
+  .step{
+    background:var(--surface); padding:1.1rem 1.35rem;
+    display:grid; grid-template-columns:auto 1fr auto; gap:.3rem 1.1rem; align-items:center;
+  }
+  .step .bar{
+    grid-row:1 / span 2; width:.2rem; align-self:stretch; border-radius:2px;
+    background:var(--accent); opacity:var(--o,1);
+  }
+  .step .name{font-weight:600; font-size:.98rem;}
+  .step .desc{grid-column:2; color:var(--ink-2); font-size:.9rem; line-height:1.5;}
+  .step .val{
+    grid-row:1 / span 2; font-family:var(--font-mono); font-size:.85rem;
+    color:var(--accent-bright); font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap;
+  }
+  .step .val.zero{color:var(--danger);}
+  .step .val.na{color:var(--ink-3);}
+
+  /* ---------- code / links ---------- */
+  code, .url{
+    font-family:var(--font-mono); font-size:.82rem;
+    background:var(--code-bg); border:1px solid var(--line);
+    border-radius:var(--r); padding:.1rem .35rem;
+  }
+  .url{
+    display:block; padding:.85rem 1rem; overflow-x:auto; white-space:nowrap;
+    line-height:1.6; color:var(--ink);
+  }
+  .url .base{color:var(--ink-3);}
+  .url .p1{color:var(--accent-bright);}
+  .url .p2{color:#7fb3d5;}
+  .url .p3{color:var(--success);}
+  .legend{display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; font-size:.84rem;}
+  .legend span{display:inline-flex; gap:.45rem; align-items:baseline;}
+  .legend b{font-family:var(--font-mono); font-size:.78rem; font-weight:400;}
+  .l1 b{color:var(--accent-bright);} .l2 b{color:#7fb3d5;} .l3 b{color:var(--success);}
+
+  /* ---------- nav path (analytics) ---------- */
+  .path{
+    display:flex; flex-wrap:wrap; align-items:center; gap:.4rem;
+    font-family:var(--font-mono); font-size:.76rem; letter-spacing:.04em;
+  }
+  .path i{font-style:normal; color:var(--ink-3);}
+  .path b{
+    font-weight:400; background:var(--surface-2); border:1px solid var(--line);
+    border-radius:var(--r); padding:.22rem .5rem; color:var(--ink);
+  }
+  .recipe{
+    border:1px solid var(--line); background:var(--surface); border-radius:var(--r);
+    padding:1.15rem 1.3rem; display:flex; flex-direction:column; gap:.7rem;
+  }
+  .recipe h4{font-family:var(--font-body); font-size:.98rem; font-weight:600;}
+
+  /* ---------- decisions ---------- */
+  .dec{
+    border:1px solid var(--line); background:var(--surface); border-radius:var(--r);
+    display:grid; grid-template-columns:1fr; overflow:hidden;
+  }
+  .dec + .dec{margin-top:1.1rem;}
+  .dec__head{padding:1.3rem 1.45rem .9rem; display:flex; flex-direction:column; gap:.5rem;}
+  .dec__q{font-family:var(--font-display); font-size:1.2rem; line-height:1.3;}
+  .dec__body{padding:0 1.45rem 1.3rem; display:flex; flex-direction:column; gap:.9rem;}
+  .prop{
+    background:var(--surface-2); border:1px solid var(--line); border-radius:var(--r);
+    padding:.95rem 1.1rem; display:flex; flex-direction:column; gap:.5rem;
+  }
+  .prop .who{
+    font-family:var(--font-mono); font-size:.62rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  .ask{
+    font-size:.95rem; color:var(--ink); border-top:1px dashed var(--line-strong);
+    padding-top:.85rem;
+  }
+  .ask b{color:var(--accent-bright); font-weight:600;}
+  .opts{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.2rem;}
+  .opt{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.06em;
+    border:1px solid var(--line-strong); color:var(--ink-2);
+    padding:.28rem .6rem; border-radius:999px;
+  }
+  .opt--pick{border-color:var(--accent); color:var(--accent-bright);}
+
+  ul.plain, ol.plain{margin:0; padding-left:1.15rem; display:flex; flex-direction:column; gap:.6rem;}
+  ul.plain li, ol.plain li{color:var(--ink-2);}
+  li strong{color:var(--ink);}
+
+  .qa{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden;}
+  .qa__item{background:var(--surface); padding:1.05rem 1.3rem; display:flex; flex-direction:column; gap:.35rem;}
+  .qa__q{font-weight:600; font-size:.98rem;}
+  .qa__a{font-size:.92rem; color:var(--ink-2);}
+
+  footer{background:var(--bg-deep); border-top:1px solid var(--line); padding-block:3rem; color:var(--ink-3); font-size:.9rem;}
+
+  @media (max-width:40rem){
+    .step{grid-template-columns:auto 1fr;}
+    .step .val{grid-row:auto; grid-column:2; text-align:left; margin-top:.2rem;}
+  }
+</style>
+
+<article>
+
+  <!-- ═════ HERO ═════ -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div class="hero__main">
+        <p class="doc-tag">Alfaro &amp; Partners · Documento de trabajo</p>
+        <h1>Cómo funciona el SEO de vuestra web, y qué decisiones necesito de vosotros.</h1>
+        <p class="lead">
+          La web tiene diez semanas y la difusión en redes acaba de empezar.
+          Aún no hay datos suficientes para concluir casi nada — y precisamente
+          por eso este es el momento de decidir bien.
+        </p>
+      </div>
+
+      <aside class="hero__panel">
+        <p class="hero__panel-title">Dónde estamos</p>
+        <dl class="kv">
+          <div>
+            <dt>Visitas desde el lanzamiento</dt>
+            <dd>54</dd>
+          </div>
+          <div>
+            <dt>Traídas por el post de LinkedIn</dt>
+            <dd>18</dd>
+          </div>
+          <div>
+            <dt>Interacción del tráfico de LinkedIn</dt>
+            <dd>61 %</dd>
+          </div>
+          <div>
+            <dt>Contactos, aún sin cifra limpia</dt>
+            <dd class="dim">—</dd>
+          </div>
+        </dl>
+        <p class="hero__panel-foot">
+          Revisado el 18 de agosto de 2026 · datos del 11 al 18
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═════ 00 · CÓMO USAR ═════ -->
+  <section id="usar">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">00</span> Cómo se usa esto</p>
+        <h2>Leedlo entero una vez. Contestad solo lo marcado.</h2>
+        <p class="muted">
+          Hay nueve apartados. Siete son para entender cómo funciona esto y
+          qué está pasando; no requieren respuesta. Dos sí:
+          <strong>las decisiones</strong> y <strong>las preguntas rápidas</strong>.
+        </p>
+      </div>
+
+      <div class="toc">
+        <a href="#numeros"><span class="n">01</span><span class="t">Qué dicen los números — y qué no</span></a>
+        <a href="#escaparate"><span class="n">02</span><span class="t">Vuestro escaparate en Google</span></a>
+        <a href="#embudo"><span class="n">03</span><span class="t">Del post al cliente: el embudo</span></a>
+        <a href="#enlaces"><span class="n">04</span><span class="t">Cómo se etiquetan los enlaces</span></a>
+        <a href="#analytics"><span class="n">05</span><span class="t">Entrar en Analytics sin perderse</span></a>
+        <a href="#arreglado"><span class="n">06</span><span class="t">Lo que ya está arreglado</span></a>
+        <a href="#ia"><span class="n">07</span><span class="t">Buscadores con IA</span></a>
+        <a href="#decisiones"><span class="n">08</span><span class="t">Cuatro decisiones <span class="must">· responder</span></span></a>
+        <a href="#rapidas"><span class="n">09</span><span class="t">Preguntas rápidas <span class="must">· responder</span></span></a>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">Cómo respondéis</p>
+        <p class="muted">
+          Cada cosa que requiere respuesta va numerada: <strong>D1 a D5</strong> las
+          decisiones, <strong>R1 a R5</strong> las preguntas rápidas. Contestadme por
+          WhatsApp citando el número, aunque sea en una línea
+          («D2: herencias», «R1: info@alfaropartners.es»). Con eso me basta.
+        </p>
+        <p class="muted">
+          Lo que no se conteste, lo repasamos juntos en una llamada de tres
+          cuartos de hora. Cuando actualice el documento os aviso por el grupo, para
+          que nadie se quede leyendo una versión antigua.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 01 · NÚMEROS ═════ -->
+  <section id="numeros">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">01</span> Los números</p>
+        <h2>Lo más honesto que puedo deciros: todavía no significan nada.</h2>
+        <p class="lead">
+          Desde que empezó la difusión, la web ha recibido 54 visitas. Sigue
+          siendo poco para concluir gran cosa, pero ya hay una señal clara: el
+          post de LinkedIn no solo trajo gente, trajo la que mejor se comporta.
+        </p>
+      </div>
+
+      <div class="tw read">
+        <table>
+          <thead>
+            <tr><th>De dónde vino</th><th>Visitas</th><th>Leyeron algo</th><th>Qué es en realidad</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Directo</td>
+              <td class="num">22</td>
+              <td class="num">55 %</td>
+              <td class="muted">Quien escribe la dirección o la tiene guardada: vosotros, yo, colaboradores, gente cercana.</td>
+            </tr>
+            <tr>
+              <td><strong>LinkedIn</strong></td>
+              <td class="num now">18</td>
+              <td class="num now">61 %</td>
+              <td class="muted">La mejor fuente del sitio: más gente que ninguna otra red y la que más tiempo se queda (32 s de media).</td>
+            </tr>
+            <tr>
+              <td>Búsqueda en Google</td>
+              <td class="num">9</td>
+              <td class="num">44 %</td>
+              <td class="muted">Gente que buscaba algo y os encontró.</td>
+            </tr>
+            <tr>
+              <td>Instagram</td>
+              <td class="num">3</td>
+              <td class="num">33 %</td>
+              <td class="muted">—</td>
+            </tr>
+            <tr>
+              <td>Facebook</td>
+              <td class="num">1</td>
+              <td class="num">0 %</td>
+              <td class="muted">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack read">
+        <h3>Y así se ve una publicación en el tiempo</h3>
+        <p class="muted">
+          Este es el gráfico real de Analytics, redibujado. Cada línea es un
+          origen distinto; la dorada es el post de LinkedIn.
+        </p>
+      </div>
+
+      <figure class="chart">
+        <svg viewBox="0 0 720 260" role="img" aria-label="Gráfico de visitas diarias del 11 al 15 de agosto. El post de LinkedIn pasa de cero a un pico de catorce visitas el día 14 y cae casi a cero el 15.">
+          <!-- grid -->
+          <g class="c-grid">
+            <line x1="48" y1="30" x2="700" y2="30"></line>
+            <line x1="48" y1="80" x2="700" y2="80"></line>
+            <line x1="48" y1="130" x2="700" y2="130"></line>
+            <line x1="48" y1="180" x2="700" y2="180"></line>
+            <line x1="48" y1="215" x2="700" y2="215"></line>
+          </g>
+          <g class="c-axis">
+            <text x="38" y="34" text-anchor="end">16</text>
+            <text x="38" y="84" text-anchor="end">12</text>
+            <text x="38" y="134" text-anchor="end">8</text>
+            <text x="38" y="184" text-anchor="end">4</text>
+            <text x="38" y="219" text-anchor="end">0</text>
+          </g>
+          <!-- directo -->
+          <polyline class="c-line c-dim" points="48,147 211,190 374,96 537,190 700,203"></polyline>
+          <!-- agosto-26 -->
+          <polyline class="c-line c-accent" points="48,215 211,215 374,190 537,66 700,203"></polyline>
+          <circle class="c-dot" cx="537" cy="66" r="4"></circle>
+          <text class="c-note" x="537" y="52" text-anchor="middle">pico del post</text>
+          <g class="c-axis">
+            <text x="48" y="238" text-anchor="middle">11 ago</text>
+            <text x="211" y="238" text-anchor="middle">12</text>
+            <text x="374" y="238" text-anchor="middle">13</text>
+            <text x="537" y="238" text-anchor="middle">14</text>
+            <text x="700" y="238" text-anchor="middle">15</text>
+          </g>
+        </svg>
+        <figcaption>
+          <span class="key key--accent">Post de LinkedIn</span>
+          <span class="key key--dim">Tráfico directo</span>
+        </figcaption>
+      </figure>
+
+      <div class="box read">
+        <p class="eyebrow">Lo que enseña esa forma</p>
+        <p class="muted">
+          Una publicación es un pico: sube, hace su día bueno y vuelve a cero.
+          No es un defecto, es la naturaleza de una red social — y por eso hay
+          que publicar de forma sostenida si se quiere tráfico sostenido.
+        </p>
+        <p class="muted">
+          Lo contrario es lo que buscamos con el SEO y con los enlaces de
+          prensa: no un pico, sino un suelo que no baja.
+        </p>
+      </div>
+
+      <div class="stack read">
+        <h3>Y esto es lo que ya se puede separar por publicación</h3>
+      </div>
+
+      <div class="tw read">
+        <table>
+          <thead>
+            <tr><th>Etiqueta de la campaña</th><th>Visitas</th><th>De dónde sale</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>agosto-26</code></td>
+              <td class="num">16</td>
+              <td class="muted">Del enlace puesto en el post de lanzamiento.</td>
+            </tr>
+            <tr>
+              <td><code>perfil</code></td>
+              <td class="num">1</td>
+              <td class="muted">Del enlace fijo del perfil, ya corregido.</td>
+            </tr>
+            <tr>
+              <td><code>perfil`</code> <span class="warn">← el de antes, con un carácter de más</span></td>
+              <td class="num">1</td>
+              <td class="muted">Las visitas que llegaron antes de corregirlo quedan contadas aparte para siempre. Por eso importa escribirlas bien a la primera.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack read">
+        <h3>Por qué aún no se puede concluir nada</h3>
+        <ul class="plain">
+          <li><strong>El grueso del tráfico directo sois vosotros y yo.</strong> Yo mismo entro varias veces al día a comprobar cambios. Cualquier conclusión sobre «cuánto tiempo se queda la gente» me incluye a mí revisando el pie de página.</li>
+          <li><strong>Hay ruido de robots.</strong> En la semana completa aparecen once visitas de un segundo y cero interacción. No son personas: son rastreadores automáticos. A esta escala distorsionan cualquier porcentaje.</li>
+          <li><strong>Analytics tarda en cuadrar.</strong> Los datos de un día no están completos hasta pasadas 24 o 48 horas. Si miráis por la tarde lo que pasó por la mañana, vais a ver menos de lo que realmente hubo.</li>
+        </ul>
+      </div>
+
+      <div class="box box--warn read">
+        <p class="eyebrow">Un aviso que me incluye a mí</p>
+        <p class="muted">
+          Me ha pasado dos veces con estos mismos datos. Primero concluí que
+          LinkedIn no había traído ni una visita; días después eran dieciocho.
+          Luego di por hecho que casi nadie se quedaba a leer; al consolidarse,
+          resultó ser la fuente que <em>mejor</em> se comporta de todo el sitio.
+        </p>
+        <p class="muted">
+          Lo cuento porque es el error más fácil de cometer con esta
+          herramienta, y porque conviene que desconfiéis de cualquier
+          conclusión — mía incluida — sacada de un dato mirado demasiado
+          pronto. <strong>Las decisiones se toman con semanas, no con tardes.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 02 · ESCAPARATE ═════ -->
+  <section id="escaparate">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">02</span> El escaparate</p>
+        <h2>Esto es lo que ve en Google alguien que no os conoce.</h2>
+        <p class="lead">
+          Cuando alguien busca, no ve vuestra web: ve una ficha de tres líneas.
+          Esa ficha decide si entra o pasa de largo. Es, literalmente, vuestro
+          folleto. Hay uno por página y nunca los habéis visto todos juntos.
+        </p>
+      </div>
+
+      <div class="serp-list">
+        <div class="serp">
+          <span class="u">alfaropartners.es</span>
+          <span class="t">Alfaro &amp; Partners · Representación Inmobiliaria Premium</span>
+          <span class="d">José María Alfaro - Representación Inmobiliaria Premium. Más de 20 años protegiendo tus intereses patrimoniales.</span>
+          <span class="tag t-mid">Habla de vosotros, no de lo que alguien busca</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › herencias-inmobiliarias</span>
+          <span class="t">Herencias inmobiliarias en Madrid · Alfaro &amp; Partners</span>
+          <span class="d">Representación inmobiliaria para ordenar una vivienda heredada y decidir si conservar, alquilar, adjudicar o vender con criterio patrimonial.</span>
+          <span class="tag t-ok">Responde a una búsqueda real</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › zonas › retiro</span>
+          <span class="t">Vivir en Retiro · Representación inmobiliaria en Madrid</span>
+          <span class="d">Vivir en Retiro combina calidad de vida, zonas verdes y demanda patrimonial. Acompañamiento para comprar, vender o alquilar con criterio.</span>
+          <span class="tag t-bad">Buen folleto, tienda casi vacía detrás</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › zonas › barrio-de-salamanca</span>
+          <span class="t">Vivir en Barrio de Salamanca · Representación inmobiliaria</span>
+          <span class="d">Barrio de Salamanca exige estrategia, discreción y análisis patrimonial. Representación para comprar, vender o alquilar en Madrid.</span>
+          <span class="tag t-bad">Buen folleto, tienda casi vacía detrás</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › zonas › ibiza</span>
+          <span class="t">Vivir en Ibiza, Madrid · Representación inmobiliaria</span>
+          <span class="d">Vivir en el barrio de Ibiza, Madrid: proximidad al Retiro, vida de barrio y decisiones inmobiliarias con criterio.</span>
+          <span class="tag t-bad">Buen folleto, tienda casi vacía detrás</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › actualidad</span>
+          <span class="t">Actualidad y referencias en medios · Alfaro &amp; Partners</span>
+          <span class="d">Selección curada de apariciones, entrevistas y referencias públicas de José María Alfaro sobre vivienda, mercado y representación inmobiliaria.</span>
+          <span class="tag t-ok">Vuestra mejor prueba de autoridad</span>
+        </div>
+        <div class="serp">
+          <span class="u">alfaropartners.es › partners</span>
+          <span class="t">Partners inmobiliarios en Madrid | Alfaro &amp; Partners</span>
+          <span class="d">Conoce la red de profesionales y entidades que refuerzan la representación inmobiliaria de Alfaro &amp; Partners en Madrid.</span>
+          <span class="tag t-mid">Para quien ya os conoce</span>
+        </div>
+      </div>
+
+      <div class="stack read">
+        <h3>Lo que se ve sin ser experto</h3>
+        <p class="muted">
+          Las tres páginas de zonas tienen buen folleto y unas 240 palabras
+          detrás. La portada tiene 830. Son justo las páginas que deberían
+          capturar a quien busca por barrio — y las que menos tienen que contar
+          cuando entra.
+        </p>
+        <p class="muted">
+          Leedlas como leeríais vuestros propios folletos: ¿cuál está bien?
+          ¿cuál no dice nada? ¿cuál no escribiríais así? Ahí no hay nada
+          técnico que yo sepa mejor que vosotros.
+        </p>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">Un detalle que vale oro</p>
+        <p class="muted">
+          En el post de lanzamiento usasteis la etiqueta
+          <code>#personalshopperinmobiliario</code>. Es un término que la gente
+          busca de verdad en Google. En la web aparece <strong>una sola vez, de
+          pasada</strong>, y no tiene página propia.
+        </p>
+        <p class="muted">
+          Vuestras etiquetas de redes son, básicamente, la lista de cosas por
+          las que queréis que os encuentren. No hace falta adivinarlas: ya las
+          estáis escribiendo cada vez que publicáis.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 03 · EMBUDO ═════ -->
+  <section id="embudo">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">03</span> El embudo</p>
+        <h2>Del post al cliente hay cinco escalones, y en cada uno se cae gente.</h2>
+        <p class="lead">
+          Esto es lo que en marketing llaman «embudo». Suena a jerga, pero es
+          solo la idea de que mil personas ven algo, cien hacen clic, diez leen
+          y una llama. Lo útil no es el concepto: es saber <em>en qué escalón
+          se os cae la gente</em>, porque cada escalón se arregla de forma
+          distinta.
+        </p>
+      </div>
+
+      <div class="funnel">
+        <div class="step">
+          <span class="bar" style="--o:1"></span>
+          <span class="name">1 · Alcance</span>
+          <span class="val na">lo veis en LinkedIn</span>
+          <span class="desc">Cuánta gente ve la publicación. Se mejora publicando mejor, más a menudo y moviéndolo por la red. Esto ya lo hacéis, y es la parte que más cuesta.</span>
+        </div>
+        <div class="step">
+          <span class="bar" style="--o:.8"></span>
+          <span class="name">2 · Clic a la web</span>
+          <span class="val">22</span>
+          <span class="desc">Cuántos pasan de la red a vuestra casa. Dieciocho desde LinkedIn, tres de Instagram, uno de Facebook. El enlace hizo su trabajo.</span>
+        </div>
+        <div class="step">
+          <span class="bar" style="--o:.62"></span>
+          <span class="name">3 · Interés</span>
+          <span class="val">11 de 18</span>
+          <span class="desc">Cuántos, al entrar, leen en vez de irse. Once de los dieciocho que vinieron de LinkedIn se quedaron, con 32 s de media. Es la mejor cifra del sitio.</span>
+        </div>
+        <div class="step">
+          <span class="bar" style="--o:.45"></span>
+          <span class="name">4 · Contacto</span>
+          <span class="val na">midiéndose</span>
+          <span class="desc">Cuántos escriben por WhatsApp, llaman o reservan cita. Ya se mide automáticamente; todavía no ha entrado ninguno.</span>
+        </div>
+        <div class="step">
+          <span class="bar" style="--o:.3"></span>
+          <span class="name">5 · Cliente</span>
+          <span class="val na">solo vosotros</span>
+          <span class="desc">De los que contactan, cuáles merecían la pena. Esto no lo puede saber ninguna herramienta: lo sabéis vosotros al hablar con ellos.</span>
+        </div>
+      </div>
+
+      <div class="stack read">
+        <h3>Dónde estáis fuertes y dónde no</h3>
+        <p class="muted">
+          Si el escalón 2 está roto, mejorar el 3 no sirve de nada: no llega
+          nadie. Si el 4 no se mide, no sabéis si el 3 funciona. Por eso el
+          trabajo no es «hacer SEO» en abstracto: es arreglar el escalón que
+          esté roto, empezando por arriba.
+        </p>
+        <p class="muted">
+          Los escalones 1, 2 y 3 funcionan mejor de lo esperado. Publicáis, la
+          gente entra y —lo importante— <strong>se queda</strong>: el visitante
+          que llega desde LinkedIn aguanta 32 segundos de media, ocho veces más
+          que el que entra escribiendo la dirección. Vuestra red no solo es
+          grande, es la audiencia adecuada.
+        </p>
+        <p class="muted">
+          El cuello está en el 4 y en el 5. Entra gente interesada y todavía no
+          se convierte en conversaciones. Ahí es donde toca trabajar, y es
+          trabajo de contenido y de llamada a la acción, no técnico.
+        </p>
+      </div>
+
+      <div class="box box--warn read">
+        <p class="eyebrow">Dónde está el margen</p>
+        <p class="muted">
+          Casi todas las visitas entran por la portada. Las páginas de zonas,
+          la guía de herencias y las de partners apenas reciben a nadie
+          directamente.
+        </p>
+        <p class="muted">
+          Es decir: toda vuestra web se está jugando en una sola página, y esa
+          página presenta la firma en general. Cuando el enlace de un post
+          lleve a la página que responde <em>justo</em> a lo que trataba ese
+          post, el escalón 4 debería moverse.
+        </p>
+      </div>
+
+      <div class="box box--do read">
+        <p class="eyebrow">Una idea concreta para probar</p>
+        <p class="muted">
+          El post de lanzamiento era de presentación y funcionó para eso. Para
+          el siguiente, probad algo distinto: <strong>coged una de las preguntas
+          que os hacen siempre</strong> — «he heredado un piso con mis hermanos
+          y no nos ponemos de acuerdo» — y contestadla en el propio post, de
+          verdad, sin reservaros nada.
+        </p>
+        <p class="muted">
+          Al final, el enlace a la guía de herencias para quien quiera más. Eso
+          hace de escalón 2 y 3 a la vez: demuestra criterio y lleva a la página
+          que amplía. Y como el enlace irá etiquetado, sabremos exactamente
+          cuánta gente trajo <em>ese</em> post — que es justo lo que ahora
+          empezamos a poder distinguir.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 04 · ENLACES ═════ -->
+  <section id="enlaces">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">04</span> Los enlaces</p>
+        <h2>Cómo saber qué publicación trajo a quién.</h2>
+        <p class="lead">
+          Sin etiquetar, Analytics os dice «vino de LinkedIn». Etiquetado, os
+          dice «vino del post del 13 de agosto». La diferencia entre esas dos
+          frases es la diferencia entre suponer y saber.
+        </p>
+      </div>
+
+      <div class="stack read">
+        <div class="url">
+          <span class="base">https://alfaropartners.es/?</span><span class="p1">utm_source=linkedin</span><span class="base">&amp;</span><span class="p2">utm_medium=social</span><span class="base">&amp;</span><span class="p3">utm_campaign=agosto-26</span>
+        </div>
+        <div class="legend">
+          <span class="l1"><b>utm_source</b> dónde está pegado el enlace</span>
+          <span class="l2"><b>utm_medium</b> qué clase de sitio es</span>
+          <span class="l3"><b>utm_campaign</b> cuál en concreto</span>
+        </div>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">La regla que evita todos los errores</p>
+        <p class="muted">
+          <strong>Las etiquetas no describen a dónde va el enlace. Describen
+          dónde está pegado.</strong> Por eso cada sitio donde lo peguéis
+          necesita el suyo: si repetís el mismo en dos sitios, ya no se pueden
+          distinguir.
+        </p>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Dónde lo pegáis</th><th>Enlace</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Post de LinkedIn de agosto</td>
+              <td><code>...?utm_source=linkedin&amp;utm_medium=social&amp;utm_campaign=agosto-26</code></td>
+            </tr>
+            <tr>
+              <td>Enlace fijo del perfil de LinkedIn</td>
+              <td><code>...?utm_source=linkedin&amp;utm_medium=social&amp;utm_campaign=perfil</code></td>
+            </tr>
+            <tr>
+              <td>Bio de Instagram</td>
+              <td><code>...?utm_source=instagram&amp;utm_medium=social&amp;utm_campaign=perfil</code></td>
+            </tr>
+            <tr>
+              <td>Firma del correo</td>
+              <td><code>...?utm_source=email&amp;utm_medium=firma&amp;utm_campaign=perfil</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stack read">
+        <h3>Tres dudas razonables</h3>
+      </div>
+
+      <div class="qa">
+        <div class="qa__item">
+          <p class="qa__q">¿Hay que escribirlos a mano cada vez?</p>
+          <p class="qa__a">
+            No hace falta. Google tiene una herramienta gratuita y sin registro,
+            el <strong><a href="https://ga-dev-tools.google/campaign-url-builder/" target="_blank" rel="noopener">Campaign URL Builder</a></strong>:
+            pegáis la dirección, rellenáis tres casillas y os da el enlace listo
+            para copiar. También podéis pedírselo a cualquier asistente de IA:
+            «conviérteme este enlace para un post de Instagram de la campaña de
+            septiembre».
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">¿No lo hacen las redes solas?</p>
+          <p class="qa__a">
+            No. Analytics sí detecta por su cuenta que alguien vino «de
+            LinkedIn», eso es automático. Lo que no puede saber por su cuenta es
+            de <em>qué publicación</em>. Esa parte solo la sabe si la escribís
+            vosotros en el enlace.
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">¿Y si me equivoco escribiéndolos?</p>
+          <p class="qa__a">
+            No se rompe nada: el enlace funciona igual y la persona llega bien.
+            Lo único que pasa es que Analytics lo cuenta aparte. Por eso
+            conviene escribirlas siempre en minúscula y sin acentos —
+            <code>linkedin</code> y <code>LinkedIn</code> se contarían como dos
+            sitios distintos.
+          </p>
+        </div>
+      </div>
+
+      <div class="box box--warn read">
+        <p class="eyebrow">Ya ha pasado, y viene bien de ejemplo</p>
+        <p class="muted">
+          El enlace del perfil de LinkedIn quedó guardado como
+          <code>utm_campaign=perfil`</code>, con una comilla invertida al final
+          que se coló al copiar y pegar. La web funciona igual y quien pincha
+          entra sin problema — pero Analytics lo registra como una campaña
+          llamada <code>perfil`</code>.
+        </p>
+        <p class="muted">
+          Si mañana alguien pone bien <code>perfil</code>, tendríamos dos
+          campañas distintas para el mismo sitio y ninguna de las dos daría el
+          total real. Se arregla en diez segundos editando el enlace del perfil.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 05 · ANALYTICS ═════ -->
+  <section id="analytics">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">05</span> Analytics</p>
+        <h2>Cómo entrar y qué mirar, sin perderse en la portada.</h2>
+        <p class="lead">
+          Analytics abre en una pantalla que no sirve para casi nada. Estas son
+          las tres rutas que sí. Entráis en
+          <a href="https://analytics.google.com/analytics/web/#/p540440298/reports/intelligenthome" target="_blank" rel="noopener">analytics.google.com</a>
+          con la cuenta <code>hola@alfaropartners.es</code> — ojo si tenéis
+          varias cuentas de Google abiertas, porque con otra no veréis nada.
+        </p>
+      </div>
+
+      <div class="stack">
+        <div class="recipe">
+          <h4>¿Cuánta gente viene y de dónde?</h4>
+          <div class="path"><b>Informes</b><i>›</i><b>Generar oportunidades de venta</b><i>›</i><b>Adquisición de tráfico</b></div>
+          <p class="small">
+            La tabla de abajo os dice de dónde llega cada visita. Arriba a la
+            derecha se cambia el período: poned «los últimos 28 días» para ver
+            tendencia, no ruido de un día suelto.
+          </p>
+        </div>
+
+        <div class="recipe">
+          <h4>¿Qué publicación funcionó?</h4>
+          <div class="path"><b>Informes</b><i>›</i><b>Adquisición de tráfico</b><i>›</i><span class="tiny">cambiar la primera columna a</span><b>Campaña de la sesión</b></div>
+          <p class="small">
+            Aquí es donde aparecen las etiquetas del apartado anterior. Hoy sale
+            <code>agosto-26</code> con 14 visitas y <code>perfil`</code> con una.
+            Todo lo que salga como <code>(not set)</code> es tráfico sin etiquetar.
+          </p>
+        </div>
+
+        <div class="recipe">
+          <h4>¿Qué busca la gente para encontrarnos?</h4>
+          <div class="path"><b>Informes</b><i>›</i><b>Search Console</b><i>›</i><b>Consultas</b></div>
+          <p class="small">
+            Esta es la más interesante de todas y la más nueva: hasta esta
+            semana no existía. Muestra las palabras exactas que la gente
+            escribe en Google antes de llegar a vosotros. Tarda unos días en
+            tener datos. También se puede ver directamente en
+            <a href="https://search.google.com/search-console" target="_blank" rel="noopener">Search Console</a>,
+            que además avisa si Google encuentra algún problema en la web.
+          </p>
+        </div>
+      </div>
+
+      <div class="box box--warn read">
+        <p class="eyebrow">Antes de sacar conclusiones</p>
+        <p class="muted">
+          Con los números tan pequeños de ahora mismo, una sola visita cambia
+          los porcentajes de forma brutal. Mirad los datos <strong>una vez al
+          mes</strong>, no cada día. Las decisiones se toman con tendencias,
+          no con la foto de un martes.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 06 · ARREGLADO ═════ -->
+  <section id="arreglado">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">06</span> Lo técnico</p>
+        <h2>Lo que he arreglado, y cómo comprobarlo.</h2>
+        <p class="lead">
+          La columna de la derecha es a propósito: no hace falta que os fiéis
+          de mi palabra en nada de esto.
+        </p>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Qué</th><th>Antes</th><th>Ahora</th><th>Cómo lo comprobáis</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Foto principal</td>
+              <td class="num was">868 KB</td>
+              <td class="num now">39 KB</td>
+              <td class="muted">Abrid la web con datos móviles. Ya no espera.</td>
+            </tr>
+            <tr>
+              <td>Segunda fotografía</td>
+              <td class="num was">1,1 MB</td>
+              <td class="num now">52 KB</td>
+              <td class="muted">22 veces más ligera.</td>
+            </tr>
+            <tr>
+              <td>Direcciones distintas para la misma web</td>
+              <td class="num was">4</td>
+              <td class="num now">1</td>
+              <td class="muted">Escribid <code>www.alfaropartners.es</code>: os lleva a la buena.</td>
+            </tr>
+            <tr>
+              <td>Sección Actualidad</td>
+              <td class="was">Oculta a Google</td>
+              <td class="now">Visible</td>
+              <td class="muted">Buscad <code>site:alfaropartners.es</code> en Google.</td>
+            </tr>
+            <tr>
+              <td>Medición de contactos</td>
+              <td class="was">No existía</td>
+              <td class="now">Funciona</td>
+              <td class="muted">Cada clic en WhatsApp, teléfono o cita queda registrado.</td>
+            </tr>
+            <tr>
+              <td>Search Console</td>
+              <td class="was">Nunca se creó</td>
+              <td class="now">Creado</td>
+              <td class="muted">En unos días dirá qué busca la gente para llegar.</td>
+            </tr>
+            <tr>
+              <td>Dirección y horarios del despacho</td>
+              <td class="was">Sin publicar</td>
+              <td class="now">En la web y en Google</td>
+              <td class="muted">Mirad el pie de página.</td>
+            </tr>
+            <tr>
+              <td>Ficha de identidad para Google</td>
+              <td class="was">Incompleta</td>
+              <td class="now">Con la presidencia de FAI</td>
+              <td class="muted">Google ya puede saber quién es José María.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">Por qué insisto en la última columna</p>
+        <p class="muted">
+          El seguimiento de contactos llevaba días instalado y no funcionaba.
+          El código estaba escrito, publicado y visible: fallaba al ejecutarse.
+          Nadie lo habría notado nunca, porque el contador habría marcado cero
+          — y cero es perfectamente creíble en una web recién nacida.
+        </p>
+        <p class="muted">
+          Lo encontré porque fui a comprobarlo en vez de darlo por bueno. Es la
+          razón por la que todo lo de arriba lleva una forma de verificarlo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 07 · IA ═════ -->
+  <section id="ia">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">07</span> Buscadores con IA</p>
+        <h2>Cada vez más gente pregunta en vez de buscar.</h2>
+        <p class="lead">
+          Alguien que antes escribía «herencias inmobiliarias Madrid» hoy
+          puede preguntarle a ChatGPT o a Gemini «he heredado un piso con mis
+          hermanos en Madrid, ¿a quién acudo?». Y la respuesta que reciba
+          mencionará a alguien.
+        </p>
+      </div>
+
+      <div class="stack read">
+        <h3>Qué mira una IA para decidir a quién menciona</h3>
+        <p class="muted">
+          Básicamente tres cosas, y ninguna es un truco: <strong>quién sois</strong>
+          (que se pueda verificar), <strong>de qué sois expertos</strong> (que esté
+          escrito en algún sitio) y <strong>quién lo confirma</strong> (que otros
+          lo digan de vosotros). Es lo mismo que convence a una persona.
+        </p>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Lo que necesita una IA</th><th>Estado</th><th>Qué hay hecho</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Saber quién es José María</td>
+              <td class="now">Hecho</td>
+              <td class="muted">La web declara, en un formato que las máquinas leen, que es presidente de FAI, con enlace a la federación y a sus perfiles. No es texto suelto: es una ficha de identidad.</td>
+            </tr>
+            <tr>
+              <td>Saber de qué es experto</td>
+              <td class="now">Hecho</td>
+              <td class="muted">Declarado explícitamente: representación inmobiliaria, herencias y mercado de vivienda en España.</td>
+            </tr>
+            <tr>
+              <td>Poder leer la web sin estorbos</td>
+              <td class="now">Hecho</td>
+              <td class="muted">La web es rápida y su contenido se lee directamente, sin que haga falta ejecutar nada. Muchos sitios modernos fallan aquí.</td>
+            </tr>
+            <tr>
+              <td>Permiso para leerla</td>
+              <td class="now">Permitido</td>
+              <td class="muted">Ningún buscador con IA está bloqueado. Se puede bloquear si algún día queréis, pero por defecto interesa que os lean.</td>
+            </tr>
+            <tr>
+              <td>Contenido que responda preguntas</td>
+              <td class="warn">Flojo</td>
+              <td class="muted">Aquí está el hueco. Una IA cita textos que responden algo concreto, y las páginas de zonas tienen 240 palabras. Es el mismo trabajo pendiente del escalón 3.</td>
+            </tr>
+            <tr>
+              <td>Que otras webs os confirmen</td>
+              <td class="bad">Pendiente</td>
+              <td class="muted">Una sola web enlaza a la vuestra. Es la misma carencia de siempre, y afecta igual a Google que a las IAs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">Lo que conviene no creerse</p>
+        <p class="muted">
+          Ya hay quien vende «posicionamiento en IA» como si fuera una
+          disciplina aparte con trucos propios. No lo es. Lo que hace que una
+          IA os mencione es lo mismo que hace que Google os muestre y que un
+          compañero os recomiende: <strong>que quede claro quién sois, que
+          respondáis bien a algo concreto y que alguien de fuera lo respalde</strong>.
+        </p>
+        <p class="muted">
+          Lo primero ya está hecho. Lo segundo y lo tercero son las decisiones
+          que os pido más abajo — y sirven para las dos cosas a la vez, sin
+          trabajo extra.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 08 · DECISIONES ═════ -->
+  <section id="decisiones">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">08</span> Decisiones · responder</p>
+        <h2>Cuatro decisiones que no puedo tomar por vosotros.</h2>
+        <p class="lead">
+          En cada una os propongo lo que yo haría y por qué. No hace falta que
+          empecéis de cero: basta con decirme si vais por ahí o no.
+        </p>
+      </div>
+
+      <div>
+        <!-- D1 -->
+        <div class="dec">
+          <div class="dec__head">
+            <p class="eyebrow"><span class="n">D1</span></p>
+            <p class="dec__q">¿A quién intentamos atraer primero?</p>
+          </div>
+          <div class="dec__body">
+            <p class="muted">
+              Con una web de diez semanas no se puede competir por todo a la
+              vez. Elegir una cosa y hacerla bien gana siempre a intentar tres.
+            </p>
+            <div class="prop">
+              <p class="who">Mi propuesta</p>
+              <p class="muted">
+                <strong>Herencias inmobiliarias.</strong> Es la única página que
+                ya está bien construida, la que mejor responde a una búsqueda
+                real, la que menos competencia tiene y la que encaja con vuestro
+                discurso de representar a la persona. Y quien busca eso tiene una
+                decisión encima de la mesa, no está mirando escaparates.
+              </p>
+            </div>
+            <p class="ask">
+              <b>Lo que necesito:</b> confirmadme si vais por ahí, o cuál de
+              estas preferís. Podéis elegir dos como mucho.
+            </p>
+            <div class="opts">
+              <span class="opt opt--pick">Herencias</span>
+              <span class="opt">Personal shopper / comprador</span>
+              <span class="opt">Zonas prime</span>
+              <span class="opt">Alquiler</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D2 -->
+        <div class="dec">
+          <div class="dec__head">
+            <p class="eyebrow"><span class="n">D2</span></p>
+            <p class="dec__q">¿Qué preguntas os hacen siempre?</p>
+          </div>
+          <div class="dec__body">
+            <p class="muted">
+              Las cinco o seis que repetís en cada primera reunión. Son, casi
+              literalmente, lo que la gente escribe en Google — y son el
+              material con el que se rellenan las páginas que están flojas.
+            </p>
+            <div class="prop">
+              <p class="who">Ejemplos para arrancar</p>
+              <ul class="plain">
+                <li>«He heredado un piso con mis hermanos y no nos ponemos de acuerdo.»</li>
+                <li>«¿Cuánto vale realmente mi casa, sin que me lo inflen para captarme?»</li>
+                <li>«¿Me conviene vender ahora o esperar?»</li>
+                <li>«¿Qué gastos tiene de verdad heredar una vivienda?»</li>
+              </ul>
+            </div>
+            <p class="ask">
+              <b>Lo que necesito:</b> corregidme estas y añadid las que falten.
+              Con la formulación que usa el cliente, no la técnica.
+            </p>
+          </div>
+        </div>
+
+        <!-- D3 -->
+        <div class="dec">
+          <div class="dec__head">
+            <p class="eyebrow"><span class="n">D3</span></p>
+            <p class="dec__q">¿Qué contacto es un buen contacto?</p>
+          </div>
+          <div class="dec__body">
+            <p class="muted">
+              Ya se mide cada clic en WhatsApp, teléfono y reserva de cita. Pero
+              un clic no es un cliente, y sin saber cuáles valen la pena no se
+              puede optimizar nada. Esto seguramente no tenga una única
+              respuesta.
+            </p>
+            <div class="prop">
+              <p class="who">Mi propuesta</p>
+              <p class="muted">
+                Tratar la <strong>cita reservada</strong> como el contacto bueno
+                de referencia — es el que más compromiso exige — y WhatsApp como
+                el de entrada. Pero mandan vuestros números: si de diez WhatsApps
+                salen tres encargos y de tres citas ninguno, cambiamos el orden.
+              </p>
+            </div>
+            <p class="ask">
+              <b>Lo que necesito:</b> marcad los que consideráis contacto serio,
+              y decidme si alguno llega mucho pero no cuaja.
+            </p>
+            <div class="opts">
+              <span class="opt opt--pick">Cita reservada</span>
+              <span class="opt">WhatsApp</span>
+              <span class="opt">Llamada</span>
+              <span class="opt">Email</span>
+              <span class="opt">Recomendación de un colega</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- D4 -->
+        <div class="dec">
+          <div class="dec__head">
+            <p class="eyebrow"><span class="n">D4</span></p>
+            <p class="dec__q">¿Contra quién competís de verdad?</p>
+          </div>
+          <div class="dec__body">
+            <p class="muted">
+              Necesito tres nombres para mirar qué hacen, por qué salen antes
+              que vosotros y dónde tenéis ventaja real.
+            </p>
+            <div class="prop">
+              <p class="who">Mi propuesta</p>
+              <p class="muted">
+                Que no sean las grandes portales. Contra idealista no se compite
+                por volumen. Pensad en los tres despachos o agentes concretos que
+                os quitan el tipo de cliente que queréis: gente comparable, del
+                mismo barrio, con el mismo discurso.
+              </p>
+            </div>
+            <p class="ask">
+              <b>Lo que necesito:</b> tres nombres, con web si la tienen.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 09 · RÁPIDAS ═════ -->
+  <section id="rapidas">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">09</span> Preguntas rápidas · responder</p>
+        <h2>Cinco cosas de un minuto.</h2>
+        <p class="lead">
+          Nada de esto requiere pensar mucho, pero cada una está bloqueando
+          algo concreto.
+        </p>
+      </div>
+
+      <div class="qa">
+        <div class="qa__item">
+          <p class="qa__q">R1 · ¿Qué correo ponemos en la web?</p>
+          <p class="qa__a">
+            Ahora mismo aparece <code>jmaj07@gmail.com</code> en las páginas
+            legales. Para una marca que se presenta como premium desentona, y
+            Google también lo lee como señal. <strong>Decidme uno del dominio</strong>
+            — algo tipo <code>info@alfaropartners.es</code> — y lo cambio.
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">R2 · ¿El horario de los sábados es 10:30 a 13:30?</p>
+          <p class="qa__a">
+            Lo he copiado de vuestra ficha de Google, pero ese día era festivo
+            (la Asunción), así que puede ser el horario especial y no el
+            habitual. <strong>Confirmadlo</strong> y lo dejo bien en la web y en
+            la ficha.
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">R3 · ¿Quién gestiona la ficha de Google?</p>
+          <p class="qa__a">
+            La ficha existe pero está <strong>sin reclamar</strong>. Sin
+            reclamarla no se pueden poner fotos, descripción, servicios ni
+            responder reseñas — y para búsquedas tipo «inmobiliaria Retiro»
+            esa ficha pesa más que media web. Hace falta que alguien de vuestro
+            lado la reclame; yo os guío en el proceso.
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">R4 · ¿Tenéis fotos del despacho de Narváez?</p>
+          <p class="qa__a">
+            Para la ficha de Google y para la web. Cuatro o cinco: fachada,
+            entrada, sala de reuniones. Con el móvil vale, con luz de día.
+          </p>
+        </div>
+        <div class="qa__item">
+          <p class="qa__q">R5 · ¿Podéis pedir tres enlaces?</p>
+          <p class="qa__a">
+            Europa Press, idealista y Canal Europa ya han escrito sobre José
+            María. La web de FAI, que él preside, tampoco enlaza. <strong>Un
+            correo pidiendo que el artículo enlace a alfaropartners.es</strong>
+            es la acción con mejor retorno de todo este documento y no cuesta
+            dinero. Decidme si lo hacéis vosotros o preparo yo los textos.
+          </p>
+        </div>
+      </div>
+
+      <div class="box box--warn read">
+        <p class="eyebrow">Por qué insisto con los enlaces de R5</p>
+        <p class="muted">
+          Un enlace desde LinkedIn trae visitas pero no reputación: la
+          plataforma los marca para que Google no los cuente. Un enlace desde
+          Europa Press sí cuenta, y cuenta para siempre. Ahora mismo solo hay
+          <strong>una web en todo internet</strong> que enlaza a la vuestra.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════ 10 · PANEL ═════ -->
+  <section id="panel">
+    <div class="wrap stack-lg">
+      <div class="stack read">
+        <p class="eyebrow"><span class="n">10</span> El panel</p>
+        <h2>Os voy a montar una pantalla. Así la tengo pensada.</h2>
+        <p class="lead">
+          Analytics es una herramienta de analista y no vais a querer entrar.
+          La idea es una página con cuatro números grandes, en castellano, que
+          se mire una vez al mes en dos minutos.
+        </p>
+      </div>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Número</th><th>Qué responde</th><th>Por qué ese</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Visitas desde Google</strong></td>
+              <td class="muted">¿Nos encuentra más gente que el mes pasado?</td>
+              <td class="muted">Es la única cifra que mide si el SEO avanza. El resto del tráfico depende de lo que publiquéis.</td>
+            </tr>
+            <tr>
+              <td><strong>Qué buscaron</strong></td>
+              <td class="muted">¿Con qué palabras nos encuentran?</td>
+              <td class="muted">Lo más revelador y lo que más decisiones desbloquea. Suele haber sorpresas.</td>
+            </tr>
+            <tr>
+              <td><strong>Contactos</strong></td>
+              <td class="muted">¿Cuántos escribieron o reservaron?</td>
+              <td class="muted">Lo único que importa de verdad. Separado por WhatsApp, teléfono y cita.</td>
+            </tr>
+            <tr>
+              <td><strong>Qué lo trajo</strong></td>
+              <td class="muted">¿Qué publicación o página generó esos contactos?</td>
+              <td class="muted">Cierra el círculo: conecta lo que publicáis con lo que entra. Es la parte que las etiquetas del apartado 04 hacen posible.</td>
+            </tr>
+            <tr>
+              <td><strong>Ranking de interés</strong></td>
+              <td class="muted">¿Qué es lo que más se busca y se lee de vosotros?</td>
+              <td class="muted">Dos listas juntas: las palabras más buscadas y las páginas donde más gente aterriza. Ordenadas de más a menos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">Sobre ese último, que preguntasteis si se pisa con las palabras clave</p>
+        <p class="muted">
+          No se pisan: son las dos caras de lo mismo y solo sirven juntas.
+          <strong>Lo que buscan</strong> es la demanda — lo que la gente escribe.
+          <strong>Dónde aterrizan</strong> es lo que Google decidió enseñarles
+          de vuestra web.
+        </p>
+        <p class="muted">
+          Cuando las dos listas coinciden, la web está bien orientada. Cuando
+          no — por ejemplo, si mucha gente busca cosas de herencias pero casi
+          todos acaban en la portada — eso señala exactamente qué página hay
+          que reforzar. Es el indicador que más decisiones de contenido
+          desbloquea, y por eso lo añado.
+        </p>
+      </div>
+
+      <div class="box read">
+        <p class="eyebrow">D5 · lo que necesito de vosotros</p>
+        <p class="muted">
+          ¿Le quitaríais alguno de los cinco? ¿Falta algo que os interese de
+          verdad — cuánta gente entra desde el móvil, de qué zona de Madrid
+          son, cuánto ha cambiado respecto al mes pasado?
+        </p>
+        <p class="muted">
+          Y una cosa más: <strong>¿quién lo mira y cómo?</strong> No es lo
+          mismo montar una página a la que hay que entrar que un correo
+          automático que llega el día 1 de cada mes con los cinco números y
+          nada más. Lo segundo se usa; lo primero se olvida a las dos semanas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap stack-sm">
+      <p class="eyebrow">Alfaro &amp; Partners · alfaropartners.es</p>
+      <p>
+        Preparado por Diego. Todos los datos verificados sobre la web en
+        producción entre el 10 y el 18 de agosto de 2026. Si el documento
+        cambia, aviso por el grupo y actualizo la fecha de revisión de la
+        cabecera.
+      </p>
+      <p class="tiny">
+        Pendiente de responder: D1, D2, D3, D4, D5 y R1 a R5.
+      </p>
+    </div>
+  </footer>
+
+</article>
