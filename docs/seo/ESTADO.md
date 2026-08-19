@@ -95,20 +95,15 @@ Google Analytics Data API** convierte cada consulta en un script de segundos:
 
 Con eso, un script devuelve sesiones, campañas y eventos en JSON.
 
-## Otros documentos del proyecto
+## Otros documentos
 
-Creados en conversaciones paralelas, no hace falta releerlos salvo que se
-trabaje en ellos:
-
-- `analisis-alquilabien-propulsia-2026-08-14.md` — análisis del trabajo de la
-  agencia en el otro proyecto. **Veredicto: no es cierto que no se hiciera
-  nada**; hay rastro público de 11 artículos nuevos y 14 revisados. La
-  conversación sobre reclamar debe partir de ahí, no de «no hicisteis nada».
 - `reference-funnel-benchmark.md` — comparación con el embudo de una web de
   referencia del sector. Conclusión: A&P está mejor posicionada en marca y
-  peor en convertir visitas en contactos. Encaja con lo que dicen los datos.
-- `brief-analisis-alquilabien.md` — el encargo que originó el análisis.
+  peor en convertir visitas en contactos.
 - `gbp-checklist.md` y `outreach-checklist.md` — accionables para el cliente.
+
+**AlquilaBien y Propulsia son otro proyecto distinto**, no tienen relación con
+Alfaro & Partners. Su material vive en `NM/alquilabien/propulsia/`. No mezclar.
 
 ## Convenciones del proyecto
 
