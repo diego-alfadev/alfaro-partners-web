@@ -512,7 +512,9 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 }
 .site-footer__inner {
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) 2fr;
+  /* La columna de marca solo lleva logo y tres lineas, asi que cede espacio a
+     las de contenido, que lo necesitan de verdad. */
+  grid-template-columns: minmax(200px, .85fr) 2.7fr;
   gap: clamp(2rem, 6vw, 5rem);
   align-items: start;
 }
@@ -538,11 +540,13 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
 }
 .site-footer__cols {
   display: grid;
-  /* auto-fit rather than a fixed count: the column list grows over time and
-     this wraps instead of squeezing. The 8.5rem floor is what lets four
-     columns share the ~683px this track gets -- at 9rem only three fit and
-     the last one drops to an orphan row. Collapses to 1fr below 960px. */
-  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  /* Columnas al tamano de su contenido, no todas iguales: lo que llevan pide
+     entre 97 y 230px, asi que repartirlas a 1fr dejaba tres estrujadas --con
+     el nombre de la red social saliendose de su tarjeta-- y una con 48px de
+     sobra. `space-between` reparte el hueco restante entre ellas. */
+  grid-template-columns: repeat(2, auto);
+  justify-content: space-between;
+  row-gap: var(--space-12);
   gap: var(--space-8) var(--space-8);
 }
 .site-footer__heading {
@@ -3307,3 +3311,16 @@ body {
     min-height: 44px;
   }
 }
+
+/* Las cuatro columnas del pie solo caben en una fila cuando hay sitio real
+   para su contenido. Por debajo van de dos en dos, que se lee mejor que
+   cuatro estrujadas. */
+@media (min-width: 1280px) {
+  .site-footer__cols { grid-template-columns: repeat(4, auto); }
+}
+
+/* El nombre de la red iba con el tracking de titular y se salia de la caja en
+   una columna estrecha. Y el bloque de texto necesita poder encogerse: por
+   defecto un item flex no baja de su contenido. */
+.social-cards--footer .social-card > span:not(.social-card__icon) { min-width: 0; }
+.social-cards--footer .social-card strong { letter-spacing: .1em; }
