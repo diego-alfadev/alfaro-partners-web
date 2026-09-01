@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# agent tooling (local, per-machine)
+.atl/
+.engram/
+
+# working backups
+*.bak
