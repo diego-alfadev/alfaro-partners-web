@@ -59,9 +59,9 @@ const googleTagId = import.meta.env.PROD ? analytics.googleTagId : undefined;
 // SEO hardening (SDD alfaro-seo-hardening, Phase 6a): one @graph per page,
 // linked via @id references instead of the previous two disconnected
 // <script> blocks (organization schema here + a second one per page).
-// `email` is intentionally omitted -- jmaj07@gmail.com was a personal
-// address in a business node; no corporate address has been supplied yet
-// (see design doc D5 / spec REQ-10, still blocked on user input).
+// `email` now ships: the corporate address arrived (R1, answered 18 Aug), so
+// the reason it was withheld -- a personal gmail sitting in a business node --
+// no longer applies.
 const organizationNode = {
   '@type': 'RealEstateAgent',
   '@id': `${homeUrl}#organization`,
@@ -70,6 +70,7 @@ const organizationNode = {
   image: imageUrl,
   url: homeUrl,
   telephone: `+${CONTACT_PHONE}`,
+  email: BUSINESS_INFO.email,
   description: 'Representación inmobiliaria premium y protección del patrimonio. Más de 20 años de experiencia impulsando las buenas prácticas.',
   address: {
     '@type': 'PostalAddress',

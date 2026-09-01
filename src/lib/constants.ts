@@ -5,7 +5,7 @@ export const BUSINESS_INFO = {
   name: "José María Alfaro",
   brandName: "Alfaro & Partners",
   phone: "34672504642",
-  email: "jmaj07@gmail.com",
+  email: "hola@alfaropartners.es",
   // Physical office. Values taken verbatim from the live Google Maps listing
   // so the site and the listing never disagree -- Google cross-checks them,
   // and a mismatch weakens the local result or triggers a re-review.
