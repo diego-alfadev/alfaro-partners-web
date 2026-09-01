@@ -2000,9 +2000,7 @@ body {
 }
 
 /* Evergreen service and editorial pages */
-.heritage-hero,
-.perspective-index-hero,
-.perspective-article__hero {
+.heritage-hero{
   padding-top: calc(var(--header-h) + clamp(4.5rem, 9vw, 8rem));
   padding-bottom: clamp(4.5rem, 9vw, 8rem);
   background:
@@ -2017,9 +2015,7 @@ body {
   align-items: end;
 }
 
-.heritage-hero__content h1,
-.perspective-index-hero h1,
-.perspective-article__hero h1 {
+.heritage-hero__content h1{
   max-width: 12ch;
   margin: var(--space-6) 0;
   font-family: var(--font-display);
@@ -2030,10 +2026,8 @@ body {
   text-wrap: balance;
 }
 
-.heritage-hero__content > p,
-.perspective-index-hero > p,
-.perspective-article__intro {
-  max-width: 54ch;
+.heritage-hero__content > p{
+  max-width: var(--measure);
   margin: 0;
   color: var(--color-mist);
   font-size: clamp(1.05rem, .35vw + 1rem, 1.25rem);
@@ -2153,11 +2147,7 @@ body {
 }
 
 .heritage-process__list h3,
-.heritage-options__grid span,
-.perspective-card h3,
-.perspective-index-card h2,
-.perspective-article__body h2,
-.perspective-article__cta h2 {
+.heritage-options__grid span{
   margin: 0;
   color: var(--color-offwhite);
   font-family: var(--font-display);
@@ -2229,48 +2219,12 @@ body {
   margin: var(--space-5) 0 0;
 }
 
-.heritage-reading__grid,
-.perspective-index-list__grid {
+.heritage-reading__grid{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: rgba(201, 164, 74, .14);
   border: 1px solid rgba(201, 164, 74, .14);
-}
-
-.perspective-card {
-  min-height: 17rem;
-  display: grid;
-  align-content: space-between;
-  gap: var(--space-7);
-  padding: clamp(1.4rem, 2.5vw, 2rem);
-  background: var(--color-obsidian-900);
-}
-
-.perspective-card > p,
-.perspective-index-card > div > p {
-  margin: 0;
-  color: var(--color-gold);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
-
-.perspective-card h3 {
-  font-size: clamp(1.45rem, 1vw + 1rem, 1.9rem);
-  line-height: 1.12;
-}
-
-.perspective-card h3 a,
-.perspective-index-card h2 a {
-  color: inherit;
-}
-
-.perspective-card > span,
-.perspective-index-card > div > span {
-  color: var(--color-mist);
-  font-size: .82rem;
 }
 
 .heritage-questions__list {
@@ -2294,172 +2248,6 @@ body {
   color: var(--color-gold);
   font-size: .9rem;
   letter-spacing: .12em;
-}
-
-.perspective-index-hero h1 {
-  max-width: 17ch;
-}
-
-.perspective-index-hero > p {
-  max-width: 58ch;
-}
-
-.perspective-index-list__intro {
-  display: grid;
-  grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr);
-  gap: var(--space-8);
-  align-items: baseline;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-
-.perspective-index-list__intro p {
-  max-width: 44ch;
-  margin: 0;
-  color: var(--color-mist);
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-
-.perspective-index-card {
-  min-height: 25rem;
-  display: grid;
-  align-content: space-between;
-  gap: var(--space-7);
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: var(--color-obsidian-900);
-}
-
-.perspective-index-card--featured {
-  grid-column: span 2;
-  background:
-    radial-gradient(circle at 86% 12%, rgba(201, 164, 74, .16), transparent 30%),
-    var(--color-obsidian-800);
-}
-
-.perspective-index-card > div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.perspective-index-card h2 {
-  max-width: 18ch;
-  font-size: clamp(2rem, 2.5vw, 3.2rem);
-  line-height: 1.05;
-}
-
-.perspective-index-card > p {
-  max-width: 48ch;
-  margin: 0;
-  color: var(--color-mist);
-  line-height: 1.72;
-}
-
-.perspective-article__hero {
-  padding-bottom: clamp(3.5rem, 7vw, 6rem);
-}
-
-.perspective-article__back {
-  display: inline-flex;
-  align-items: center;
-  gap: .5rem;
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-  color: var(--color-mist);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-}
-
-.perspective-article__back [data-icon] {
-  width: 15px;
-  height: 15px;
-}
-
-.perspective-article__hero h1 {
-  max-width: 15ch;
-  font-size: clamp(2.8rem, 5vw, 5.8rem);
-}
-
-.perspective-article__meta {
-  display: flex;
-  gap: .55rem;
-  margin: var(--space-7) 0 0;
-  color: var(--color-gold-soft);
-  font-size: .85rem;
-}
-
-.perspective-article__body {
-  padding-top: clamp(4rem, 8vw, 7rem);
-  padding-bottom: clamp(4rem, 8vw, 7rem);
-}
-
-.perspective-article__body section + section {
-  margin-top: clamp(3rem, 5vw, 5rem);
-}
-
-.perspective-article__body h2 {
-  max-width: 21ch;
-  margin-bottom: var(--space-6);
-  font-size: clamp(1.9rem, 2vw + 1rem, 2.8rem);
-  line-height: 1.1;
-}
-
-.perspective-article__body p {
-  max-width: 64ch;
-  margin: 0;
-  color: var(--color-mist);
-  font-size: 1.06rem;
-  line-height: 1.82;
-}
-
-.perspective-article__body p + p {
-  margin-top: var(--space-5);
-}
-
-.perspective-article__body ul {
-  display: grid;
-  gap: .85rem;
-  margin: var(--space-7) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.perspective-article__body li {
-  position: relative;
-  padding-left: 1.2rem;
-  color: var(--color-offwhite);
-  line-height: 1.65;
-}
-
-.perspective-article__body li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .7rem;
-  width: 5px;
-  height: 5px;
-  background: var(--color-gold);
-}
-
-.perspective-article__cta {
-  padding-block: clamp(4rem, 8vw, 7rem);
-  background: rgba(255, 255, 255, .018);
-}
-
-.perspective-article__cta h2 {
-  max-width: 16ch;
-  margin: var(--space-5) 0;
-  font-size: clamp(2.2rem, 3.2vw, 3.8rem);
-  line-height: 1.05;
-}
-
-.perspective-article__cta p {
-  max-width: 47ch;
-  margin: 0 0 var(--space-7);
-  color: var(--color-mist);
-  line-height: 1.7;
 }
 
 .inheritance-insight__intro {
@@ -2922,7 +2710,6 @@ body {
   .inheritance-questions,
   .inheritance-insight__grid,
   .heritage-reading__grid,
-  .perspective-index-list__grid,
   .districts__grid,
   .trust-ribbon__inner,
   .signature__stats {
@@ -3040,23 +2827,18 @@ body {
   }
 
   .heritage-process__list li,
-  .heritage-options__grid article,
-  .perspective-index-list__intro {
+  .heritage-options__grid article{
     grid-template-columns: 1fr;
     gap: var(--space-4);
   }
 
   .heritage-process__list li {
-    padding-block: 1.5rem;
+    padding-block: var(--space-6);
   }
 
   .heritage-process__list li > div {
     display: grid;
     gap: var(--space-4);
-  }
-
-  .perspective-index-card--featured {
-    grid-column: auto;
   }
 
   .inheritance-question {
