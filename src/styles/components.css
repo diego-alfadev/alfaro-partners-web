@@ -3283,3 +3283,27 @@ body {
     margin-top: -9rem;
   }
 }
+/* =============================================================================
+   AREAS TACTILES
+   En puntero grueso, todo lo pulsable llega a 44px de alto. Se acota con
+   pointer:coarse en vez de por ancho de pantalla porque lo que lo justifica es
+   el dedo, no el viewport: un raton sobre una ventana estrecha no lo necesita,
+   y una tablet ancha si.
+   ========================================================================== */
+@media (pointer: coarse) {
+  .brand,
+  .nav-toggle {
+    min-height: 44px;
+  }
+
+  /* El hueco baja para compensar: el paso de un enlace al siguiente pasa de
+     34px a 48, no de 34 a 60. */
+  .site-footer__links { gap: var(--space-1); }
+
+  .site-footer__links a,
+  .site-footer__address a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
