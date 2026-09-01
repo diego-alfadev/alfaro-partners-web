@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BUSINESS_INFO } from '../../lib/constants';
 import '../../styles/partners.css';
 
 const partners = (await getCollection('partners', ({ data }) => data.published))
@@ -13,8 +14,104 @@ const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
 const siteOrigin = Astro.site ?? new URL('https://alfaropartners.es');
 const pageUrl = new URL(`${basePath}partners/`, siteOrigin).toString();
 const homeUrl = new URL(basePath, siteOrigin).toString();
-const pageTitle = 'Partners inmobiliarios en Madrid | Alfaro & Partners';
-const pageDescription = 'Conoce la red de profesionales y entidades que refuerzan la representación inmobiliaria de Alfaro & Partners en Madrid.';
+
+const applyMessage = encodeURIComponent(
+  'Hola, me gustaría formar parte de la Red de Partners AP. Mi especialidad es ',
+);
+const applyWhatsapp = `${BUSINESS_INFO.social.whatsapp}?text=${applyMessage}`;
+const applyEmail = `mailto:${BUSINESS_INFO.email}?subject=${encodeURIComponent('Solicitud para ser Partner AP')}`;
+
+const steps = [
+  {
+    title: 'Analizamos la necesidad',
+    body: 'Escuchamos el caso entero, no solo la parte inmobiliaria. Casi siempre hay algo antes o después de la compraventa.',
+  },
+  {
+    title: 'Incorporamos a los especialistas',
+    body: 'Los que hagan falta, de nuestra red. Ni uno más. Cada uno responde de lo suyo.',
+  },
+  {
+    title: 'Coordinamos la solución',
+    body: 'Tú no gestionas proveedores ni repites tu historia cinco veces. Hablas con nosotros.',
+  },
+];
+
+const partnerKinds = [
+  { name: 'Jurídico', icon: 'lucide:scale', body: 'Derecho inmobiliario, contratos, arrendamientos, herencias, conflictos de propiedad y urbanismo.' },
+  { name: 'Fiscal y Patrimonial', icon: 'lucide:landmark', body: 'Consecuencias fiscales de la operación, estructuración de patrimonios y decisiones de sucesión.' },
+  { name: 'Financiero', icon: 'lucide:line-chart', body: 'Financiación hipotecaria, financiación para inversión y análisis financiero.' },
+  { name: 'Técnico', icon: 'lucide:ruler', body: 'Informes, proyectos, inspecciones, rehabilitación, eficiencia energética y viabilidad.' },
+  { name: 'Reforma e Interiorismo', icon: 'lucide:paintbrush', body: 'Desde una puesta a punto previa a la venta hasta la reforma integral y el interiorismo.' },
+  { name: 'Otros especialistas', icon: 'lucide:layers', body: 'Tasadores, aseguradoras, mudanzas, mantenimiento, fotografía y gestión patrimonial.' },
+];
+
+const faqs = [
+  {
+    q: '¿Ser Partner significa trabajar bajo la marca Alfaro & Partners?',
+    a: [
+      'No. La Red de Partners AP no es una red de agentes inmobiliarios autónomos, y ser Partner no da derecho a operar comercialmente bajo nuestra marca.',
+      'Los Partners son profesionales independientes, especializados en ámbitos concretos, que se incorporan a las soluciones que diseñamos para nuestros clientes.',
+    ],
+  },
+  {
+    q: '¿Quién responde de qué?',
+    a: [
+      'Cada Partner mantiene su independencia profesional y su responsabilidad sobre su especialidad.',
+      'Alfaro & Partners mantiene la visión global de la operación, la coordinación del proceso y la relación con el cliente.',
+    ],
+  },
+  {
+    q: '¿Qué se espera de un Partner AP?',
+    a: ['Compartir una determinada forma de trabajar:'],
+    list: [
+      'Excelencia profesional',
+      'Transparencia',
+      'Respuesta y compromiso',
+      'Orientación absoluta al cliente',
+      'Coordinación con el resto de especialistas',
+      'Confidencialidad',
+      'Protección de la confianza depositada en Alfaro & Partners',
+    ],
+    after: 'Cuando recomendamos a un profesional, ponemos nuestra reputación detrás de esa recomendación.',
+  },
+  {
+    q: '¿Cómo funciona la retribución del Partner Originador?',
+    a: [
+      'El Partner que origina una oportunidad puede seguir desarrollando su especialidad dentro de la operación y, además, recibir una retribución específica por haberla originado.',
+      'Se fija de acuerdo con las condiciones previamente establecidas y siempre dentro de los límites legales y deontológicos aplicables a cada profesión.',
+    ],
+  },
+  {
+    q: '¿Qué gano por formar parte de la red?',
+    a: [],
+    list: [
+      'Participar en operaciones previamente analizadas y cualificadas',
+      'Acceder a nuevas oportunidades profesionales',
+      'Ampliar la capacidad de servicio ofrecida a tus propios clientes',
+      'Colaborar con otros especialistas de confianza',
+      'Obtener visibilidad dentro de los soportes profesionales de Alfaro & Partners',
+      'Desarrollar una relación de largo plazo basada en la reciprocidad',
+    ],
+  },
+  {
+    q: '¿Entra cualquier profesional?',
+    a: [
+      'No. No buscamos acumular colaboradores, sino construir una red limitada de profesionales excelentes y de confianza, con relaciones estables y reciprocidad real.',
+      'Nuestro equipo analiza personalmente cada solicitud antes de incorporar a nadie.',
+    ],
+  },
+];
+
+const applyFields = [
+  'Quién eres',
+  'Cuál es tu especialidad',
+  'En qué zona trabajas',
+  'Cómo crees que podemos colaborar',
+];
+
+const pageTitle = 'Red de Partners AP | Alfaro & Partners';
+const pageDescription =
+  'La red de especialistas —jurídicos, fiscales, financieros, técnicos y de reforma— que Alfaro & Partners coordina en una sola solución inmobiliaria. Conoce la red y solicita formar parte.';
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -40,6 +137,18 @@ const structuredData = {
       })),
     },
     {
+      '@type': 'FAQPage',
+      '@id': `${pageUrl}#faq`,
+      mainEntity: faqs.map(({ q, a, list, after }) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: [...a, ...(list ?? []), after].filter(Boolean).join(' '),
+        },
+      })),
+    },
+    {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
@@ -58,17 +167,59 @@ const structuredData = {
 >
   <section class="partners-intro">
     <div class="wrap partners-intro__inner">
-      <p class="eyebrow">Partners</p>
-      <h1 class="display">Una red para <em class="italic-gold">representar mejor</em></h1>
+      <p class="eyebrow">Partners AP</p>
+      <h1 class="display">Una red de confianza para <em class="italic-gold">soluciones completas</em></h1>
       <p>
-        Profesionales y entidades que aportan conocimiento especializado, coordinación y confianza al servicio de cada cliente.
+        Una necesidad inmobiliaria rara vez empieza y termina en comprar o vender. Suele haber algo antes o
+        después: una herencia, un asunto fiscal, una financiación, una reforma.
       </p>
+      <p class="partners-claim">Un problema. Un interlocutor. Todos los especialistas necesarios.</p>
+    </div>
+  </section>
+
+  <section class="section partners-steps" aria-labelledby="partners-steps-title">
+    <div class="wrap">
+      <h2 id="partners-steps-title" class="sr-only">Cómo funciona la red</h2>
+      <ol class="partners-steps__list">
+        {steps.map((step, index) => (
+          <li class="partners-step">
+            <span class="partners-step__num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h3 class="partners-step__title">{step.title}</h3>
+            <p class="partners-step__body">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section partners-kinds" aria-labelledby="partners-kinds-title">
+    <div class="wrap">
+      <p class="eyebrow">Especialidades</p>
+      <h2 id="partners-kinds-title" class="section-head__title">Seis tipos de Partner</h2>
+      <div class="partners-kinds__grid">
+        {partnerKinds.map((kind) => (
+          <article class="partner-kind">
+            <span class="partner-kind__icon" aria-hidden="true">
+              <Icon name={kind.icon} />
+            </span>
+            <h3 class="partner-kind__name">{kind.name}</h3>
+            <p class="partner-kind__body">{kind.body}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="partners-directory" aria-labelledby="partners-list-title">
-    <div class="wrap">
-      <h2 id="partners-list-title" class="sr-only">Listado de partners</h2>
+    <div class="wrap partners-directory__grid">
+      <div class="partners-directory__intro">
+        <p class="eyebrow">Quién forma parte</p>
+        <h2 id="partners-list-title" class="section-head__title">La red hoy</h2>
+        <p>
+          Cada ficha recoge la especialidad, el ámbito de intervención y la forma de contacto. La red crece
+          despacio y a propósito.
+        </p>
+      </div>
       <div class="partners-directory__list">
         {partners.map(({ id, data }) => (
           <a class:list={["partner-card", `partner-card--${data.kind}`]} href={withBase(`partners/${id}/`)}>
@@ -105,6 +256,103 @@ const structuredData = {
             </div>
           </a>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="partners-seam" role="separator" aria-label="A partir de aquí, información para profesionales">
+    <div class="wrap partners-seam__inner">
+      <span class="partners-seam__rule" aria-hidden="true"></span>
+      <p class="partners-seam__label">¿Eres profesional?<span> Lo que sigue es para ti.</span></p>
+      <span class="partners-seam__rule" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <section class="section partners-originator" aria-labelledby="partners-originator-title">
+    <div class="wrap partners-originator__grid">
+      <div class="partners-originator__copy">
+        <p class="eyebrow">Reciprocidad</p>
+        <h2 id="partners-originator-title" class="section-head__title">
+          También puedes ser <em class="italic-gold">Partner Originador</em>
+        </h2>
+        <p>
+          No solo incorporamos especialistas a nuestros proyectos. También reconocemos al profesional que, desde
+          la confianza que ya tiene con su cliente, detecta una necesidad inmobiliaria que podemos resolver.
+        </p>
+        <p class="partners-claim">
+          El Partner aporta confianza y especialización. AP aporta análisis, gestión y ejecución. El cliente
+          recibe una solución completa.
+        </p>
+      </div>
+      <figure class="partners-case surface surface--gold">
+        <figcaption class="partners-case__label">Un caso</figcaption>
+        <p>
+          Un abogado tramita una herencia. La familia recibe tres inmuebles y no sabe qué hacer con ellos:
+          venderlos, alquilarlos, repartirlos.
+        </p>
+        <p>
+          Él no es agente inmobiliario, pero conoce a quien sí. Presenta el caso a Alfaro &amp; Partners:
+          nosotros lo analizamos, estructuramos la solución y asumimos la gestión.
+        </p>
+        <p class="partners-case__outcome">
+          Él sigue llevando la herencia. Y recibe una retribución por haber originado la operación.
+        </p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section partners-faq" aria-labelledby="partners-faq-title">
+    <div class="wrap wrap--narrow">
+      <p class="eyebrow">Antes de solicitarlo</p>
+      <h2 id="partners-faq-title" class="section-head__title">Lo que conviene tener claro</h2>
+      <div class="partners-faq__list">
+        {faqs.map(({ q, a, list, after }) => (
+          <details class="partners-faq__item">
+            <summary>
+              <span>{q}</span>
+              <Icon name="lucide:plus" aria-hidden="true" />
+            </summary>
+            <div class="partners-faq__answer">
+              {a.map((paragraph) => <p>{paragraph}</p>)}
+              {list && (
+                <ul>
+                  {list.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+              {after && <p class="partners-faq__note">{after}</p>}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="section partners-apply"
+    id="solicitar"
+    aria-labelledby="partners-apply-title"
+    data-cta-location="partners-solicitud"
+    data-lead-kind="partner"
+  >
+    <div class="wrap wrap--narrow partners-apply__inner">
+      <p class="eyebrow">Solicitud</p>
+      <h2 id="partners-apply-title" class="section-head__title">
+        ¿Quieres ser <em class="italic-gold">Partner de Alfaro &amp; Partners</em>?
+      </h2>
+      <p>Cuéntanos brevemente:</p>
+      <ul class="partners-apply__fields">
+        {applyFields.map((field) => (
+          <li>
+            <Icon name="lucide:check" aria-hidden="true" />
+            <span>{field}</span>
+          </li>
+        ))}
+      </ul>
+      <div class="partners-apply__actions">
+        <a class="btn btn--primary btn--lg" href={applyWhatsapp} target="_blank" rel="noopener noreferrer">
+          Solicitar ser Partner AP
+        </a>
+        <a class="btn btn--text" href={applyEmail}>o escríbenos a {BUSINESS_INFO.email}</a>
       </div>
     </div>
   </section>

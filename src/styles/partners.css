@@ -3,7 +3,7 @@
    ============================================================================= */
 
 .partners-intro {
-  padding: calc(var(--header-h) + clamp(2.75rem, 5vw, 4.5rem)) 0 clamp(2.75rem, 5vw, 4.5rem);
+  padding: calc(var(--header-h) + clamp(2rem, 4vw, 3.25rem)) 0 0;
 }
 
 .partners-intro__inner {
@@ -175,10 +175,6 @@
 }
 
 @media (min-width: 1100px) {
-  .partners-intro h1 {
-    white-space: nowrap;
-  }
-
   .partners-directory__list {
     grid-template-columns: repeat(auto-fill, minmax(31rem, 1fr));
     align-items: start;
@@ -636,4 +632,340 @@
   .partner-profile__contact-actions .btn {
     width: 100%;
   }
+}
+
+/* =============================================================================
+   Partners AP · pasos, tipos, costura, caso, FAQ y solicitud
+   Todo el espaciado sale de la escala. Sin excepciones.
+
+   La medida de linea sale de --measure (ver tokens.css).
+   ========================================================================== */
+
+
+.partners-claim,
+.partners-intro__inner > p.partners-claim {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: var(--leading-display);
+  color: var(--color-gold);
+  max-width: 34ch;
+  margin: var(--space-6) 0 0;
+}
+
+/* --- Cómo funciona: tres pasos ------------------------------------------- */
+
+.partners-steps { padding-top: var(--space-12); }
+
+.partners-steps__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-12);
+  margin: 0;
+  padding: 0;
+}
+
+.partners-step {
+  position: relative;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(201, 164, 74, .28);
+}
+
+.partners-step__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-gold);
+  margin-bottom: var(--space-4);
+}
+
+.partners-step__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  line-height: var(--leading-display);
+  color: var(--color-offwhite);
+  margin: 0 0 var(--space-3);
+}
+
+.partners-step__body {
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+/* --- Seis tipos ----------------------------------------------------------- */
+
+.partners-kinds .eyebrow { margin-bottom: var(--space-3); }
+.partners-kinds .section-head__title { margin: 0 0 var(--space-12); }
+
+.partners-kinds__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.partner-kind__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: var(--space-5);
+  border: 1px solid rgba(201, 164, 74, .3);
+  border-radius: var(--radius-pill);
+  color: var(--color-gold);
+}
+
+.partner-kind__icon [data-icon] { width: 1.15rem; height: 1.15rem; }
+
+.partner-kind__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: var(--leading-display);
+  color: var(--color-offwhite);
+  margin: 0 0 var(--space-3);
+}
+
+.partner-kind__body {
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+/* --- La red hoy ----------------------------------------------------------- */
+
+.partners-directory__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.partners-directory__intro .eyebrow { margin-bottom: var(--space-3); }
+.partners-directory__intro .section-head__title { margin: 0 0 var(--space-6); }
+
+.partners-directory__intro > p {
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+/* --- Costura: aquí la página cambia de interlocutor ----------------------- */
+
+.partners-seam { padding-block: var(--space-8); }
+
+.partners-seam__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.partners-seam__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 164, 74, .35), transparent);
+}
+
+.partners-seam__label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  color: var(--color-gold);
+  text-align: center;
+}
+
+.partners-seam__label span {
+  display: block;
+  font-family: var(--font-body, inherit);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-quill);
+  margin-top: var(--space-2);
+}
+
+/* --- Partner Originador + el caso ---------------------------------------- */
+
+.partners-originator__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.partners-originator__copy .eyebrow { margin-bottom: var(--space-3); }
+.partners-originator__copy .section-head__title { margin: 0 0 var(--space-6); }
+
+.partners-originator__copy > p {
+  max-width: var(--measure);
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+.partners-case {
+  margin: 0;
+  padding: var(--space-10);
+  border-radius: var(--radius-md);
+}
+
+.partners-case__label {
+  font-size: var(--fs-caption);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-6);
+}
+
+.partners-case p {
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0 0 var(--space-5);
+}
+
+.partners-case__outcome {
+  color: var(--color-offwhite);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: var(--leading-display);
+  margin: var(--space-6) 0 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(201, 164, 74, .22);
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.partners-faq .eyebrow { margin-bottom: var(--space-3); }
+.partners-faq .section-head__title { margin: 0 0 var(--space-12); }
+
+.partners-faq__item { border-top: 1px solid rgba(255, 255, 255, .09); }
+.partners-faq__item:last-child { border-bottom: 1px solid rgba(255, 255, 255, .09); }
+
+.partners-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding-block: var(--space-6);
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+  line-height: var(--leading-display);
+  color: var(--color-offwhite);
+  transition: color .2s ease;
+}
+
+.partners-faq__item summary::-webkit-details-marker { display: none; }
+.partners-faq__item summary:hover { color: var(--color-gold); }
+
+.partners-faq__item summary [data-icon] {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-gold);
+  transition: transform .25s ease;
+}
+
+.partners-faq__item[open] summary [data-icon] { transform: rotate(45deg); }
+
+.partners-faq__answer { padding: 0 0 var(--space-8); max-width: var(--measure); }
+
+.partners-faq__answer p {
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0 0 var(--space-4);
+}
+
+.partners-faq__answer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.partners-faq__answer li {
+  position: relative;
+  padding-left: var(--space-5);
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+}
+
+.partners-faq__answer li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .7em;
+  width: var(--space-2);
+  height: 1px;
+  background: var(--color-gold);
+}
+
+.partners-faq__note {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(201, 164, 74, .22);
+  color: var(--color-quill);
+}
+
+/* --- Solicitud ------------------------------------------------------------ */
+
+.partners-apply .eyebrow { margin-bottom: var(--space-3); }
+.partners-apply .section-head__title { margin: 0 0 var(--space-6); }
+
+.partners-apply__inner > p {
+  max-width: var(--measure);
+  color: var(--color-mist);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+.partners-apply__fields {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.partners-apply__fields li {
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  color: var(--color-mist);
+  line-height: var(--leading-base);
+}
+
+.partners-apply__fields [data-icon] {
+  width: 1rem;
+  height: 1rem;
+  margin-top: .2em;
+  color: var(--color-gold);
+}
+
+.partners-apply__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+  margin-top: var(--space-12);
+}
+
+@media (max-width: 900px) {
+  .partners-directory__grid,
+  .partners-originator__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-12); }
+  /* Seis tipos y tres pasos reparten en dos columnas antes que en una: 3+3 y 2+1
+     siguen leyendose como rejilla, 6x1 y 3x1 se leen como lista larga. */
+  .partners-kinds__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .partners-steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-10); }
+}
+
+@media (max-width: 640px) {
+  .partners-seam__inner { gap: var(--space-4); }
+  .partners-case { padding: var(--space-8); }
+  .partners-kinds__grid,
+  .partners-steps__list { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); }
 }
