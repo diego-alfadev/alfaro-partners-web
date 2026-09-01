@@ -149,7 +149,7 @@ const xSobreAlto = geometria.alturaA / geometria.viewBoxAlto;
     font-size: 1.1rem;
     font-weight: 400;
   }
-  .marca__entradilla, .marca__texto { max-width: 62ch; color: var(--color-mist); line-height: var(--leading-base); }
+  .marca__entradilla, .marca__texto { max-width: var(--measure); color: var(--color-mist); line-height: var(--leading-base); }
   .marca__bloque { padding-block: clamp(2.5rem, 6vw, 5rem); border-top: var(--hairline-strong); }
 
   .marca__lienzos {
@@ -212,7 +212,7 @@ const xSobreAlto = geometria.alturaA / geometria.viewBoxAlto;
     line-height: var(--leading-display);
   }
   .marca__nota {
-    max-width: 62ch;
+    max-width: var(--measure);
     margin-top: var(--space-8);
     padding-left: var(--space-4);
     border-left: 2px solid var(--color-gold);

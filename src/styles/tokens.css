@@ -86,7 +86,17 @@
   /* ── Layout ───────────────────────────────────────────────────────────── */
   --container:        1280px;
   --container-narrow: 880px;
-  --container-prose:  680px;
+  /* 680px daba 84 caracteres por linea en las paginas legales, que son las
+     unicas que usan .wrap--prose. 550px las deja en 68. */
+  --container-prose:  550px;
+
+  /* Medida de lectura. Ojo con `ch`: es el ancho del glifo "0", y tanto en
+     Satoshi como en la serif del sitio mide ~1.6 veces el caracter medio. O
+     sea que 56ch NO son 56 caracteres, son 90. Para fijar una medida, coge los
+     caracteres que quieres por linea y multiplicalos por 0.62. Verificado con
+     canvas.measureText sobre texto castellano, no estimado. */
+  --measure:       42ch;  /* ~68 caracteres · texto corrido */
+  --measure-tight: 36ch;  /* ~58 caracteres · notas y resumenes en tarjeta */
   --gutter:           clamp(1.5rem, 4vw, 4rem);
   --header-h:         76px;
 

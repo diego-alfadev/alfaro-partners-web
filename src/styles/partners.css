@@ -12,13 +12,14 @@
 }
 
 .partners-intro h1 {
-  max-width: none;
+  max-width: 18ch;
   font-size: clamp(2.65rem, 3.5vw, 3.75rem);
   line-height: 1.05;
+  text-wrap: balance;
 }
 
-.partners-intro__inner > p:last-child {
-  max-width: 54ch;
+.partners-intro__inner > p {
+  max-width: var(--measure);
   margin: 0;
   color: var(--color-mist);
   font-size: clamp(1rem, 1.2vw, var(--fs-body-lg));
@@ -123,13 +124,13 @@
 
 .partner-card__title,
 .partner-profile__title {
-  margin: .85rem 0 0;
+  margin: var(--space-3) 0 0;
   color: var(--color-offwhite);
   font-size: var(--fs-body-lg);
 }
 
 .partner-card__summary {
-  max-width: 58ch;
+  max-width: var(--measure-tight);
   margin: var(--space-8) 0;
   color: var(--color-mist);
 }
@@ -284,7 +285,7 @@
 }
 
 .partner-profile__summary {
-  max-width: 58ch;
+  max-width: var(--measure);
   margin: var(--space-10) 0 var(--space-8);
   color: var(--color-mist);
   font-size: var(--fs-body-lg);
@@ -481,7 +482,7 @@
 }
 
 .partner-profile__contact-inner > div:first-child > p {
-  max-width: 52ch;
+  max-width: var(--measure-tight);
   margin: var(--space-6) 0 0;
   color: var(--color-mist);
 }
