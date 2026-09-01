@@ -137,12 +137,12 @@
 .partner-card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: .55rem;
+  gap: var(--space-2);
   margin-top: var(--space-5);
 }
 
 .partner-card__tags span {
-  padding: .45rem .65rem;
+  padding: var(--space-2) var(--space-3);
   border: 1px solid rgba(238,236,235,.13);
   color: var(--color-quill);
   font-size: 9px;
@@ -155,7 +155,7 @@
 .partner-card__action {
   display: inline-flex;
   align-items: center;
-  gap: .7rem;
+  gap: var(--space-3);
   color: var(--color-gold-light);
   font-size: 11px;
   font-weight: 600;
@@ -235,7 +235,7 @@
 
   .partner-card__action {
     margin-top: auto;
-    padding: .65rem .8rem;
+    padding: var(--space-3) var(--space-3);
     border: 1px solid rgba(201,164,74,.25);
   }
 }
@@ -259,7 +259,7 @@
 .partner-profile__back {
   display: inline-flex;
   align-items: center;
-  gap: .65rem;
+  gap: var(--space-3);
   margin-bottom: clamp(3rem, 7vw, 6rem);
   color: var(--color-mist);
   font-size: 11px;
@@ -364,7 +364,7 @@
 
 .partner-profile__responsibilities p {
   margin: 0;
-  padding: 1.35rem 0;
+  padding: var(--space-5) 0;
   border-bottom: 1px solid rgba(238,236,235,.09);
   font-family: var(--font-display);
   font-size: clamp(1.3rem, 2vw, 1.8rem);
@@ -381,7 +381,7 @@
 }
 
 .partner-profile__facts h3 {
-  margin: 0 0 .35rem;
+  margin: 0 0 var(--space-1);
   color: var(--color-quill);
   font-size: 10px;
   font-weight: 600;
@@ -411,10 +411,10 @@
 
 .partner-profile__logo {
   min-width: 0;
-  padding: .75rem;
+  padding: var(--space-3);
   display: grid;
   grid-template-rows: 7.5rem auto;
-  gap: .8rem;
+  gap: var(--space-3);
   border: 1px solid rgba(238,236,235,.12);
   background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.008));
   transition: border-color var(--t-fast), transform var(--t-fast), background var(--t-fast);
@@ -428,7 +428,7 @@
 
 .partner-profile__logo-mark {
   min-width: 0;
-  padding: 1rem;
+  padding: var(--space-4);
   display: grid;
   place-items: center;
   border: 1px solid rgba(4,6,13,.08);
@@ -603,7 +603,7 @@
   }
 
   .partner-card__body {
-    padding: 1.7rem;
+    padding: var(--space-7);
   }
 
   .partner-profile__hero-grid {
