@@ -19,6 +19,12 @@ export const BUSINESS_INFO = {
   },
   // Weekday hours are identical, so they collapse into one specification.
   // Saturday is listed separately because it closes at midday.
+  //
+  // Saturdays are closed on public holidays and throughout August. Neither
+  // exception is expressible in openingHoursSpecification -- it has no
+  // recurring-exclusion syntax. Both belong in the Google Business Profile as
+  // special hours, which is also the surface where they actually change what
+  // a visitor is told. Tracked as a listing task, not a markup one.
   openingHours: [
     { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:30", closes: "19:00" },
     { days: ["Saturday"], opens: "10:30", closes: "13:30" },
