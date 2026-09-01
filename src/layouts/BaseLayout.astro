@@ -411,7 +411,13 @@ const schema = {
 
       const [eventName, method] = intent;
 
-      window.gtag('event', eventName, {
+      // A partner application travels on the same WhatsApp link as a client
+      // enquiry, so the URL cannot tell them apart. Counting it as generate_lead
+      // would inflate the conversion number with people offering services
+      // instead of asking for them.
+      const isPartnerApplication = link.closest('[data-lead-kind="partner"]') !== null;
+
+      window.gtag('event', isPartnerApplication ? 'partner_application' : eventName, {
         method,
         link_url: url.href,
         link_text: link.textContent?.trim() ?? '',
