@@ -1,0 +1,275 @@
+<title>Tablero Alfaro &amp; Partners</title>
+
+<style>
+  :root{
+    --bg:#f5f3f0; --bg-deep:#eae6e0; --surface:#fffefc; --surface-2:#f7f4f0;
+    --line:#dcd6cc; --line-strong:#c4bcae;
+    --ink:#12182a; --ink-2:#3d4557; --ink-3:#6e7686;
+    --accent:#8a6e2f; --accent-bright:#6d5522;
+    --ok:#2f7157; --ok-bg:#e4efe9;
+    --stop:#9a4444; --stop-bg:#f6e6e4;
+    --go:#8a6e2f; --go-bg:#f6efdd;
+    --wait:#6e7686; --wait-bg:#ecebe7;
+    --font-display:"Libre Baskerville","Iowan Old Style",Baskerville,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:"Satoshi","Aptos","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --wrap:min(46rem,100% - 2rem);
+    --r:3px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1322; --bg-deep:#04060d; --surface:#12182a; --surface-2:#192236;
+      --line:#222b43; --line-strong:#2e3851;
+      --ink:#eeeceb; --ink-2:#b8bdc7; --ink-3:#6e7686;
+      --accent:#c9a44a; --accent-bright:#efdc9a;
+      --ok:#6dbb9b; --ok-bg:#12261f;
+      --stop:#d98080; --stop-bg:#2a1717;
+      --go:#c9a44a; --go-bg:#251f10;
+      --wait:#8b93a3; --wait-bg:#171d2c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1322; --bg-deep:#04060d; --surface:#12182a; --surface-2:#192236;
+    --line:#222b43; --line-strong:#2e3851;
+    --ink:#eeeceb; --ink-2:#b8bdc7; --ink-3:#6e7686;
+    --accent:#c9a44a; --accent-bright:#efdc9a;
+    --ok:#6dbb9b; --ok-bg:#12261f;
+    --stop:#d98080; --stop-bg:#2a1717;
+    --go:#c9a44a; --go-bg:#251f10;
+    --wait:#8b93a3; --wait-bg:#171d2c;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:1rem; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{font-family:var(--font-display); font-weight:400; margin:0; text-wrap:balance;}
+  p{margin:0;}
+  a{color:var(--accent-bright);}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .wrap{width:var(--wrap); margin-inline:auto;}
+
+  header.top{background:var(--bg-deep); border-bottom:1px solid var(--line); padding-block:2.25rem 1.75rem;}
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.6rem; letter-spacing:.3em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  h1{font-size:clamp(1.8rem,5vw + .5rem,2.5rem); line-height:1.1; margin-top:.5rem;}
+  .lead{
+    font-size:1.05rem; color:var(--ink); margin-top:.85rem; max-width:34ch;
+    line-height:1.5;
+  }
+  .lead b{font-weight:600;}
+  .note-sm{font-size:.85rem; color:var(--ink-2); margin-top:.7rem; max-width:44ch;}
+
+  section{padding-block:2rem;}
+  section + section{border-top:1px solid var(--line);}
+  h2{font-size:1.25rem; margin-bottom:.35rem;}
+  .sub{font-size:.85rem; color:var(--ink-2); margin-bottom:1rem; max-width:46ch;}
+
+  .list{border:1px solid var(--line); border-radius:var(--r); overflow:hidden; background:var(--line);
+        display:flex; flex-direction:column; gap:1px;}
+
+  /* fila desplegable */
+  details.item{background:var(--surface);}
+  details.item > summary{
+    list-style:none; cursor:pointer; padding:.85rem .9rem;
+    display:grid; grid-template-columns:1.7rem 1fr auto; gap:.2rem .6rem;
+    grid-template-areas:"num what what" "num who chip";
+    align-items:center;
+  }
+  details.item > summary::-webkit-details-marker{display:none;}
+  .num{grid-area:num; font-family:var(--font-mono); font-size:.7rem; color:var(--accent); align-self:start; padding-top:.15rem;}
+  .what{grid-area:what; font-weight:600; line-height:1.35;}
+  .what::after{content:" +"; color:var(--ink-3); font-weight:400; font-family:var(--font-mono); font-size:.85em;}
+  details.item[open] .what::after{content:" −";}
+  .who{grid-area:who; font-size:.78rem; color:var(--ink-3);}
+  .chip{
+    grid-area:chip; justify-self:end;
+    font-family:var(--font-mono); font-size:.6rem; letter-spacing:.1em;
+    text-transform:uppercase; border-radius:100px; padding:.2rem .55rem; white-space:nowrap;
+  }
+  .chip.pend{background:var(--wait-bg); color:var(--wait); box-shadow:inset 0 0 0 1px var(--line-strong);}
+  .chip.do{background:var(--go-bg); color:var(--go); box-shadow:inset 0 0 0 1px var(--go);}
+  .chip.ok{background:var(--ok-bg); color:var(--ok); box-shadow:inset 0 0 0 1px var(--ok);}
+  details.item > .body{
+    padding:0 .9rem 1rem 2.6rem; font-size:.88rem; color:var(--ink-2);
+    display:flex; flex-direction:column; gap:.6rem;
+  }
+  .body em{font-style:normal; color:var(--ink); font-weight:600;}
+  code{font-family:var(--font-mono); font-size:.85em; background:var(--surface-2);
+       border:1px solid var(--line); border-radius:var(--r); padding:.05em .3em;}
+
+  /* bloque plegado de "lo mío" */
+  details.mine{
+    border:1px solid var(--line); border-radius:var(--r);
+    background:var(--surface); overflow:hidden;
+  }
+  details.mine > summary{
+    list-style:none; cursor:pointer; padding:.9rem 1rem;
+    display:flex; align-items:baseline; gap:.5rem; flex-wrap:wrap;
+  }
+  details.mine > summary::-webkit-details-marker{display:none;}
+  details.mine > summary b{font-weight:600;}
+  details.mine > summary span{font-size:.85rem; color:var(--ink-2);}
+  details.mine > summary::after{content:"+"; margin-left:auto; color:var(--ink-3); font-family:var(--font-mono);}
+  details.mine[open] > summary::after{content:"−";}
+  .minelist{border-top:1px solid var(--line); padding:.3rem 0;}
+  .minerow{
+    display:grid; grid-template-columns:1.7rem 1fr auto; gap:.6rem;
+    padding:.45rem 1rem; font-size:.87rem; align-items:baseline;
+  }
+  .minerow .n{font-family:var(--font-mono); font-size:.68rem; color:var(--ink-3);}
+  .minerow .t{color:var(--ink);}
+  .minerow.done .t{color:var(--ink-3); text-decoration:line-through;}
+  .minerow .s{font-family:var(--font-mono); font-size:.6rem; letter-spacing:.08em;
+              text-transform:uppercase; color:var(--ink-3); white-space:nowrap;}
+  .minerow.done .s{color:var(--ok);}
+  .minerow.stop .s{color:var(--stop);}
+
+  footer{border-top:1px solid var(--line); background:var(--bg-deep); padding-block:1.75rem 2.75rem;}
+  .tiny{font-size:.78rem; color:var(--ink-3); line-height:1.55;}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Alfaro &amp; Partners · web</p>
+    <h1>Qué toca ahora</h1>
+    <p class="lead">
+      <b>Dos cosas quedan de vuestra parte.</b> Dos ya están hechas y las
+      fotos ya me han llegado.
+    </p>
+    <p class="note-sm">
+      Cada línea lleva número: para contestar a una suelta basta con decir
+      «la 2». Y si os interesa el porqué de alguna, se despliega pulsando encima
+      — pero no hace falta leerlo para contestar.
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Lo que depende de vosotros</h2>
+    <p class="sub">En dorado, lo que queda. En verde, lo que ya está cerrado.</p>
+    <div class="list">
+
+      <details class="item">
+        <summary>
+          <span class="num">01</span>
+          <span class="what">Pedir a FAI que su ficha enlace a la web</span>
+          <span class="who">José María</span>
+          <span class="chip ok">hecho</span>
+        </summary>
+        <div class="body">
+          <p>La ficha que FAI tiene sobre ti <em>ya enlaza a cuatro webs tuyas</em> — Nuevo Milenio, personal-shopper-inmobiliario, Viveku y GDInmo. Alfaro &amp; Partners no está.</p>
+          <p>Es tu propia federación y el precedente ya existe, así que es añadir una línea sin pedirle permiso a ningún medio.</p>
+          <p><em>Es esta página:</em><br>
+          <a href="https://fainmo.es/air/jose-maria-alfaro/">fainmo.es/air/jose-maria-alfaro</a></p>
+          <p>A quien lleve la web de FAI le vale con: <em>«añadidme alfaropartners.es a las webs de mi ficha»</em>. Dos minutos.</p>
+        </div>
+      </details>
+
+      <details class="item">
+        <summary>
+          <span class="num">02</span>
+          <span class="what">Entrar una vez en Analytics</span>
+          <span class="who">José María y Augusto</span>
+          <span class="chip do">hacer</span>
+        </summary>
+        <div class="body">
+          <p>Es la que más os quita de encima a largo plazo. En cuanto hayáis entrado una vez y visto dónde está cada cosa, <em>dejáis de depender de mí</em> para saber qué está pasando en la web.</p>
+          <p>Os preparé una guía de seis pasos con capturas de vuestra propia pantalla, colgada de la excusa de mirar qué hizo la campaña de agosto. Los números de esa campaña son lo de menos: lo que vale es el recorrido.</p>
+          <p><em>Hace falta la cuenta</em> <code>hola@alfaropartners.es</code>. Si no la tenéis a mano, avisad antes de ponerse.</p>
+        </div>
+      </details>
+
+      <details class="item">
+        <summary>
+          <span class="num">03</span>
+          <span class="what">Que tu firma incluya Alfaro &amp; Partners</span>
+          <span class="who">José María</span>
+          <span class="chip ok">hecho</span>
+        </summary>
+        <div class="body">
+          <p>En Europa Press, idealista, Inmodiario y FAI apareces solo como «presidente de FAI». Ninguna nombra la empresa, y por eso no se les puede pedir que enlacen: no se puede enlazar algo que el texto no menciona.</p>
+          <p>No hay que cambiar el pasado. Solo que a partir de ahora te presenten como <em>«presidente de FAI y fundador de Alfaro &amp; Partners»</em>. Cada pieza nueva nace ya con la mención.</p>
+        </div>
+      </details>
+
+      <details class="item">
+        <summary>
+          <span class="num">04</span>
+          <span class="what">Confirmar la ficha de Google</span>
+          <span class="who">José María o Augusto</span>
+          <span class="chip do">hacer</span>
+        </summary>
+        <div class="body">
+          <p>La ficha es el recuadro que sale a la derecha en Google al buscar vuestro nombre: mapa, horario, fotos y reseñas. <em>Ya existe</em> porque Google la creó sola, pero al no estar reclamada no la controla nadie.</p>
+          <p>La solicitud la abro y la relleno yo. Lo único que no puedo hacer es el último paso: Google comprueba que el negocio existe en esa dirección y hace falta alguien en Narváez — un código por carta, una llamada o un vídeo corto del local. <em>Lo hacemos en cuanto podamos</em>: yo abro la solicitud y vosotros hacéis la verificación, diez minutos entre los dos. Decidme cuándo os viene bien.</p>
+        </div>
+      </details>
+
+      <details class="item">
+        <summary>
+          <span class="num">05</span>
+          <span class="what">Tres fotos del despacho</span>
+          <span class="who">Augusto</span>
+          <span class="chip ok">recibidas</span>
+        </summary>
+        <div class="body">
+          <p>Fachada, entrada y sala de reuniones. Con el móvil y luz de día vale. Van a la ficha de Google y a la página de contacto. Sin prisa.</p>
+        </div>
+      </details>
+
+      <details class="item">
+        <summary>
+          <span class="num">06</span>
+          <span class="what">Un resumen mensual de cómo va la web</span>
+          <span class="who">Diego</span>
+          <span class="chip pend">más adelante</span>
+        </summary>
+        <div class="body">
+          <p>Seis números en una sola pantalla, para no tener que rebuscar: visitas del mes contra el mes anterior, contactos separados por cita / WhatsApp / teléfono, de dónde vienen, qué publicación las trajo, por qué página entran, y qué escribe la gente en Google para llegar.</p>
+          <p>Lo montaría con <em>Looker Studio</em>, que es la herramienta gratuita de Google para esto: da una dirección fija que se abre y se lee en medio minuto, y además puede mandaros ese mismo resumen por correo el día 1 de cada mes sin que haya que montar nada por debajo.</p>
+          <p><em>No hay que decidir nada todavía.</em> Primero entrad en Analytics y ved lo que hay — cuando lo hayáis visto, esto se entiende solo y me diréis si lo queréis o si preferís quedaros dentro de Analytics.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <details class="mine">
+      <summary>
+        <b>Lo que estoy haciendo yo</b>
+        <span>· nueve cosas, ninguna necesita nada de vosotros</span>
+      </summary>
+      <div class="minelist">
+        <div class="minerow done"><span class="n">a</span><span class="t">Medir los contactos de la web</span><span class="s">hecho</span></div>
+        <div class="minerow done"><span class="n">b</span><span class="t">Anexo de la campaña de LinkedIn</span><span class="s">hecho</span></div>
+        <div class="minerow"><span class="n">c</span><span class="t">Abrir y rellenar la ficha de Google</span><span class="s">esta semana</span></div>
+        <div class="minerow"><span class="n">d</span><span class="t">Poner el correo del dominio en las páginas legales</span><span class="s">esta semana</span></div>
+        <div class="minerow"><span class="n">e</span><span class="t">Horario de sábados en la web y en la ficha</span><span class="s">esta semana</span></div>
+        <div class="minerow"><span class="n">f</span><span class="t">Unificar cómo se etiqueta Instagram</span><span class="s">esta semana</span></div>
+        <div class="minerow"><span class="n">g</span><span class="t">Página de compra con representación</span><span class="s">en curso</span></div>
+        <div class="minerow"><span class="n">h</span><span class="t">Reforzar las páginas de zonas</span><span class="s">de fondo</span></div>
+        <div class="minerow stop"><span class="n">i</span><span class="t">Arreglar el acceso por http</span><span class="s">requiere prueba</span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; flex-direction:column; gap:.6rem;">
+    <p class="tiny">
+      Esta dirección no cambia aunque cambie el contenido: guardadla y volved a
+      ella. Cuando algo se cierre, lo veréis tachado aquí.
+    </p>
+    <p class="tiny">
+      Actualizado el 29 de agosto de 2026 por Diego.
+    </p>
+  </div>
+</footer>

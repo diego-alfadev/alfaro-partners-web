@@ -1,0 +1,478 @@
+<title>La mitad digital</title>
+
+<style>
+  :root{
+    --navy-1000:#04060d; --navy-950:#070c18; --navy-900:#0d1322;
+    --navy-800:#12182a; --navy-700:#192236; --navy-600:#222b43; --navy-500:#2e3851;
+    --offwhite:#eeeceb; --mist:#b8bdc7; --quill:#6e7686;
+    --gold:#c9a44a; --gold-light:#efdc9a;
+
+    --bg:var(--navy-900); --bg-deep:var(--navy-1000); --surface:var(--navy-800);
+    --surface-2:var(--navy-700); --line:var(--navy-600); --line-strong:var(--navy-500);
+    --ink:var(--offwhite); --ink-2:var(--mist); --ink-3:var(--quill);
+    --accent:var(--gold); --accent-bright:var(--gold-light);
+    --warn:#c9963c; --ok:#4f9f80;
+
+    --font-display:"Libre Baskerville","Iowan Old Style",Baskerville,"Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:"Satoshi","Aptos","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --font-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --wrap:min(64rem,100% - 2.5rem);
+    --read:min(42rem,100%);
+    --r:3px;
+  }
+  @media (prefers-color-scheme:light){
+    :root:not([data-theme="dark"]){
+      --bg:#f5f3f0; --bg-deep:#eae6e0; --surface:#fffefc; --surface-2:#f7f4f0;
+      --line:#dcd6cc; --line-strong:#c4bcae;
+      --ink:#12182a; --ink-2:#3d4557; --ink-3:#6e7686;
+      --accent:#8a6e2f; --accent-bright:#6d5522;
+      --warn:#9a6f1c; --ok:#2f7157;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f3f0; --bg-deep:#eae6e0; --surface:#fffefc; --surface-2:#f7f4f0;
+    --line:#dcd6cc; --line-strong:#c4bcae;
+    --ink:#12182a; --ink-2:#3d4557; --ink-3:#6e7686;
+    --accent:#8a6e2f; --accent-bright:#6d5522;
+    --warn:#9a6f1c; --ok:#2f7157;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1322; --bg-deep:#04060d; --surface:#12182a; --surface-2:#192236;
+    --line:#222b43; --line-strong:#2e3851;
+    --ink:#eeeceb; --ink-2:#b8bdc7; --ink-3:#6e7686;
+    --accent:#c9a44a; --accent-bright:#efdc9a;
+    --warn:#c9963c; --ok:#4f9f80;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:1.0625rem; line-height:1.68;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:var(--font-display); font-weight:400; margin:0; text-wrap:balance;}
+  p,ul,ol{margin:0;}
+  a{color:var(--accent-bright); text-underline-offset:3px;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+  .wrap{width:var(--wrap); margin-inline:auto;}
+  .read{width:var(--read);}
+  section{padding-block:clamp(3rem,6vw,4.5rem); border-top:1px solid var(--line);}
+  .stack{display:flex; flex-direction:column; gap:1.25rem;}
+  .stack-lg{display:flex; flex-direction:column; gap:2.25rem;}
+
+  .eyebrow{
+    font-family:var(--font-mono); font-size:.65rem; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  h1{font-size:clamp(2rem,3.4vw + 1rem,2.9rem); line-height:1.1; letter-spacing:-.015em;}
+  h2{font-size:clamp(1.55rem,2.1vw + 1rem,2.05rem); line-height:1.18;}
+  h3{font-size:1.08rem; line-height:1.35;}
+  .lead{font-size:clamp(1.06rem,.45vw + 1rem,1.2rem); color:var(--ink-2);}
+  .muted{color:var(--ink-2);}
+  .small{font-size:.9rem; color:var(--ink-2);}
+  .tiny{font-size:.79rem; color:var(--ink-3); line-height:1.55;}
+  strong{font-weight:600; color:var(--ink);}
+  .ref{
+    font-family:var(--font-mono); font-size:.72em; color:var(--ink-3);
+    border:1px solid var(--line-strong); border-radius:var(--r);
+    padding:.05em .35em; white-space:nowrap;
+  }
+
+  .hero{
+    background:linear-gradient(180deg,transparent 60%,color-mix(in srgb,var(--accent) 5%,transparent) 100%),var(--bg-deep);
+    border-top:0; border-bottom:1px solid var(--line);
+    padding-block:clamp(2.75rem,6vw,4.5rem);
+  }
+
+  /* bloques numerados */
+  ol.blocks{list-style:none; padding:0; display:flex; flex-direction:column; gap:0; counter-reset:b;}
+  ol.blocks > li{
+    display:grid; grid-template-columns:2.4rem 1fr; gap:1.1rem;
+    padding:1.5rem 0; border-bottom:1px solid var(--line);
+  }
+  ol.blocks > li:first-child{border-top:1px solid var(--line);}
+  ol.blocks > li::before{
+    counter-increment:b; content:counter(b,decimal-leading-zero);
+    font-family:var(--font-mono); font-size:.75rem; letter-spacing:.08em;
+    color:var(--accent); padding-top:.4rem;
+  }
+  .blk{display:flex; flex-direction:column; gap:.65rem;}
+  .blk h3{font-family:var(--font-body); font-size:1.02rem; font-weight:600;}
+
+  .quote{
+    border-left:2px solid var(--line-strong); padding-left:1rem;
+    font-size:.92rem; color:var(--ink-2); font-style:italic;
+  }
+  .quote span{font-style:normal; display:block; margin-top:.3rem; font-size:.78rem; color:var(--ink-3); font-family:var(--font-mono);}
+
+  .note{
+    background:var(--surface); border:1px solid var(--line);
+    border-left:2px solid var(--accent); border-radius:var(--r);
+    padding:1.1rem 1.25rem; display:flex; flex-direction:column; gap:.55rem;
+  }
+  .note.warn{border-left-color:var(--warn);}
+  .note.ok{border-left-color:var(--ok);}
+  .note h3{font-family:var(--font-body); font-size:.95rem; font-weight:600;}
+  .note h3 .n{font-family:var(--font-mono); font-size:.78em; letter-spacing:.08em;
+               color:var(--warn); margin-right:.5rem;}
+
+  .scroller{overflow-x:auto;}
+  table{border-collapse:collapse; width:100%; min-width:30rem;}
+  th,td{text-align:left; padding:.7rem .8rem; border-bottom:1px solid var(--line); vertical-align:top;}
+  thead th{
+    font-family:var(--font-mono); font-size:.64rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--ink-3); font-weight:400;
+    border-bottom:1px solid var(--line-strong);
+  }
+  td.who{white-space:nowrap; font-size:.86rem; color:var(--ink-2);}
+
+  footer{border-top:1px solid var(--line); background:var(--bg-deep); padding-block:2.5rem 3.5rem;}
+</style>
+
+<header class="hero">
+  <div class="wrap read stack">
+    <p class="eyebrow">Alfaro &amp; Partners · respuesta al plan de zona</p>
+    <h1>La mitad digital de Narváez 31</h1>
+    <p class="lead">
+      He leído el plan operativo entero. Es bueno, y no vengo a añadirle
+      objetivos. Vengo a señalar que el objetivo que ya tiene —ser un punto
+      reconocible en Ibiza y Niño Jesús— tiene una mitad que el documento no
+      contempla, y a proponer qué hacer antes de que empecéis a ejecutar.
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap read stack-lg">
+    <div class="stack">
+      <h2>Antes de nada: lo que no tocaría</h2>
+      <p class="muted">
+        Digo esto primero porque después vienen las pegas, y quiero que se
+        entienda desde dónde las digo.
+      </p>
+      <p class="muted">
+        Los bloques horarios llevan <strong>«resultado mínimo» explícito</strong>
+        — seis fichas, dos conversaciones, una prioridad. Eso es lo que separa
+        un plan de una declaración de intenciones. Los objetivos van marcados
+        como orientativos y no como promesa <span class="ref">§1</span>. Y los
+        límites éticos de cada principio de influencia —«nunca crear urgencias
+        ficticias», «no inventar vecinos, operaciones ni demanda»
+        <span class="ref">§3</span>— no son habituales en documentos de
+        captación y dicen mucho.
+      </p>
+      <p class="muted">
+        La sección de protección de datos <span class="ref">§16</span> está
+        mejor resuelta que en la mayoría de webs del sector.
+      </p>
+    </div>
+    <div class="note warn">
+      <h3>El único riesgo que subrayaría</h3>
+      <p class="small">
+        El propio plan lista «sobrecarga de Augusto» <span class="ref">§17</span>
+        y creo que se queda corto: lleva mapa, censo, CRM, seguimiento, 12 horas
+        de zona y turnos de oficina casi todos los días. <strong>Nada de lo que
+        propongo aquí debería caerle a él.</strong> Si algo de la web acaba en
+        su lista, es que lo he planteado mal.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap read stack-lg">
+    <div class="stack">
+      <h2>La mitad que falta</h2>
+      <div class="quote">
+        «Crear en tres meses una red local de conocimiento, confianza y
+        oportunidades suficiente para sostener un flujo recurrente de
+        propietarios, compradores y prescriptores en el entorno inmediato de
+        Narváez 31.»
+        <span>Plan operativo, §1</span>
+      </div>
+      <p class="muted">
+        Trescientas doce horas de calle. Cada una de esas conversaciones termina
+        igual: la persona se va a casa y, si le habéis interesado,
+        <strong>os busca</strong>. Ese momento no aparece en el plan.
+      </p>
+      <p class="muted">
+        El embudo del documento va <span class="ref">§14</span>: observado →
+        identificado → contacto realizado → relación activa → necesidad
+        cualificada → reunión → propuesta → encargo. Entre «contacto realizado»
+        y «relación activa» hay un paso invisible que decide muchos de los que
+        se caen: <strong>te comprueban por internet</strong>. Y si lo que
+        encuentran no confirma lo que acaban de oír en el portal, la relación no
+        pasa de ahí.
+      </p>
+      <p class="muted">
+        No es un objetivo nuevo. Es el vuestro, visto desde el otro lado.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap stack-lg">
+    <div class="read stack">
+      <h2>Tres cosas que el plan ya produce y la web necesita</h2>
+      <p class="muted">
+        Esto es lo mejor de haber leído el documento: <strong>no hace falta
+        trabajo nuevo</strong>. Tres piezas que ya están planificadas sirven
+        para las dos cosas si se hacen pensando en las dos.
+      </p>
+    </div>
+
+    <ol class="blocks read">
+      <li>
+        <div class="blk">
+          <h3>El informe de microzona ya es el contenido que nos falta</h3>
+          <p class="small">
+            El plan lo lista como material impreso <span class="ref">§13</span>:
+            «informe trimestral de microzona con datos verificables y fecha de
+            actualización». Nuestras páginas de Ibiza y Niño Jesús tienen hoy
+            unas <strong>240 palabras</strong> frente a las 830 de la portada —
+            son las más flojas del sitio.
+          </p>
+          <p class="small">
+            Es el mismo texto en dos soportes. Se escribe una vez. Y hay un
+            extra: un informe de barrio con datos propios y fecha de
+            actualización es <strong>justo el tipo de contenido que Google
+            premia en búsquedas locales</strong> — propio, local y fechado. Si
+            queréis, miro qué publican Diza, Gilmar y Lucas Fox en esa línea
+            antes de la reunión.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="blk">
+          <h3>Los prescriptores del plan son enlaces</h3>
+          <p class="small">
+            El plan construye relación con administradores, comercios,
+            farmacias, clínicas y asociaciones <span class="ref">§10.4</span>,
+            con una secuencia de tres visitas antes de plantear nada. Muchos de
+            ellos tienen web.
+          </p>
+          <p class="small">
+            «Farming referencial» y lo que yo llamo conseguir enlaces son la
+            misma acción con dos nombres. Cuando en la tercera visita se plantea
+            una colaboración, <strong>una de las formas que puede tomar es una
+            mención con enlace en su web</strong>. No cuesta nada añadirlo a la
+            conversación que ya se iba a tener.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="blk">
+          <h3>Los títulos de los microeventos son búsquedas</h3>
+          <p class="small">
+            El plan propone cuatro <span class="ref">§10.5</span>: «Cómo decidir
+            si vender ahora o esperar», «Errores al vender una vivienda
+            heredada», «Comprar en Retiro con representación» y «Qué revisar
+            antes de poner un piso en alquiler».
+          </p>
+          <p class="small">
+            Los cuatro son, casi literalmente, lo que la gente escribe en
+            Google. <strong>Cada microevento debería dejar una página detrás.</strong>
+            El evento ocurre una vez para doce personas; la página trabaja
+            durante años para quien la busque.
+          </p>
+          <p class="small">
+            Y fijaos en el tercero: «Comprar en Retiro con representación» es,
+            palabra por palabra, la página de personal shopper que elegisteis
+            como foco y que todavía no existe. El plan y el trabajo de la web
+            llegaron al mismo sitio por caminos distintos.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap stack-lg">
+    <div class="read stack">
+      <h2>Cinco cosas que faltan, y que solo podéis decidir vosotros</h2>
+      <p class="muted">
+        Ninguna cuesta dinero. La primera corre prisa de verdad.
+      </p>
+    </div>
+
+    <div class="read">
+      <div class="note warn">
+        <h3><span class="n">01</span> El QR de las tarjetas, antes de imprimir · urgente</h3>
+        <p class="small">
+          El plan incluye «tarjeta de presentación con dirección, teléfono y
+          código QR» <span class="ref">§13</span>, en los materiales del primer
+          mes. <strong>¿A dónde apunta ese QR?</strong>
+        </p>
+        <p class="small">
+          Si apunta a la web sin etiquetar, todas esas visitas van a entrar como
+          «directo» y será imposible distinguir lo que trae el trabajo de calle
+          de lo que trae cualquier otra cosa. Con una etiqueta puesta antes de
+          imprimir, se puede responder a «¿cuántas visitas ha traído el reparto
+          de tarjetas?» durante los tres meses.
+        </p>
+        <p class="small">
+          Es gratis ahora y <strong>no tiene arreglo después</strong>: una vez
+          impresas las tarjetas, ese dato se pierde para siempre. Necesito
+          saberlo antes de que salga la imprenta.
+        </p>
+      </div>
+    </div>
+
+    <ol class="blocks read" style="counter-reset:b 1;">
+      <li>
+        <div class="blk">
+          <h3>«Web» como origen en el CRM</h3>
+          <p class="small">
+            El protocolo de oficina manda registrar el origen
+            <span class="ref">§12</span>: «paso por oficina, recomendación,
+            comercio, evento, edificio o contacto personal». No hay «web».
+          </p>
+          <p class="small">
+            Añadir ese valor cuesta un minuto y cambia dos cosas. La obvia:
+            <strong>sin él, en tres meses nadie va a poder decir si la web
+            aportó algo</strong>. La menos obvia: si quien atiende no tiene ese
+            valor en la lista, tampoco va a preguntar «¿cómo nos encontró?», y
+            el embudo se queda ciego justo en la entrada.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="blk">
+          <h3>El estándar de respuesta, también para la web</h3>
+          <div class="quote">
+            «Toda consulta recibida en oficina o en zona debe tener respuesta o
+            acuse de recibo el mismo día laborable.»
+            <span>Plan operativo, §12</span>
+          </div>
+          <p class="small">
+            Un WhatsApp que entra desde la web <strong>es exactamente esa
+            consulta</strong>, y el estándar no la nombra. No pido una regla
+            nueva: pido que la vuestra, que ya es buena, incluya el canal que
+            ahora sí estamos midiendo. Si no, la web va a generar contactos que
+            se enfrían mientras el equipo está en la calle.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="blk">
+          <h3>Un indicador que conecte la calle con la web</h3>
+          <p class="small">
+            El tablero semanal tiene ocho indicadores <span class="ref">§14</span>
+            y todos son de calle. Propongo uno más, que no cuesta nada de
+            recoger porque lo saco yo:
+            <strong>cuánta gente busca «Alfaro Partners» en Google.</strong>
+          </p>
+          <p class="small">
+            Si el farming funciona, ese número tiene que subir — es gente que os
+            conoció en el barrio y luego os buscó. Es la única cifra que
+            demuestra que las 312 horas están dejando huella más allá de las
+            fichas del CRM, y sirve para las dos partes.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="blk">
+          <h3>Quién escribe el informe de microzona</h3>
+          <p class="small">
+            Es la pieza con más valor de las tres del apartado anterior y la que
+            más trabajo lleva. Los datos salen del censo que hace Augusto; la
+            lectura del mercado, de José María. <strong>Redactarlo no debería
+            caer en Augusto</strong>, que ya va cargado.
+          </p>
+          <p class="small">
+            Lo hablamos en la reunión: si me pasáis los datos en bruto y una
+            conversación de media hora, la primera versión la escribo yo y
+            vosotros la corregís.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap stack-lg">
+    <div class="read stack">
+      <h2>Qué hago yo sin esperar a nada</h2>
+      <p class="muted">
+        Para que quede claro qué depende de la reunión y qué no.
+      </p>
+    </div>
+    <div class="read scroller">
+      <table>
+        <thead>
+          <tr><th>Qué</th><th>Cuándo</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Página de «comprar en Retiro con representación»</strong><br><span class="small">El personal shopper que falta, y el microevento nº 3 del plan.</span></td>
+            <td class="who">esta semana</td>
+          </tr>
+          <tr>
+            <td><strong>El enlace etiquetado para el QR</strong><br><span class="small">Lo dejo preparado para que solo haya que pegarlo en la tarjeta.</span></td>
+            <td class="who">en cuanto lo pidáis</td>
+          </tr>
+          <tr>
+            <td><strong>Búsquedas de marca en el panel</strong><br><span class="small">El indicador nuevo, listo para el primer informe.</span></td>
+            <td class="who">con el panel</td>
+          </tr>
+          <tr>
+            <td><strong>Estructura de las páginas de zona</strong><br><span class="small">Preparadas para recibir el informe de microzona cuando exista.</span></td>
+            <td class="who">antes de la reunión</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap read stack-lg">
+    <div class="stack">
+      <h2>Para la reunión</h2>
+      <p class="muted">
+        Cuatro decisiones. No hace falta preparar nada — solo llegar habiendo
+        leído esto.
+      </p>
+    </div>
+    <div class="scroller">
+      <table>
+        <thead>
+          <tr><th>Decisión</th><th>Quién</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A dónde apunta el QR de las tarjetas <strong>(antes de imprimir)</strong></td><td class="who">José María</td></tr>
+          <tr><td>Añadir «web» al origen del contacto en el CRM</td><td class="who">Augusto</td></tr>
+          <tr><td>Extender el estándar de respuesta al WhatsApp de la web</td><td class="who">Los tres</td></tr>
+          <tr><td>Quién redacta el informe de microzona y en qué formato</td><td class="who">Los tres</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note ok">
+      <h3>Y una cosa que no es una pega</h3>
+      <p class="small">
+        Los cuatro microeventos que propone el plan cubren herencias, compra con
+        representación y alquiler. Es <strong>exactamente el foco que elegisteis
+        para la web</strong> cuando os pregunté, y lo escribisteis sin haber
+        leído lo mío. Que dos documentos hechos por separado lleguen al mismo
+        sitio es la mejor señal de que el foco es el correcto.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap read" style="display:flex; flex-direction:column; gap:.7rem;">
+    <p class="eyebrow">Alfaro &amp; Partners · alfaropartners.es</p>
+    <p class="tiny">
+      Preparado por Diego sobre el «Plan operativo de atracción zonal · Narváez
+      31», agosto de 2026. Las referencias entre corchetes remiten a los
+      apartados de ese documento.
+    </p>
+    <p class="tiny">
+      Todo lo que sale de aquí entra en el tablero el mismo día. Los documentos
+      explican; el tablero es donde se mira qué toca.
+    </p>
+  </div>
+</footer>
