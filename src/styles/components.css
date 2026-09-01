@@ -273,7 +273,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   .brand__logo { height: 30px; }
   .nav { gap: var(--space-5); }
   .nav__link { font-size: 10px; letter-spacing: .2em; }
-  .header-cta { padding-inline: var(--space-6); letter-spacing: .2em; }}
+  .header-cta { padding-inline: var(--space-6); letter-spacing: .2em; }
+}
 
 @media (max-width: 1200px) {
   .nav { display: none; }
@@ -309,7 +310,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   }
 
   .nav-panel__link:hover { color: var(--color-gold); }
-  .nav-panel__cta.btn { display: none; }}
+  .nav-panel__cta.btn { display: none; }
+}
 
 @media (max-width: 640px) {
   .site-header__inner {
@@ -332,7 +334,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   .site-header__inner > .header-cta { display: none; }
   .nav-toggle { margin-left: 0; }
   .nav-panel__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nav-panel__cta.btn { display: inline-flex; grid-column: 1 / -1; margin-top: var(--space-4); }}
+  .nav-panel__cta.btn { display: inline-flex; grid-column: 1 / -1; margin-top: var(--space-4); }
+}
 
 /* =============================================================================
    BUTTONS
@@ -1136,7 +1139,6 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   }
 }
 
-
 /* =============================================================================
    MEDIA AUTHORITY HUB
    ============================================================================= */
@@ -1448,7 +1450,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   }
   .media-result-count {
     text-align: left;
-  }}
+  }
+}
 @media (max-width: 720px) {
   .media-hub-hero {
     padding-top: calc(var(--header-h) + 1.25rem);
@@ -1475,7 +1478,8 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   .media-card__actions {
     flex-direction: column;
     align-items: flex-start;
-  }}
+  }
+}
 
 /* =============================================================================
    HOMEPAGE EXPERIENCE REFRESH
@@ -3224,7 +3228,8 @@ body {
 
   .heritage-values__grid article:nth-child(n) {
     grid-column: 1 / -1;
-  }}
+  }
+}
 
 @media (max-width: 640px) {
   .heritage-representation__comparison th {
@@ -3243,7 +3248,8 @@ body {
 
   .heritage-route__chapter li strong {
     flex-basis: auto;
-  }}
+  }
+}
 
 /* Keep every editorial split in reading order after all desktop refinements. */
 @media (max-width: 960px) {
