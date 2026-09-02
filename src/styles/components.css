@@ -652,6 +652,21 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   font-size: 11px;
   line-height: 1.4;
 }
+/* La rejilla del pie reparte sus columnas por contenido, y a esta le tocaban
+   173px: el icono y sus huecos se comian 86 y dejaban 87 para un rotulo que
+   mide 85. Dos pixeles de holgura, asi que con la fuente de respaldo --antes de
+   que cargue Satoshi-- el rotulo se salia del borde.
+   El suelo de ancho es lo que lo arregla de raiz: esta columna lleva tarjetas
+   con icono, titulo y subtitulo, no una lista de enlaces como las otras tres,
+   y necesita mas sitio que ellas. */
+.social-cards--footer {
+  min-width: 13rem;
+}
+
+.social-cards--footer .social-card > span:not(.social-card__icon) {
+  min-width: 0;
+}
+
 .social-card--wa .social-card__icon {
   border-color: rgba(60,139,110,.45);
   color: #7bd0ad;
