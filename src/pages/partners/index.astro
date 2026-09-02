@@ -144,7 +144,14 @@ const structuredData = {
         name: q,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: [...a, ...(list ?? []), after].filter(Boolean).join(' '),
+          // Answer.text admite HTML limitado, y Google lo renderiza tal cual en
+          // el rich result. Unir la lista con espacios daba un parrafo de 364
+          // caracteres sin un solo signo de puntuacion.
+          text: [
+            ...a.map((t) => `<p>${t}</p>`),
+            ...(list ? [`<ul>${list.map((t) => `<li>${t}</li>`).join('')}</ul>`] : []),
+            ...(after ? [`<p>${after}</p>`] : []),
+          ].join(''),
         },
       })),
     },
@@ -244,9 +251,9 @@ const structuredData = {
               <h3 class="display">{data.name}</h3>
               <p class="partner-card__title">{data.title}</p>
               {data.expertise.length > 0 && (
-                <div class="partner-card__tags" aria-label="Especialidades">
-                  {data.expertise.slice(0, 2).map((item) => <span>{item}</span>)}
-                </div>
+                <ul class="partner-card__tags" aria-label="Especialidades">
+                  {data.expertise.slice(0, 2).map((item) => <li>{item}</li>)}
+                </ul>
               )}
               <p class="partner-card__summary">{data.summary}</p>
               <span class="partner-card__action">
@@ -260,7 +267,7 @@ const structuredData = {
     </div>
   </section>
 
-  <div class="partners-seam" role="separator" aria-label="A partir de aquí, información para profesionales">
+  <div class="partners-seam">
     <div class="wrap partners-seam__inner">
       <span class="partners-seam__rule" aria-hidden="true"></span>
       <p class="partners-seam__label">¿Eres profesional?<span> Lo que sigue es para ti.</span></p>
