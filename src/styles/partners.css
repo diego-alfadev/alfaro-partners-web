@@ -18,7 +18,10 @@
   text-wrap: balance;
 }
 
-.partners-intro__inner > p {
+/* :not(.eyebrow) no es cosmetico: sin el, esta regla (0,1,1) gana a .eyebrow
+   (0,1,0) y el rotulo del hero sale gris a 18px conservando el tracking de
+   eyebrow, en vez de dorado a 11px. */
+.partners-intro__inner > p:not(.eyebrow) {
   max-width: var(--measure);
   margin: 0;
   color: var(--color-mist);
@@ -139,10 +142,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-5);
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.partner-card__tags span {
+.partner-card__tags li {
   padding: var(--space-2) var(--space-3);
   border: 1px solid rgba(238,236,235,.13);
   color: var(--color-quill);
