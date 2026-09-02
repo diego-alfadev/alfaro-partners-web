@@ -395,11 +395,11 @@ const schema = {
         return;
       }
 
-      // mailto: is deliberately NOT a lead. Every mailto link for the firm sits
-      // on a legal page (aviso legal, privacidad, cookies), so those clicks are
-      // data-protection enquiries, not prospects. Counting them would inflate
-      // the conversion number with compliance traffic. They still get recorded,
-      // just under an event that is not marked as a key event in GA4.
+      // mailto: is deliberately NOT a lead. It started as a legal-pages-only
+      // link (data-protection enquiries, not prospects), and although /partners/
+      // and the partner profiles now add their own, none of them is a client
+      // asking for representation either. They still get recorded, just under an
+      // event that is not marked as a key event in GA4.
       const intent =
         url.hostname === 'calendar.app.google' ? ['generate_lead', 'booking'] :
         url.hostname === 'wa.me' || url.hostname === 'api.whatsapp.com' ? ['generate_lead', 'whatsapp'] :

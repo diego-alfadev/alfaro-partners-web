@@ -90,11 +90,17 @@
      unicas que usan .wrap--prose. 550px las deja en 68. */
   --container-prose:  550px;
 
-  /* Medida de lectura. Ojo con `ch`: es el ancho del glifo "0", y tanto en
-     Satoshi como en la serif del sitio mide ~1.6 veces el caracter medio. O
-     sea que 56ch NO son 56 caracteres, son 90. Para fijar una medida, coge los
-     caracteres que quieres por linea y multiplicalos por 0.62. Verificado con
-     canvas.measureText sobre texto castellano, no estimado. */
+  /* Medida de lectura. Ojo con `ch`: es el ancho del glifo "0", no el del
+     caracter medio, y el desfase depende de la fuente. Medido con
+     canvas.measureText sobre prosa castellana, con las fuentes ya cargadas:
+
+       Satoshi (cuerpo)            0 = .683em   medio = .415em   ratio 1.64
+       Libre Baskerville (display) 0 = .714em   medio = .490em   ratio 1.46
+
+     O sea que 56ch no son 56 caracteres: son 92 en Satoshi y 82 en la serif.
+     Para fijar una medida, divide los caracteres que quieres por el ratio de
+     SU fuente. Estos dos tokens estan calibrados para Satoshi, que es donde
+     vive el texto corrido; en un bloque en serif quedan algo mas estrechos. */
   --measure:       42ch;  /* ~68 caracteres · texto corrido */
   --measure-tight: 36ch;  /* ~58 caracteres · notas y resumenes en tarjeta */
   --gutter:           clamp(1.5rem, 4vw, 4rem);

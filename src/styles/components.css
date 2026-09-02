@@ -546,8 +546,7 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
      sobra. `space-between` reparte el hueco restante entre ellas. */
   grid-template-columns: repeat(2, auto);
   justify-content: space-between;
-  row-gap: var(--space-12);
-  gap: var(--space-8) var(--space-8);
+  gap: var(--space-12) var(--space-8);
 }
 .site-footer__heading {
   margin: 0 0 var(--space-5);
@@ -3337,5 +3336,4 @@ body {
 /* El nombre de la red iba con el tracking de titular y se salia de la caja en
    una columna estrecha. Y el bloque de texto necesita poder encogerse: por
    defecto un item flex no baja de su contenido. */
-.social-cards--footer .social-card > span:not(.social-card__icon) { min-width: 0; }
 .social-cards--footer .social-card strong { letter-spacing: .1em; }
