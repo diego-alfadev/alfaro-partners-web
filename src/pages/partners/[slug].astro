@@ -106,7 +106,12 @@ const structuredData = {
   <article class="partner-profile">
     <section class="partner-profile__hero">
       <div class="wrap partner-profile__hero-grid">
-        <div class="partner-profile__hero-copy">
+        <div
+            class="partner-profile__hero-copy"
+            data-lead-kind="partner-contact"
+            data-partner-id={partner.id}
+            data-partner-category={data.category}
+          >
           <a class="partner-profile__back" href={withBase('partners/')}>
             <Icon name="lucide:arrow-left" aria-hidden="true" />
             Partners
@@ -156,7 +161,13 @@ const structuredData = {
           </div>
         </div>
 
-        <aside class="partner-profile__facts" aria-label="Datos profesionales">
+        <aside
+          class="partner-profile__facts"
+          aria-label="Datos profesionales"
+          data-lead-kind="partner-contact"
+          data-partner-id={partner.id}
+          data-partner-category={data.category}
+        >
           {data.expertise.length > 0 && (
             <div>
               <h3>Especialidad</h3>
@@ -218,7 +229,13 @@ const structuredData = {
       </section>
     )}
 
-    <section class="partner-profile__contact" aria-labelledby="partner-contact-title">
+    <section
+      class="partner-profile__contact"
+      aria-labelledby="partner-contact-title"
+      data-lead-kind="partner-contact"
+      data-partner-id={partner.id}
+      data-partner-category={data.category}
+    >
       <div class="wrap partner-profile__contact-inner">
         <div>
           <h2 id="partner-contact-title" class="display">Una conversación directa, sin presión</h2>

@@ -409,15 +409,21 @@ const schema = {
 
       if (!intent) return;
 
-      const [eventName, method] = intent;
+      const [defaultEvent, method] = intent;
 
-      // A partner application travels on the same WhatsApp link as a client
-      // enquiry, so the URL cannot tell them apart. Counting it as generate_lead
-      // would inflate the conversion number with people offering services
-      // instead of asking for them.
-      const isPartnerApplication = link.closest('[data-lead-kind="partner"]') !== null;
+      // Three different things travel on the same WhatsApp link, and the URL
+      // cannot tell them apart, so the markup has to. Without this, every
+      // professional offering their services and every visitor contacting a
+      // partner would land in generate_lead and inflate the conversion number
+      // with traffic that is not a client asking for representation.
+      const scope = link.closest('[data-lead-kind]');
+      const leadKind = scope?.getAttribute('data-lead-kind');
+      const eventName =
+        leadKind === 'partner' ? 'partner_application' :
+        leadKind === 'partner-contact' ? 'partner_contact' :
+        defaultEvent;
 
-      window.gtag('event', isPartnerApplication ? 'partner_application' : eventName, {
+      const payload = {
         method,
         link_url: url.href,
         link_text: link.textContent?.trim() ?? '',
@@ -426,7 +432,19 @@ const schema = {
           link.closest('section[id]')?.id ??
           link.closest('header,footer')?.tagName.toLowerCase() ??
           'unknown',
-      });
+      };
+
+      // Quien recibe el contacto y de que especialidad es. Sirve para responder
+      // dos preguntas que no se pueden contestar con un contador global: a que
+      // partner le estamos generando oportunidades, y que especialidad tira
+      // mas. Requiere registrar partner_id y partner_category como dimensiones
+      // personalizadas en GA4; sin eso los eventos llegan pero no se segmentan.
+      if (leadKind === 'partner-contact') {
+        payload.partner_id = scope.getAttribute('data-partner-id') ?? 'unknown';
+        payload.partner_category = scope.getAttribute('data-partner-category') ?? 'unknown';
+      }
+
+      window.gtag('event', eventName, payload);
     }, true);
   </script>
 </body>

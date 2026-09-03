@@ -6,6 +6,12 @@ const partners = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/data/partners' }),
   schema: z.object({
     kind: z.enum(['person', 'organization']),
+    // Vocabulario cerrado a proposito. `relationship` es texto libre y sirve
+    // para la ficha, pero como dimension de analitica fragmentaria el informe:
+    // "Partner Juridico", "Juridico" y "Abogado" contarian por separado.
+    category: z
+      .enum(['interno', 'juridico', 'fiscal', 'financiero', 'tecnico', 'reforma', 'otros'])
+      .default('otros'),
     published: z.boolean().default(true),
     order: z.number().int().nonnegative().default(0),
     name: z.string(),
