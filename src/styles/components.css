@@ -990,6 +990,27 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   margin: 0 auto var(--space-12);
   font-size: var(--fs-body-lg);
 }
+.cta__office { max-width: 26rem; margin: 0 auto var(--space-10); }
+.cta__office-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+.cta__office-strip img {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid rgba(201, 164, 74, .22);
+  border-radius: var(--radius-sm);
+}
+.cta__office-caption {
+  margin-top: var(--space-3);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-quill);
+}
 .cta__buttons { display: flex; gap: var(--space-6); justify-content: center; flex-wrap: wrap; }
 .cta__note {
   max-width: var(--measure);

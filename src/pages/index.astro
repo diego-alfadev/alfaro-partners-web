@@ -7,6 +7,9 @@ import { BUSINESS_INFO } from '../lib/constants';
 import { getMediaReferences } from '../lib/mediaReferences';
 import alfaroHero from '../assets/alfaro-hero.png';
 import despacho from '../assets/despacho.png';
+import fachadaOficina from '../assets/oficina/fachada-narvaez-31.jpg';
+import rotuloOficina from '../assets/oficina/rotulo-alfaro-partners.jpg';
+import salaOficina from '../assets/oficina/sala-narvaez-31.jpg';
 
 const { booking, social, zones } = BUSINESS_INFO;
 const featuredReferences = getMediaReferences().filter((reference) => reference.featured).slice(0, 3);
@@ -349,6 +352,14 @@ const signatureStats = [
       <span class="eyebrow">Comienza aquí</span>
       <h2 class="cta__title" style="font-family: var(--font-display);">Reserva una conversación con <em class="italic-gold">criterio</em></h2>
       <p class="cta__lede">Treinta minutos para ordenar la decisión antes de mover tu patrimonio.</p>
+      <div class="cta__office" aria-label="El despacho en Narváez 31">
+        <div class="cta__office-strip">
+          <Image src={fachadaOficina} alt="Fachada de Alfaro & Partners en la calle Narváez" width={480} height={403} format="webp" quality={75} decoding="async" loading="lazy" />
+          <Image src={rotuloOficina} alt="Rótulo de Alfaro & Partners en el interior del despacho" width={480} height={298} format="webp" quality={75} decoding="async" loading="lazy" />
+          <Image src={salaOficina} alt="Sala del despacho de Alfaro & Partners" width={480} height={607} format="webp" quality={75} decoding="async" loading="lazy" />
+        </div>
+        <p class="cta__office-caption">Narváez 31, Madrid</p>
+      </div>
       <div class="cta__buttons">
         <a class="btn btn--primary btn--lg" href={booking.url} target="_blank" rel="noopener noreferrer">Reservar cita</a>
         <a class="btn btn--ghost btn--lg" href={social.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
