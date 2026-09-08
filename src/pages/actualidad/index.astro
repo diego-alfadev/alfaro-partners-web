@@ -15,6 +15,7 @@ const withBase = (value: string) => `${basePath}${value.replace(/^\/+/, '')}`;
 const typeLabels = {
   press: 'Prensa',
   video: 'Vídeo',
+  radio: 'Radio',
   linkedin: 'LinkedIn',
   article: 'Artículo',
 } as const;
@@ -45,7 +46,7 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-ES', {
         </div>
         <aside class="media-hub-hero__visual" aria-label="Resumen de referencias">
           <div class="media-hub-hero__mark">AP</div>
-          <p>Prensa, vídeo, LinkedIn y artículos seleccionados en un único archivo consultable.</p>
+          <p>Prensa, radio, vídeo, LinkedIn y artículos seleccionados en un único archivo consultable.</p>
           <div class="media-hub-hero__stats">
             <div class="media-hub-hero__stat"><strong>{totalReferences}</strong> referencias</div>
             <div class="media-hub-hero__stat"><strong>{featuredCount}</strong> destacadas</div>

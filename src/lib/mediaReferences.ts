@@ -1,4 +1,4 @@
-export const mediaReferenceTypes = ['press', 'video', 'linkedin', 'article'] as const;
+export const mediaReferenceTypes = ['press', 'video', 'radio', 'linkedin', 'article'] as const;
 
 export type MediaReferenceType = (typeof mediaReferenceTypes)[number];
 
@@ -67,7 +67,7 @@ const references: MediaReference[] = [
     slug: 'sol-radio-madrid-problemas-alquilar',
     title: 'El mercado del alquiler y los problemas reales de alquilar hoy',
     source: 'Sol Radio Madrid',
-    type: 'video',
+    type: 'radio',
     href: 'https://solradiomadrid.com/problemas-de-alquilar/',
     publishedAt: '2025-12-01',
     excerpt: 'Conversación en formato entrevista sobre escasez de oferta, precios récord y gestión profesional del alquiler.',
