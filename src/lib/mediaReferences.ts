@@ -198,5 +198,7 @@ const references: MediaReference[] = [
 ];
 
 export function getMediaReferences() {
-  return references.filter((reference) => reference.status !== 'archived');
+  return references
+    .filter((reference) => reference.status !== 'archived')
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
