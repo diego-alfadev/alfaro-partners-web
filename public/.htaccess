@@ -53,10 +53,29 @@ ErrorDocument 404 /404.html
   # after its own redirect (the second request arrives with
   # Host: alfaropartners.es, which no longer matches). Zero loop risk.
   #
-  # NOTE: the HTTP -> HTTPS redirect (Phase 3 of this change) is
-  # intentionally NOT included here. It is blocked pending the proto-header
-  # probe below (Phase 1) -- see sdd/alfaro-seo-hardening/design, decision D1.
+  # This rule also absorbs the http/https upgrade for www: the target is
+  # hardcoded to https:// regardless of the incoming scheme, so www never
+  # needs to rely on %{HTTPS} -- which is just as well, since it isn't
+  # reliable on that vhost (see the note on the rule below).
   RewriteCond %{HTTP_HOST} ^www\.alfaropartners\.es$ [NC]
+  RewriteRule ^(.*)$ https://alfaropartners.es/$1 [R=301,L]
+
+  # ---------------------------------------------------------------------------
+  # SEO hardening (SDD alfaro-seo-hardening, Phase 3) -- http -> https, apex
+  # ---------------------------------------------------------------------------
+  # Verified empirically 8 sept 2026 with the Phase-1 probe (see the removed
+  # X-Dbg-* block, kept below in a comment for the next time this needs
+  # re-checking): on the apex vhost, %{HTTPS} was "off" on 3/3 real http
+  # requests and "on" on 3/3 real https requests -- clean, stable signal.
+  # The X-Forwarded-Proto/Protocol/Ssl headers were not: a different,
+  # uncorrelated value on every single request, on both schemes. Not used.
+  #
+  # Scoped implicitly to the apex: by the time a request reaches this rule,
+  # the www rule above has already redirected any www host away with [L], so
+  # %{HTTP_HOST} here is always the apex. Do not copy this condition onto a
+  # www-facing rule -- a live https://www request showed %{HTTPS} as (null)
+  # on this host, so the signal does not hold there.
+  RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://alfaropartners.es/$1 [R=301,L]
 </IfModule>
 
@@ -73,38 +92,26 @@ ErrorDocument 404 /404.html
 AddDefaultCharset UTF-8
 
 # ===========================================================================
-# PROBE ONLY -- DO NOT DEPLOY (SDD alfaro-seo-hardening, Phase 1)
+# PROBE, RESOLVED -- kept only as a record (SDD alfaro-seo-hardening, Phase 1)
 # ===========================================================================
-# This block is intentionally left commented out. It exists to answer one
-# question before Phase 3 (HTTP -> HTTPS redirect) can be safely written:
-# which forwarded-proto header does the IONOS TLS-terminating proxy actually
-# send to Apache? Guessing wrong here risks an infinite redirect loop
-# (design doc D1 -- see sdd/alfaro-seo-hardening/design).
+# Ran 8 sept 2026, live against production. Result: %{HTTPS}e is the reliable
+# signal on the apex vhost -- "off" on 3/3 real http requests, "on" on 3/3
+# real https requests, clean. The X-Forwarded-Proto/Protocol/Ssl headers were
+# not: a different, uncorrelated value on every single request. Phase 3 above
+# uses %{HTTPS}, not X-Forwarded-*.
 #
-# HOW TO RUN THIS PROBE AFTER DEPLOYING THIS FILE:
-#   1. Uncomment ONLY the <IfModule mod_headers.c> ... </IfModule> block
-#      below (remove the leading "# " from each of its lines).
-#   2. Deploy `public/.htaccess` alone -- no other change bundled with it.
-#   3. From a machine outside the site, run both of:
-#        curl -sI http://alfaropartners.es/  | rg -i x-dbg
-#        curl -sI https://alfaropartners.es/ | rg -i x-dbg
-#   4. Compare the four header values across the two responses. Whichever
-#      header's VALUE DIFFERS between the http:// and the https:// request
-#      is the one IONOS uses to forward the original scheme. That header
-#      name (in equality form, e.g. `RewriteCond %{HTTP:X-Forwarded-Proto}
-#      ^http$`) is the key Phase 3 needs.
-#   5. If NO header differs between the two responses: Phase 3 is NOT
-#      implementable via `.htaccess` on this host. Do not attempt it --
-#      fall back to the IONOS control-panel "force HTTPS" option, or leave
-#      HTTP unredirected (the canonical tag already covers ranking; the
-#      www -> non-www rule above already ships independently).
-#   6. Re-comment (or delete) this block and redeploy immediately after
-#      reading the result. It must never stay live alongside real traffic.
+# If this ever needs re-running (host migration, proxy change in front of
+# Apache): uncomment the block below, deploy this file ALONE, then from a
+# machine outside the site:
+#   curl -sI http://alfaropartners.es/  | rg -i x-dbg
+#   curl -sI https://alfaropartners.es/ | rg -i x-dbg
+# and re-comment it immediately after reading the result -- it must never
+# stay live alongside real traffic.
 #
-<IfModule mod_headers.c>
-  Header always set X-Dbg-Proto    "%{X-Forwarded-Proto}i"
-  Header always set X-Dbg-Protocol "%{X-Forwarded-Protocol}i"
-  Header always set X-Dbg-Ssl      "%{X-Forwarded-Ssl}i"
-  Header always set X-Dbg-Https    "%{HTTPS}e"
-</IfModule>
+# <IfModule mod_headers.c>
+#   Header always set X-Dbg-Proto    "%{X-Forwarded-Proto}i"
+#   Header always set X-Dbg-Protocol "%{X-Forwarded-Protocol}i"
+#   Header always set X-Dbg-Ssl      "%{X-Forwarded-Ssl}i"
+#   Header always set X-Dbg-Https    "%{HTTPS}e"
+# </IfModule>
 # ===========================================================================
