@@ -101,10 +101,10 @@ AddDefaultCharset UTF-8
 #   6. Re-comment (or delete) this block and redeploy immediately after
 #      reading the result. It must never stay live alongside real traffic.
 #
-# <IfModule mod_headers.c>
-#   Header always set X-Dbg-Proto    "%{X-Forwarded-Proto}i"
-#   Header always set X-Dbg-Protocol "%{X-Forwarded-Protocol}i"
-#   Header always set X-Dbg-Ssl      "%{X-Forwarded-Ssl}i"
-#   Header always set X-Dbg-Https    "%{HTTPS}e"
-# </IfModule>
+<IfModule mod_headers.c>
+  Header always set X-Dbg-Proto    "%{X-Forwarded-Proto}i"
+  Header always set X-Dbg-Protocol "%{X-Forwarded-Protocol}i"
+  Header always set X-Dbg-Ssl      "%{X-Forwarded-Ssl}i"
+  Header always set X-Dbg-Https    "%{HTTPS}e"
+</IfModule>
 # ===========================================================================
