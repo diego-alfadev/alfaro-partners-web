@@ -23,6 +23,19 @@ const partners = defineCollection({
     quote: z.string().optional(),
     photo: z.string().optional(),
     photoAlt: z.string().optional(),
+    // Fotos de contexto para la ficha. `photo` es el recorte a fondo
+    // transparente que usan la tarjeta y el hero; estas son fotografias
+    // completas y no deben mezclarse con aquel.
+    gallery: z.array(z.object({
+      src: z.string(),
+      alt: z.string(),
+      // Obligatorias: sin ellas la imagen no reserva sitio y la ficha salta al
+      // cargar. No se pueden deducir porque la galeria admite cualquier
+      // proporcion.
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+      caption: z.string().optional(),
+    })).default([]),
     initials: z.string().min(1).max(4),
     expertise: z.array(z.string()).default([]),
     responsibilities: z.array(z.string()).default([]),
@@ -32,6 +45,7 @@ const partners = defineCollection({
       phoneDisplay: z.string().optional(),
       whatsapp: z.string().url().optional(),
       email: z.string().email().optional(),
+      website: z.string().url().optional(),
     }).optional(),
     socials: z.array(z.object({
       platform: z.enum(['linkedin', 'instagram', 'tiktok']),

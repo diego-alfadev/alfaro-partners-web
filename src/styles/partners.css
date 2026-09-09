@@ -336,6 +336,7 @@
 }
 
 .partner-profile__details,
+.partner-profile__gallery,
 .partner-profile__credentials,
 .partner-profile__quote,
 .partner-profile__contact {
@@ -350,6 +351,7 @@
 }
 
 .partner-profile__details h2,
+.partner-profile__gallery h2,
 .partner-profile__credentials h2,
 .partner-profile__contact h2 {
   max-width: 14ch;
@@ -401,8 +403,33 @@
   color: var(--color-gold-light);
 }
 
-.partner-profile__credentials h2 {
+.partner-profile__credentials h2,
+.partner-profile__gallery h2 {
   margin-bottom: var(--space-12);
+}
+
+.partner-profile__gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: var(--space-6);
+}
+
+.partner-profile__gallery-item {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.partner-profile__gallery-item img {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(201,164,74,.16);
+}
+
+.partner-profile__gallery-item figcaption {
+  color: var(--color-mist);
+  font-size: .9rem;
+  line-height: 1.6;
 }
 
 .partner-profile__logo-wall {
