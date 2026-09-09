@@ -1,8 +1,10 @@
 name: Deploy Astro site to GitHub Pages
 
+# Sin disparador en push: el despliegue de produccion es IONOS y este workflow
+# solo ensuciaba el historial con un fallo por cada merge. Ademas no puede
+# terminar tal cual esta: Pages sirve desde la rama gh-pages (build_type
+# legacy) y deploy-pages exige que la fuente sea el propio workflow.
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
