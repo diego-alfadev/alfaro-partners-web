@@ -10,7 +10,7 @@ const partners = defineCollection({
     // para la ficha, pero como dimension de analitica fragmentaria el informe:
     // "Partner Juridico", "Juridico" y "Abogado" contarian por separado.
     category: z
-      .enum(['interno', 'juridico', 'fiscal', 'financiero', 'tecnico', 'reforma', 'otros'])
+      .enum(['interno', 'juridico', 'fiscal', 'financiero', 'tecnico', 'reforma', 'gestion', 'otros'])
       .default('otros'),
     published: z.boolean().default(true),
     order: z.number().int().nonnegative().default(0),

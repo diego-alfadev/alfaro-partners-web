@@ -749,7 +749,7 @@
   margin: 0;
 }
 
-/* --- Seis tipos ----------------------------------------------------------- */
+/* --- Tipos de Partner ----------------------------------------------------------- */
 
 .partners-kinds .eyebrow { margin-bottom: var(--space-3); }
 .partners-kinds .section-head__title { margin: 0 0 var(--space-12); }
@@ -1015,8 +1015,9 @@
 
 @media (max-width: 900px) {
   .partners-originator__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-12); }
-  /* Seis tipos y tres pasos reparten en dos columnas antes que en una: 3+3 y 2+1
-     siguen leyendose como rejilla, 6x1 y 3x1 se leen como lista larga. */
+  /* Los tipos y los pasos reparten en dos columnas antes que en una: aunque la
+     ultima fila quede impar sigue leyendose como rejilla, mientras que una sola
+     columna se lee como lista larga. */
   .partners-kinds__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .partners-steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-10); }
 }
