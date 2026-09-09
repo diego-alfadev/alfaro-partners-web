@@ -255,7 +255,7 @@ const structuredData = {
                   {data.expertise.slice(0, 2).map((item) => <li>{item}</li>)}
                 </ul>
               )}
-              <p class="partner-card__summary">{data.summary}</p>
+              <p class="partner-card__summary">{data.cardSummary ?? data.summary}</p>
               <span class="partner-card__action">
                 Ver perfil
                 <Icon name="lucide:arrow-up-right" aria-hidden="true" />

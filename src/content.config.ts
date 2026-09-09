@@ -18,6 +18,10 @@ const partners = defineCollection({
     title: z.string(),
     relationship: z.string(),
     summary: z.string(),
+    // Version breve para la tarjeta del listado. El alto de la tarjeta lo
+    // marca este texto y el alto del retrato depende del alto de la tarjeta,
+    // asi que un summary largo aqui encoge la foto. Si falta, se usa summary.
+    cardSummary: z.string().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     quote: z.string().optional(),

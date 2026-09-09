@@ -183,11 +183,14 @@
 }
 
 @media (min-width: 1100px) {
-  /* 28rem y no 31: a 1100px el listado mide 1006px y dos columnas de 31rem
-     piden 1016, asi que se caia a una sola tarjeta de 1006px de ancho justo
-     al entrar en el breakpoint. */
+  /* El alto del retrato lo fija el ancho de la tarjeta: por debajo de ~510px
+     la cabeza no llega al 80% del alto, y ensanchar la foto no lo arregla
+     porque estrecha el texto, estira la tarjeta y la cabeza vuelve a bajar.
+     Con 31rem la segunda columna solo aparece cuando cada tarjeta supera ese
+     ancho; entre 1100 y 1145 se queda una sola tarjeta ancha, que es donde
+     mejor se ve la foto. */
   .partners-directory__list {
-    grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(31rem, 1fr));
     align-items: stretch;
   }
 
@@ -200,7 +203,7 @@
     position: absolute;
     inset: 0 0 0 auto;
     z-index: 1;
-    width: 36%;
+    width: 44%;
     min-height: 0;
     aspect-ratio: auto;
     overflow: visible;
@@ -215,13 +218,13 @@
     transform: translateX(2%);
   }
 
-  /* 64% + el 36% del retrato: el cuerpo termina justo donde empieza la foto.
+  /* 56% + el 44% del retrato: el cuerpo termina justo donde empieza la foto.
      El recorte de Lora ocupa todo el ancho de su caja, asi que aqui no hay
      margen transparente sobre el que el texto pueda invadir sin chocar. */
   .partner-card__body {
     position: relative;
     z-index: 2;
-    width: 64%;
+    width: 56%;
     min-height: 21rem;
     padding: clamp(1.5rem, 1.9vw, 2rem);
     display: flex;
@@ -243,11 +246,16 @@
     font-size: 1rem;
   }
 
-  /* Sin line-clamp: a este ancho el resumen entra entero, y recortado a tres
-     lineas se cortaba a mitad de frase en las dos fichas. */
+  /* El texto de la tarjeta debe venir de cardSummary y entrar entero. El
+     clamp es solo un tope para que un partner sin cardSummary no dispare el
+     alto de la tarjeta y, con el, encoja el retrato de toda la fila. */
   .partner-card__summary {
     max-width: 42ch;
     margin: var(--space-5) 0 var(--space-6);
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
   }
 
   .partner-card__action {
