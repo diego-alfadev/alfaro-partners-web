@@ -1,0 +1,48 @@
+{
+  "kind": "person",
+  "category": "otros",
+  "published": false,
+  "order": 2,
+  "name": "Lora Galeva",
+  "title": "Personal shopper inmobiliario",
+  "relationship": "Partner",
+  "summary": "Lora Galeva, fundadora y CEO de la firma, lleva cerca de una década representando exclusivamente al comprador. Su experiencia, criterio y una implicación profundamente personal en cada proyecto definen una forma de entender la profesión en la que conocer a la persona es el punto de partida, encontrar la propiedad solo el principio y decidir cuándo comprar, el verdadero valor.",
+  "seoTitle": "Lora Galeva | Personal shopper inmobiliario | Alfaro & Partners",
+  "seoDescription": "Conoce a Lora Galeva, personal shopper inmobiliario con cerca de una década representando exclusivamente al comprador.",
+  "quote": "Encontrar la propiedad adecuada es solo el principio",
+  "photo": "/images/partners/lora-galeva.webp",
+  "photoAlt": "Retrato profesional de Lora Galeva",
+  "initials": "LG",
+  "expertise": [
+    "Representación del comprador",
+    "Personal shopper inmobiliario"
+  ],
+  "responsibilities": [
+    "Detrás de cada búsqueda hay una persona, una historia y una decisión importante. Encontrar la propiedad adecuada es solo el principio.",
+    "El verdadero valor está en todo lo que ocurre antes, durante y después: estudiar la viabilidad, analizar las opciones, cuestionar, negociar y cuidar cada detalle antes de decir: esta sí."
+  ],
+  "languages": [],
+  "contact": {
+    "phone": "+34628127168",
+    "phoneDisplay": "+34 628 12 71 68",
+    "whatsapp": "https://wa.me/34628127168",
+    "email": "hello@loragaleva.com",
+    "website": "https://www.loragaleva.com"
+  },
+  "socials": [],
+  "gallery": [
+    {
+      "src": "/images/partners/gallery/lora-galeva-equipo.webp",
+      "alt": "Lora Galeva junto a una compañera de su equipo en el vestíbulo de un edificio residencial",
+      "width": 1400,
+      "height": 934
+    },
+    {
+      "src": "/images/partners/gallery/lora-galeva-equipo-calle.webp",
+      "alt": "Lora Galeva con su equipo en una calle arbolada de Madrid",
+      "width": 1400,
+      "height": 934
+    }
+  ],
+  "credentials": []
+}
