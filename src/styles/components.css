@@ -1357,6 +1357,13 @@ h1,h2,h3,h4 { margin: 0; font-weight: 400; }
   color: var(--color-mist);
   line-height: 1.8;
 }
+.media-card__player {
+  width: 100%;
+  height: 36px;
+  /* los controles nativos se pintan claros sobre el fondo oscuro si no se
+     declara el esquema */
+  color-scheme: dark;
+}
 .media-tags,
 .media-toolbar__chips {
   display: flex;

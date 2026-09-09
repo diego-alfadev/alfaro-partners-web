@@ -8,6 +8,10 @@ export type MediaReference = {
   source: string;
   type: MediaReferenceType;
   href: string;
+  // Ruta al fragmento alojado en public/, relativa a la raíz del sitio: hay que
+  // pasarla por withBase antes de usarla. href, en cambio, es siempre absoluta
+  // y apunta a la fuente original.
+  clipHref?: string;
   publishedAt: string;
   excerpt: string;
   tags: string[];
@@ -36,6 +40,7 @@ const references: MediaReference[] = [
     source: 'Cadena SER',
     type: 'radio',
     href: 'https://cadenaser.com/audio/cadenaser_hoyporhoy_20260908_060000_070000/',
+    clipHref: '/media/jose-maria-alfaro-cadena-ser-hoy-por-hoy-20260908.mp3',
     publishedAt: '2026-09-08',
     excerpt: 'Intervención en directo en el magacín matinal de mayor audiencia de la radio española: cómo se valora, se posiciona y se cierra una operación de vivienda premium en Madrid (min. 36:37).',
     tags: ['compraventa', 'vendedores', 'mercado'],

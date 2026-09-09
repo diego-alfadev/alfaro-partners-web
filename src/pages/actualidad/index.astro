@@ -104,11 +104,22 @@ const formatDate = (value: string) => new Intl.DateTimeFormat('es-ES', {
             </div>
             <h3 class="media-card__title">{reference.title}</h3>
             <p class="media-card__excerpt">{reference.excerpt}</p>
+            {reference.clipHref && (
+              <audio
+                class="media-card__player"
+                controls
+                preload="none"
+                src={withBase(reference.clipHref)}
+                aria-label={`Fragmento de la intervención: ${reference.title}`}
+              ></audio>
+            )}
             <div class="media-tags">
               {reference.tags.map((tag) => <span class="media-tag">#{tag}</span>)}
             </div>
             <div class="media-card__actions">
-              <a class="btn btn--text" href={reference.href} target="_blank" rel="noopener noreferrer">Ver referencia →</a>
+              <a class="btn btn--text" href={reference.href} target="_blank" rel="noopener noreferrer">
+                {reference.clipHref ? 'Programa completo →' : 'Ver referencia →'}
+              </a>
               <span class="media-card__source-link">{typeLabels[reference.type]}</span>
             </div>
           </article>
