@@ -6,9 +6,9 @@
   "name": "Lora Galeva",
   "title": "Personal shopper inmobiliario",
   "relationship": "Partner",
-  "summary": "Lora Galeva, fundadora y CEO de la firma, lleva cerca de una década representando exclusivamente al comprador. Su experiencia, criterio y una implicación profundamente personal en cada proyecto definen una forma de entender la profesión en la que conocer a la persona es el punto de partida, encontrar la propiedad solo el principio y decidir cuándo comprar, el verdadero valor.",
+  "summary": "Lora Galeva lleva cerca de una década representando exclusivamente al comprador, nunca al vendedor. Fundadora y CEO de la firma que lleva su nombre, trabaja cada búsqueda desde la persona: qué necesita, qué puede asumir y, sobre todo, cuándo le conviene comprar. A veces la respuesta es todavía no.",
   "seoTitle": "Lora Galeva | Personal shopper inmobiliario | Alfaro & Partners",
-  "seoDescription": "Conoce a Lora Galeva, personal shopper inmobiliario con cerca de una década representando exclusivamente al comprador.",
+  "seoDescription": "Lora Galeva lleva cerca de una década representando exclusivamente al comprador, nunca al vendedor. Personal shopper inmobiliario y agente colegiada en Madrid.",
   "quote": "Encontrar la propiedad adecuada es solo el principio",
   "photo": "/images/partners/lora-galeva.webp",
   "photoAlt": "Retrato profesional de Lora Galeva",
@@ -18,10 +18,14 @@
     "Personal shopper inmobiliario"
   ],
   "responsibilities": [
-    "Detrás de cada búsqueda hay una persona, una historia y una decisión importante. Encontrar la propiedad adecuada es solo el principio.",
-    "El verdadero valor está en todo lo que ocurre antes, durante y después: estudiar la viabilidad, analizar las opciones, cuestionar, negociar y cuidar cada detalle antes de decir: esta sí."
+    "Agente inmobiliario inscrito en el Registro de Agentes Inmobiliarios, nº 000933/24",
+    "Agente colegiada en el Colegio Oficial de Agentes de la Propiedad Inmobiliaria de Madrid, nº 2108"
   ],
-  "languages": [],
+  "languages": [
+    "Español",
+    "Inglés",
+    "Italiano"
+  ],
   "contact": {
     "phone": "+34628127168",
     "phoneDisplay": "+34 628 12 71 68",
@@ -29,7 +33,12 @@
     "email": "hello@loragaleva.com",
     "website": "https://www.loragaleva.com"
   },
-  "socials": [],
+  "socials": [
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/loragaleva"
+    }
+  ],
   "gallery": [
     {
       "src": "/images/partners/gallery/lora-galeva-equipo.webp",
