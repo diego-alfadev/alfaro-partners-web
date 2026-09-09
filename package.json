@@ -14,17 +14,19 @@
     "build:ionos": "bun scripts/build-ionos.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
-    "@tailwindcss/vite": "^4.3.1",
-    "astro": "^7.2.0",
-    "tailwindcss": "^4.3.1"
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.2",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@iconify-json/lucide": "^1.2.114",
-    "@iconify-json/simple-icons": "^1.2.87",
-    "astro-icon": "^1.1.5"
+    "@iconify-json/lucide": "^1.2.130",
+    "@iconify-json/simple-icons": "^1.2.95",
+    "astro-icon": "^1.2.0"
   },
   "overrides": {
-    "@iconify/tools": "5.0.12"
+    "@iconify/tools": "5.0.12",
+    "svgo": "^4.1.0",
+    "js-yaml": "^4.3.2"
   }
 }
