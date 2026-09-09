@@ -46,6 +46,7 @@ const partners = defineCollection({
       whatsapp: z.string().url().optional(),
       email: z.string().email().optional(),
       website: z.string().url().optional(),
+      maps: z.string().url().optional(),
     }).optional(),
     socials: z.array(z.object({
       platform: z.enum(['linkedin', 'instagram', 'tiktok']),

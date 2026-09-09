@@ -42,6 +42,7 @@ const entityId = `${pageUrl}#${data.kind}`;
 const sameAs = [
   ...data.socials.map((social) => social.url),
   ...(data.contact?.website ? [data.contact.website] : []),
+  ...(data.contact?.maps ? [data.contact.maps] : []),
 ];
 const entity = data.kind === 'person'
   ? {
@@ -201,6 +202,14 @@ const structuredData = {
               <h3>Web</h3>
               <a href={data.contact.website} target="_blank" rel="noopener noreferrer">
                 {data.contact.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            </div>
+          )}
+          {data.contact?.maps && (
+            <div>
+              <h3>Ubicación</h3>
+              <a href={data.contact.maps} target="_blank" rel="noopener noreferrer">
+                Ver en Google Maps
               </a>
             </div>
           )}

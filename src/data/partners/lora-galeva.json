@@ -31,12 +31,17 @@
     "phoneDisplay": "+34 628 12 71 68",
     "whatsapp": "https://wa.me/34628127168",
     "email": "hello@loragaleva.com",
-    "website": "https://www.loragaleva.com"
+    "website": "https://www.loragaleva.com",
+    "maps": "https://maps.google.com/?cid=14782534868202941029"
   },
   "socials": [
     {
       "platform": "instagram",
       "url": "https://www.instagram.com/loragaleva"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/in/lora-galeva-437a71b7/"
     }
   ],
   "gallery": [
