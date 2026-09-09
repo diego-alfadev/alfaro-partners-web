@@ -1,0 +1,63 @@
+{
+  "kind": "person",
+  "category": "gestion",
+  "published": true,
+  "order": 2,
+  "name": "Lora Galeva",
+  "title": "Personal shopper inmobiliario",
+  "relationship": "Partner",
+  "summary": "Lora Galeva lleva cerca de una década representando exclusivamente al comprador, nunca al vendedor. Fundadora y CEO de la firma que lleva su nombre, trabaja cada búsqueda desde la persona: qué necesita, qué puede asumir y, sobre todo, cuándo le conviene comprar. A veces la respuesta es todavía no.",
+  "cardSummary": "Cerca de una década representando solo al comprador, nunca al vendedor. A veces la respuesta es todavía no.",
+  "seoTitle": "Lora Galeva | Personal shopper inmobiliario | Alfaro & Partners",
+  "seoDescription": "Lora Galeva lleva cerca de una década representando exclusivamente al comprador, nunca al vendedor. Personal shopper inmobiliario y agente colegiada en Madrid.",
+  "quote": "Encontrar la propiedad adecuada es solo el principio",
+  "photo": "/images/partners/lora-galeva.webp",
+  "photoAlt": "Retrato profesional de Lora Galeva",
+  "initials": "LG",
+  "expertise": [
+    "Representación del comprador",
+    "Personal shopper inmobiliario"
+  ],
+  "responsibilities": [
+    "Agente inmobiliario inscrito en el Registro de Agentes Inmobiliarios, nº 000933/24",
+    "Agente colegiada en el Colegio Oficial de Agentes de la Propiedad Inmobiliaria de Madrid, nº 2108"
+  ],
+  "languages": [
+    "Español",
+    "Inglés",
+    "Italiano"
+  ],
+  "contact": {
+    "phone": "+34628127168",
+    "phoneDisplay": "+34 628 12 71 68",
+    "whatsapp": "https://wa.me/34628127168",
+    "email": "hello@loragaleva.com",
+    "website": "https://www.loragaleva.com",
+    "maps": "https://maps.google.com/?cid=14782534868202941029"
+  },
+  "socials": [
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/loragaleva"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/in/lora-galeva-437a71b7/"
+    }
+  ],
+  "gallery": [
+    {
+      "src": "/images/partners/gallery/lora-galeva-equipo.webp",
+      "alt": "Lora Galeva junto a una compañera de su equipo en el vestíbulo de un edificio residencial",
+      "width": 1400,
+      "height": 934
+    },
+    {
+      "src": "/images/partners/gallery/lora-galeva-equipo-calle.webp",
+      "alt": "Lora Galeva con su equipo en una calle arbolada de Madrid",
+      "width": 1400,
+      "height": 934
+    }
+  ],
+  "credentials": []
+}

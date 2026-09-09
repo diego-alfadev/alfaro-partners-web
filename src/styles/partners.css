@@ -147,14 +147,17 @@
   list-style: none;
 }
 
+/* Relleno dorado y sin borde a proposito: el recuadro con borde es el
+   lenguaje del CTA "Ver perfil" de esta misma tarjeta, y repetirlo aqui
+   convierte una etiqueta en algo que parece pulsable. */
 .partner-card__tags li {
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid rgba(238,236,235,.13);
-  color: var(--color-quill);
-  font-size: 9px;
+  padding: .3rem var(--space-2);
+  background: rgba(201,164,74,.09);
+  color: var(--color-gold-light);
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: .12em;
-  line-height: 1.2;
+  letter-spacing: .1em;
+  line-height: 1.3;
   text-transform: uppercase;
 }
 
@@ -180,21 +183,27 @@
 }
 
 @media (min-width: 1100px) {
+  /* El alto del retrato lo fija el ancho de la tarjeta: por debajo de ~510px
+     la cabeza no llega al 80% del alto, y ensanchar la foto no lo arregla
+     porque estrecha el texto, estira la tarjeta y la cabeza vuelve a bajar.
+     Con 31rem la segunda columna solo aparece cuando cada tarjeta supera ese
+     ancho; entre 1100 y 1145 se queda una sola tarjeta ancha, que es donde
+     mejor se ve la foto. */
   .partners-directory__list {
     grid-template-columns: repeat(auto-fill, minmax(31rem, 1fr));
-    align-items: start;
+    align-items: stretch;
   }
 
   .partner-card {
     display: block;
-    min-height: 24rem;
+    min-height: 21rem;
   }
 
   .partner-card__portrait {
     position: absolute;
     inset: 0 0 0 auto;
     z-index: 1;
-    width: 45%;
+    width: 44%;
     min-height: 0;
     aspect-ratio: auto;
     overflow: visible;
@@ -209,30 +218,44 @@
     transform: translateX(2%);
   }
 
+  /* 56% + el 44% del retrato: el cuerpo termina justo donde empieza la foto.
+     El recorte de Lora ocupa todo el ancho de su caja, asi que aqui no hay
+     margen transparente sobre el que el texto pueda invadir sin chocar. */
   .partner-card__body {
     position: relative;
     z-index: 2;
-    width: 68%;
-    min-height: 24rem;
-    padding: clamp(2rem, 3vw, 2.75rem);
+    width: 56%;
+    min-height: 21rem;
+    padding: clamp(1.5rem, 1.9vw, 2rem);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
   }
 
-  .partner-card h3 {
-    max-width: 9ch;
-    font-size: clamp(2.35rem, 2.7vw, 3rem);
+  .partner-card__relationship {
+    margin-bottom: var(--space-3);
   }
 
+  .partner-card h3 {
+    max-width: 12ch;
+    font-size: clamp(1.75rem, 1.8vw, 2.15rem);
+  }
+
+  .partner-card__title {
+    font-size: 1rem;
+  }
+
+  /* El texto de la tarjeta debe venir de cardSummary y entrar entero. El
+     clamp es solo un tope para que un partner sin cardSummary no dispare el
+     alto de la tarjeta y, con el, encoja el retrato de toda la fila. */
   .partner-card__summary {
-    max-width: 33ch;
-    margin: var(--space-6) 0;
+    max-width: 42ch;
+    margin: var(--space-5) 0 var(--space-6);
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
   }
 
   .partner-card__action {
@@ -336,6 +359,7 @@
 }
 
 .partner-profile__details,
+.partner-profile__gallery,
 .partner-profile__credentials,
 .partner-profile__quote,
 .partner-profile__contact {
@@ -350,6 +374,7 @@
 }
 
 .partner-profile__details h2,
+.partner-profile__gallery h2,
 .partner-profile__credentials h2,
 .partner-profile__contact h2 {
   max-width: 14ch;
@@ -401,8 +426,33 @@
   color: var(--color-gold-light);
 }
 
-.partner-profile__credentials h2 {
+.partner-profile__credentials h2,
+.partner-profile__gallery h2 {
   margin-bottom: var(--space-12);
+}
+
+.partner-profile__gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr));
+  gap: var(--space-6);
+}
+
+.partner-profile__gallery-item {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.partner-profile__gallery-item img {
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(201,164,74,.16);
+}
+
+.partner-profile__gallery-item figcaption {
+  color: var(--color-mist);
+  font-size: .9rem;
+  line-height: 1.6;
 }
 
 .partner-profile__logo-wall {
@@ -699,7 +749,7 @@
   margin: 0;
 }
 
-/* --- Seis tipos ----------------------------------------------------------- */
+/* --- Tipos de Partner ----------------------------------------------------------- */
 
 .partners-kinds .eyebrow { margin-bottom: var(--space-3); }
 .partners-kinds .section-head__title { margin: 0 0 var(--space-12); }
@@ -740,20 +790,24 @@
 
 /* --- La red hoy ----------------------------------------------------------- */
 
+/* El intro va encima del listado, no en una columna lateral de 22rem: esa
+   columna dejaba a las tarjetas ~362px cada una en dos columnas, ancho en el
+   que el resumen no entra. A lo ancho del wrap caben dos de ~628px. */
 .partners-directory__grid {
   display: grid;
-  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
-  gap: var(--space-16);
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-12);
   align-items: start;
 }
 
 .partners-directory__intro .eyebrow { margin-bottom: var(--space-3); }
-.partners-directory__intro .section-head__title { margin: 0 0 var(--space-6); }
+.partners-directory__intro .section-head__title { margin: 0 0 var(--space-6); max-width: 20ch; }
 
 .partners-directory__intro > p {
   color: var(--color-mist);
   line-height: var(--leading-loose);
   margin: 0;
+  max-width: var(--measure);
 }
 
 /* --- Costura: aquí la página cambia de interlocutor ----------------------- */
@@ -960,10 +1014,10 @@
 }
 
 @media (max-width: 900px) {
-  .partners-directory__grid,
   .partners-originator__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-12); }
-  /* Seis tipos y tres pasos reparten en dos columnas antes que en una: 3+3 y 2+1
-     siguen leyendose como rejilla, 6x1 y 3x1 se leen como lista larga. */
+  /* Los tipos y los pasos reparten en dos columnas antes que en una: aunque la
+     ultima fila quede impar sigue leyendose como rejilla, mientras que una sola
+     columna se lee como lista larga. */
   .partners-kinds__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .partners-steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-10); }
 }

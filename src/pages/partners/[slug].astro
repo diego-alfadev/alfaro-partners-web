@@ -39,6 +39,11 @@ const socialLabels = {
   tiktok: 'TikTok',
 };
 const entityId = `${pageUrl}#${data.kind}`;
+const sameAs = [
+  ...data.socials.map((social) => social.url),
+  ...(data.contact?.website ? [data.contact.website] : []),
+  ...(data.contact?.maps ? [data.contact.maps] : []),
+];
 const entity = data.kind === 'person'
   ? {
       '@type': 'Person',
@@ -50,7 +55,7 @@ const entity = data.kind === 'person'
       image: imageUrl,
       telephone: data.contact?.phone,
       email: data.contact?.email,
-      sameAs: data.socials.map((social) => social.url),
+      sameAs,
       affiliation: { '@id': `${homeUrl}#organization` },
       knowsAbout: data.expertise,
       knowsLanguage: data.languages,
@@ -69,7 +74,7 @@ const entity = data.kind === 'person'
       image: imageUrl,
       telephone: data.contact?.phone,
       email: data.contact?.email,
-      sameAs: data.socials.map((social) => social.url),
+      sameAs,
     };
 const structuredData = {
   '@context': 'https://schema.org',
@@ -192,9 +197,48 @@ const structuredData = {
               <a href={`mailto:${data.contact.email}`}>{data.contact.email}</a>
             </div>
           )}
+          {data.contact?.website && (
+            <div>
+              <h3>Web</h3>
+              <a href={data.contact.website} target="_blank" rel="noopener noreferrer">
+                {data.contact.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+              </a>
+            </div>
+          )}
+          {data.contact?.maps && (
+            <div>
+              <h3>Ubicación</h3>
+              <a href={data.contact.maps} target="_blank" rel="noopener noreferrer">
+                Ver en Google Maps
+              </a>
+            </div>
+          )}
         </aside>
       </div>
     </section>
+
+    {data.gallery.length > 0 && (
+      <section class="partner-profile__gallery" aria-labelledby="gallery-title">
+        <div class="wrap">
+          <h2 id="gallery-title" class="display">En su entorno de trabajo</h2>
+          <div class="partner-profile__gallery-grid">
+            {data.gallery.map((photo) => (
+              <figure class="partner-profile__gallery-item">
+                <img
+                  src={withBase(photo.src)}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {photo.caption && <figcaption>{photo.caption}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {data.credentials.length > 0 && (
       <section class="partner-profile__credentials" aria-labelledby="credentials-title">
