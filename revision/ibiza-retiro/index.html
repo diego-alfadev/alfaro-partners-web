@@ -85,6 +85,8 @@
     select:hover, textarea:hover, input[type="url"]:hover { border-color: rgba(239,220,154,.6); }
     .freeform { margin-top: 20px; }
     .choices { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+    .choices--compact { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .choices--compact .choice span { min-height: 100px; }
     .choice { position: relative; display: block; min-width: 0; }
     .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
     .choice span { height: 100%; min-height: 122px; display: flex; flex-direction: column; justify-content: start; gap: 7px; padding: 18px; border: 1px solid var(--line); background: var(--raised); cursor: pointer; transition: border-color .18s ease, background-color .18s ease; }
@@ -98,7 +100,6 @@
     .note a { color: var(--gold-light); text-underline-offset: 3px; }
     .decision-divider { display: flex; align-items: center; gap: 18px; margin: 18px 0 3px; color: var(--gold-light); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
     .decision-divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
-    .final-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
     .actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 24px; }
     .privacy { max-width: 70ch; margin: 20px 0 0; color: var(--muted); font-size: .8rem; }
     .preview-edit { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
@@ -109,8 +110,8 @@
     .footer-inner { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .77rem; }
     .toast { position: fixed; z-index: 9; bottom: 20px; left: 50%; width: max-content; max-width: calc(100% - 32px); padding: 10px 16px; background: var(--gold-light); color: var(--deep); font-size: .83rem; font-weight: 700; opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity .18s ease, transform .18s ease; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    @media (max-width: 850px) { .section-head, .path-grid { grid-template-columns: 1fr; } .section-head { gap: 19px; } .choices { grid-template-columns: 1fr; } .choice span { min-height: auto; } }
-    @media (max-width: 650px) { .wrap { width: min(calc(100% - 32px), var(--max)); } .masthead-inner { min-height: 72px; } .masthead-note, .brand small { display: none; } .hero-inner { padding-block: 68px 72px; } .preview-inner, .mini-grid, .final-grid { grid-template-columns: 1fr; } .preview-inner { gap: 10px; } .question { padding: 22px; } .footer-inner { flex-direction: column; } }
+    @media (max-width: 850px) { .section-head, .path-grid { grid-template-columns: 1fr; } .section-head { gap: 19px; } .choices, .choices--compact { grid-template-columns: 1fr; } .choice span, .choices--compact .choice span { min-height: auto; } }
+    @media (max-width: 650px) { .wrap { width: min(calc(100% - 32px), var(--max)); } .masthead-inner { min-height: 72px; } .masthead-note, .brand small { display: none; } .hero-inner { padding-block: 68px 72px; } .preview-inner, .mini-grid { grid-template-columns: 1fr; } .preview-inner { gap: 10px; } .question { padding: 22px; } .footer-inner { flex-direction: column; } }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; } }
     @media print { body { background: white; color: #142038; } .masthead, .hero-actions, .actions, .toast, .preview-edit { display: none !important; } .hero, .section, .question, .path, .path--offer { background: white; color: #142038; } .hero-inner { padding: 20px 0 28px; } .hero h1 { font-size: 36px; } .hero h1 em, .eyebrow, .number, .path span { color: #66501f; } .path, .question { break-inside: avoid; border-color: #999; } .choice span, select, textarea { background: #f5f5f5; color: #142038; } .explain, .section-intro, .hero-lede, .path p, .choice small, .note { color: #32425c; } .section { padding: 28px 0; } }
   </style>
@@ -129,73 +130,76 @@
       <div class="wrap hero-inner">
         <p class="eyebrow">Ibiza, Retiro · Ficha 01 · Para el equipo A&amp;P</p>
         <h1 id="hero-title">Una buena ficha.<br><em>Una decisión clara.</em></h1>
-        <p class="hero-lede">La primera versión ya se puede recorrer. Antes de publicar un anuncio de venta, necesitamos confirmar unos pocos hechos y elegir qué ajustar de la experiencia. Este documento evita respuestas del tipo «está muy chulo» y una nueva ronda de preguntas abiertas.</p>
+        <p class="hero-lede">He preparado la primera ficha para que la recorráis. Antes de llevarla a publicación, necesito confirmar los datos de venta y elegir una mejora concreta, si hace falta. Se responde marcando opciones; sólo hay espacio para matices imprescindibles.</p>
         <div class="hero-actions"><a class="button primary" data-preview-link href="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" target="_blank" rel="noopener noreferrer">Abrir ficha actual <span aria-hidden="true">↗</span></a><a class="button" href="#decisiones">Ir a las decisiones <span aria-hidden="true">↓</span></a></div>
       </div>
     </section>
 
     <div class="preview-strip">
-      <div class="wrap preview-inner"><p><strong>Recomendamos verla primero en ordenador y después en móvil.</strong><small>Esta preview está alojada en un PRE público, separado de alfaropartners.es, y no depende del ordenador.</small></p><a class="preview-link" data-preview-link href="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" target="_blank" rel="noopener noreferrer">Ver la ficha ↗</a></div>
+      <div class="wrap preview-inner"><p><strong>Miradla primero en ordenador y después en móvil.</strong><small>Esta preview está alojada en un PRE público, separado de alfaropartners.es, y no depende del ordenador.</small></p><a class="preview-link" data-preview-link href="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" target="_blank" rel="noopener noreferrer">Ver la ficha ↗</a></div>
     </div>
 
     <section class="section" aria-labelledby="paths-title">
       <div class="wrap">
         <p class="eyebrow">Antes de responder · 01</p>
-        <div class="section-head"><h2 id="paths-title">Verla no equivale todavía a anunciarla.</h2><p class="section-intro">No queremos burocracia innecesaria. Sí separar una revisión visual de una oferta pública con precio y llamada a solicitar visita.</p></div>
+        <div class="section-head"><h2 id="paths-title">Verla no equivale todavía a anunciarla.</h2><p class="section-intro">La revisión visual y una oferta pública con precio y solicitud de visita no tienen los mismos requisitos.</p></div>
         <div class="path-grid">
-          <article class="path"><span>Ahora · Revisión del concepto</span><h3>Comprobar qué funciona</h3><p>Podéis revisar el diseño, el ritmo de las fotografías, los datos y el contacto. Señalad lo que cambiaríais. La preview pública no es una validación de los contenidos ni un permiso de uso de imágenes.</p></article>
+          <article class="path"><span>Ahora · Revisión del concepto</span><h3>Comprobar qué funciona</h3><p>Revisad diseño, fotografías, datos y contacto. La preview pública no valida los contenidos ni acredita el permiso de uso de imágenes.</p></article>
           <article class="path path--offer"><span>Después · Anuncio público</span><h3>Confirmar lo que se afirma</h3><p>Si la ficha se ofrece públicamente para venta, precio, disponibilidad, superficie, información energética, permisos de fotografía y ruta comercial deben estar confirmados. Vídeo, carrusel, plano y dossier pueden esperar.</p></article>
         </div>
-        <p class="note">Un enlace sin indexación sigue siendo accesible para cualquiera que lo tenga. Como la ficha actual muestra precio y CTA, podría considerarse publicidad de venta; no asumimos que <code>noindex</code> la convierta en una revisión privada. El <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">RD 390/2021, arts. 15.2 y 17.3</a>, exige la etiqueta e información de calificación energética en ofertas y publicidad de venta, incluidas páginas web. También lo explica la <a href="https://www.comunidad.madrid/consumo/certificado-eficiencia-energetica-viviendas" target="_blank" rel="noopener noreferrer">Comunidad de Madrid</a>. Antes de usar esta preview como anuncio, confirmemos ese punto.</p>
+        <p class="note">Un enlace sin indexación sigue siendo accesible para cualquiera que lo tenga. Como la ficha muestra precio y CTA, podría considerarse publicidad de venta; <code>noindex</code> no la convierte en una revisión privada. El <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">RD 390/2021, arts. 15.2 y 17.3</a>, exige la etiqueta e información de calificación energética en ofertas y publicidad de venta, incluidas páginas web. También lo explica la <a href="https://www.comunidad.madrid/consumo/certificado-eficiencia-energetica-viviendas" target="_blank" rel="noopener noreferrer">Comunidad de Madrid</a>. Antes de usar esta preview como anuncio, necesito confirmar ese punto.</p>
       </div>
     </section>
 
     <section class="section" id="decisiones" aria-labelledby="facts-title">
       <div class="wrap">
         <p class="eyebrow">Decisiones de publicación · 02</p>
-        <div class="section-head"><h2 id="facts-title">Cerrar los datos, sin otra ronda de reuniones.</h2><p class="section-intro">Estos valores proceden del material recibido o de la ficha actual. No son una certificación. «Pendiente» es una respuesta válida: nos dice exactamente qué no debemos afirmar aún.</p></div>
+        <div class="section-head"><h2 id="facts-title">Cerrar los datos, sin otra ronda de reuniones.</h2><p class="section-intro">Estos valores proceden del material recibido o de la ficha actual; no son una certificación. «Pendiente» indica qué dato aún no debe afirmarse.</p></div>
         <div class="fact-band" aria-label="Datos mostrados en la ficha de revisión"><span>929.000 €</span><span>72 m²</span><span>2 dormitorios</span><span>2 baños</span><span>Ibiza · Retiro</span><span>Augusto</span></div>
         <p class="fact-band-note">La dirección exacta no aparece en la URL ni en el texto público. Se omiten por ahora vídeo, plano y PDF.</p>
 
         <form id="review-form" class="questionnaire" autocomplete="on">
-          <fieldset class="question">
-            <legend><span class="number">01 / </span>¿Son correctos los datos con los que venderíamos la vivienda?</legend>
-            <p class="explain">Confirmad cada dato por separado. Si algo cambia, indicad el valor correcto y quién lo valida. La superficie necesita especificar si es construida o útil.</p>
+          <fieldset class="question" data-summary-group="DATOS Y PUBLICACIÓN">
+            <legend><span class="number">01 / </span>¿Qué datos de venta están confirmados?</legend>
+            <p class="explain">Marcad cada dato por separado. Si elegís «corregir», dejad el valor exacto y su fuente en la nota opcional. La superficie debe indicar si es construida o útil.</p>
             <div class="mini-grid">
               <div class="input-row"><label for="price-status">Precio anunciado: 929.000 €</label><select id="price-status" name="Precio (929.000 €)"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmado vigente">Confirmado vigente</option><option value="Hay que corregirlo">Hay que corregirlo</option></select></div>
               <div class="input-row"><label for="availability-status">Disponibilidad para visitas/venta</label><select id="availability-status" name="Disponibilidad"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Disponible para venta y visitas">Disponible para venta y visitas</option><option value="Hay una restricción o cambio">Hay una restricción o cambio</option></select></div>
               <div class="input-row"><label for="area-status">Superficie anunciada: 72 m²</label><select id="area-status" name="Superficie (72 m²)"><option value="Pendiente: falta tipo de superficie">Pendiente: falta tipo de superficie</option><option value="72 m² construidos confirmados">72 m² construidos confirmados</option><option value="72 m² útiles confirmados">72 m² útiles confirmados</option><option value="Otra cifra o definición">Otra cifra o definición</option></select><small>La hoja aporta 72 m², no su definición.</small></div>
               <div class="input-row"><label for="rooms-status">Distribución: 2 dormitorios y 2 baños</label><select id="rooms-status" name="Distribución (2 dormitorios, 2 baños)"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmada">Confirmada</option><option value="Hay que corregirla">Hay que corregirla</option></select></div>
-              <div class="input-row"><label for="ac-status">Aire acondicionado</label><select id="ac-status" name="Aire acondicionado"><option value="Omitir hasta verificar">Omitir hasta verificar</option><option value="Sí, con respaldo">Sí, con respaldo</option><option value="No, con respaldo">No, con respaldo</option></select><small>Las fuentes recibidas no coinciden; no lo afirmaremos por inercia.</small></div>
+              <div class="input-row"><label for="ac-status">Aire acondicionado</label><select id="ac-status" name="Aire acondicionado"><option value="Omitir hasta verificar">Omitir hasta verificar</option><option value="Sí, con respaldo">Sí, con respaldo</option><option value="No, con respaldo">No, con respaldo</option></select><small>Las fuentes recibidas no coinciden; se omite hasta verificar.</small></div>
             </div>
-            <div class="freeform"><label class="freeform-label" for="facts-correction">Correcciones, fuente y persona que las confirma</label><textarea id="facts-correction" name="Correcciones de datos" placeholder="Ej.: superficie construida según nota simple; precio confirmado por Augusto el…"></textarea></div>
+            <div class="freeform"><label class="freeform-label" for="facts-correction">Sólo si hay correcciones: valor exacto, fuente y responsable</label><textarea id="facts-correction" name="Correcciones de datos" placeholder="Ej.: 72 m² construidos según documento enviado por Augusto."></textarea></div>
           </fieldset>
 
-          <fieldset class="question">
-            <legend><span class="number">02 / </span>¿Tenemos la etiqueta energética que corresponde a esta vivienda?</legend>
-            <p class="explain">Es una condición específica de publicidad inmobiliaria, no un criterio estético nuestro. Necesitamos la calificación y el soporte aplicable para mostrarla correctamente, sin inventar una letra.</p>
+          <fieldset class="question" data-summary-group="DATOS Y PUBLICACIÓN">
+            <legend><span class="number">02 / </span>¿En qué estado está la información energética?</legend>
+            <p class="explain">La calificación y su soporte deben mostrarse correctamente en una oferta pública. Si la etiqueta existe, enviadla por el canal habitual; aquí basta con indicar su estado.</p>
             <div class="choices">
-              <label class="choice"><input type="radio" name="Eficiencia energética" value="Pendiente; no lanzar oferta pública todavía" checked><span><b>Pendiente o en trámite</b><small>Seguimos iterando la ficha, pero no la trataremos como anuncio listo para publicar.</small></span></label>
-              <label class="choice"><input type="radio" name="Eficiencia energética" value="Etiqueta/certificado disponible; enviaremos los datos"><span><b>Tenemos la etiqueta</b><small>Facilitamos la calificación y el documento/identificación necesaria para publicarla.</small></span></label>
-              <label class="choice"><input type="radio" name="Eficiencia energética" value="Otro supuesto: explicar y revisar"><span><b>Otro supuesto</b><small>Indicarlo abajo para revisar si existe una excepción aplicable; no asumirla.</small></span></label>
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Pendiente; no lanzar oferta pública todavía" checked><span><b>Pendiente o en trámite</b><small>La ficha puede revisarse, pero no queda validada como oferta pública.</small></span></label>
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Etiqueta disponible; documento por enviar"><span><b>Etiqueta disponible</b><small>Se enviará la etiqueta y su identificación para publicarla.</small></span></label>
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Posible excepción; requiere revisión jurídica"><span><b>Posible excepción</b><small>Se revisará con la persona responsable antes de asumirla.</small></span></label>
             </div>
-            <div class="freeform"><label class="freeform-label" for="energy-note">Calificación / estado / responsable de aportarla</label><textarea id="energy-note" name="Detalle de eficiencia energética" placeholder="Ej.: clase E; Augusto enviará la etiqueta registrada. No adjuntéis datos privados en este formulario."></textarea></div>
-            <p class="note">Referencia: <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">texto consolidado del RD 390/2021</a>. Si dudamos sobre un supuesto excepcional, conviene validarlo con el responsable jurídico/comercial antes de lanzar una oferta pública.</p>
+            <div class="mini-grid" style="margin-top:18px">
+              <div class="input-row" id="energy-rating-row" hidden><label for="energy-rating">Calificación, si consta en la etiqueta</label><select id="energy-rating" name="Calificación energética"><option value="No indicada todavía">No indicada todavía</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option></select><small>No marcar una letra estimada.</small></div>
+              <div class="input-row"><label for="energy-owner">¿Quién facilita el documento?</label><select id="energy-owner" name="Responsable de etiqueta"><option value="Augusto">Augusto</option><option value="Otra persona de A&P">Otra persona de A&amp;P</option><option value="Por designar">Por designar</option></select><small>La etiqueta se envía fuera de este formulario.</small></div>
+            </div>
+            <p class="note">Referencia: <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">texto consolidado del RD 390/2021</a>. Un supuesto excepcional debe validarse con la persona responsable del área jurídica/comercial antes de lanzar una oferta pública.</p>
           </fieldset>
 
-          <fieldset class="question">
-            <legend><span class="number">03 / </span>¿Podemos usar estas fotos y dirigir las visitas a Augusto?</legend>
+          <fieldset class="question" data-summary-group="DATOS Y PUBLICACIÓN">
+            <legend><span class="number">03 / </span>¿Están autorizadas las fotos y el contacto de Augusto?</legend>
             <p class="explain">Que las imágenes ya estén en otra plataforma no prueba por sí solo el permiso de reutilización por A&amp;P. La ficha usa 12 fotografías y presenta a Augusto con teléfono y correo directos.</p>
             <div class="mini-grid">
-              <div class="input-row"><label for="photo-rights">Fotografías en la web de A&amp;P</label><select id="photo-rights" name="Derechos de fotografía"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Autorizadas para web y reutilización">Autorizadas para web y reutilización</option><option value="Necesitan sustitución o crédito">Necesitan sustitución o crédito</option></select></div>
+              <div class="input-row"><label for="photo-rights">Uso de las fotografías en la web</label><select id="photo-rights" name="Derechos de fotografía"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Autorizadas sin crédito obligatorio">Autorizadas sin crédito obligatorio</option><option value="Autorizadas con crédito; enviar texto exacto">Autorizadas con crédito; enviar texto exacto</option><option value="No autorizadas; sustituir o retirar">No autorizadas; sustituir o retirar</option></select></div>
+              <div class="input-row"><label for="rights-owner">¿Quién confirma el permiso?</label><select id="rights-owner" name="Responsable de derechos"><option value="Pendiente de identificar">Pendiente de identificar</option><option value="Augusto">Augusto</option><option value="Propietario">Propietario</option><option value="Autor o fotógrafo">Autor o fotógrafo</option></select><small>Si hace falta crédito, enviar la atribución exacta por separado.</small></div>
               <div class="input-row"><label for="contact-status">Augusto: nombre, foto, teléfono y visitas</label><select id="contact-status" name="Contacto y visitas con Augusto"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmado como responsable">Confirmado como responsable</option><option value="Cambiar datos o responsable">Cambiar datos o responsable</option></select></div>
             </div>
-            <div class="freeform"><label class="freeform-label" for="rights-note">Matiz o persona que da el visto bueno</label><textarea id="rights-note" name="Notas de derechos y contacto" placeholder="Ej.: fotógrafo autoriza web de A&P; crédito requerido en la ficha…"></textarea></div>
           </fieldset>
 
-          <fieldset class="question">
-            <legend><span class="number">04 / </span>¿Qué localización podemos mostrar públicamente?</legend>
-            <p class="explain">La opción actual —barrio de Ibiza y distrito Retiro— permite mantener la ficha y su URL sin exponer calle, número ni planta. Sólo ampliaremos la precisión con autorización expresa.</p>
+          <fieldset class="question" data-summary-group="DATOS Y PUBLICACIÓN">
+            <legend><span class="number">04 / </span>¿Qué localización está autorizada para mostrar públicamente?</legend>
+            <p class="explain">La opción actual —barrio de Ibiza y distrito Retiro— mantiene la ficha y su URL sin exponer calle, número ni planta. Sólo se ampliará la precisión con autorización expresa.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="Localización pública" value="Sólo barrio/distrito, como ahora" checked><span><b>Zona, como ahora</b><em>Recomendado</em><small>No requiere publicar una dirección exacta.</small></span></label>
               <label class="choice"><input type="radio" name="Localización pública" value="Calle sin número, con autorización"><span><b>Calle, sin número</b><small>Necesita autorización y cambiar URL, metadatos y mapa si procede.</small></span></label>
@@ -206,9 +210,9 @@
 
           <div class="decision-divider">La experiencia · ajustes, no bloqueos</div>
 
-          <fieldset class="question">
+          <fieldset class="question" data-summary-group="EXPERIENCIA Y MATERIALES">
             <legend><span class="number">05 / </span>¿Qué debería hacer la portada?</legend>
-            <p class="explain">Viendo las mismas fotos y la ficha completa, decidid si la imagen única ya genera el impacto necesario o si falta variación antes de empezar el recorrido.</p>
+            <p class="explain">Con las mismas fotos, elegid una dirección para la portada. El carrusel o el vídeo no son requisitos para publicar.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="Hero" value="Mantener una fotografía protagonista" checked><span><b>Una imagen protagonista</b><em>Recomendado por ahora</em><small>Más clara, rápida y sin duplicar el recorrido fotográfico.</small></span></label>
               <label class="choice"><input type="radio" name="Hero" value="Probar carrusel controlado de 2–3 fotos"><span><b>Probar 2–3 fotos</b><small>Carrusel controlado, sin avance automático; requiere elegir tomas distintas.</small></span></label>
@@ -216,42 +220,70 @@
             </div>
           </fieldset>
 
-          <fieldset class="question">
-            <legend><span class="number">06 / </span>¿El recorrido de tres escenas aporta algo?</legend>
-            <p class="explain">Valorad la visita guiada completa: transiciones ligadas al scroll, indicador de avance y los textos breves sobre cocina, dormitorio y baño. En móvil se lee como tres fotografías normales.</p>
+          <fieldset class="question" data-summary-group="EXPERIENCIA Y MATERIALES">
+            <legend><span class="number">06 / </span>¿Qué hacer con el recorrido de tres escenas?</legend>
+            <p class="explain">Las transiciones siguen el scroll; el indicador y los textos acompañan cocina, dormitorio y baño. En móvil se muestran como fotos normales.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Mantenerlo como está" checked><span><b>Mantener</b><small>El ritmo ayuda a imaginar la vivienda.</small></span></label>
-              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Mantener, pero simplificar"><span><b>Simplificar</b><small>Indicar qué distrae: tiempo, textos, indicador o selección de fotos.</small></span></label>
-              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Retirarlo"><span><b>Retirar</b><small>Preferimos ir de portada a datos y galería tradicional.</small></span></label>
-            </div>
-            <div class="freeform"><label class="freeform-label" for="tour-note">Si cambiaríais algo del recorrido, ¿qué exactamente?</label><textarea id="tour-note" name="Detalle del recorrido" placeholder="Ej.: la segunda escena es la más fuerte; reducir el tiempo de transición…"></textarea></div>
-          </fieldset>
-
-          <fieldset class="question">
-            <legend><span class="number">07 / </span>Si sólo hiciéramos una mejora visual antes de salir, ¿cuál sería?</legend>
-            <p class="explain">No hace falta una lista de gustos. Señalad el tramo que frena la impresión premium o la comprensión del inmueble: portada, datos, galería, Augusto, móvil u otro.</p>
-            <div class="final-grid">
-              <div><label class="freeform-label" for="best">Lo que sí conservaríais</label><textarea id="best" name="Lo mejor de la ficha" placeholder="La parte que más se parece a A&P y por qué…"></textarea></div>
-              <div><label class="freeform-label" for="change">La única mejora prioritaria</label><textarea id="change" name="Cambio visual prioritario" placeholder="Qué cambiaríais, en qué tramo y qué debería conseguir…"></textarea></div>
+              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Mantener, pero simplificar"><span><b>Simplificar</b><small>Conservar las escenas y elegir un único ajuste en la pregunta siguiente.</small></span></label>
+              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Retirarlo"><span><b>Retirar</b><small>Ir de portada a datos y galería tradicional.</small></span></label>
             </div>
           </fieldset>
 
-          <fieldset class="question">
-            <legend><span class="number">08 / </span>¿Qué hacemos con el dossier provisional?</legend>
-            <p class="explain">No necesitamos el PDF para publicar la ficha si la ficha ya cuenta bien la vivienda. El dossier puede incorporarse en una segunda pasada, después de corregir contacto/contenido y aclarar dirección y derechos.</p>
+          <fieldset class="question" id="tour-refinement" data-summary-group="EXPERIENCIA Y MATERIALES" hidden disabled>
+            <legend><span class="number">06A / </span>Si se simplifica, ¿qué se cambia primero?</legend>
+            <p class="explain">Elegid sólo un ajuste. Esta pregunta aparece al marcar «Simplificar» en el recorrido.</p>
+            <div class="choices choices--compact">
+              <label class="choice"><input type="radio" name="Primer ajuste del recorrido" value="Acortar la permanencia por escena" checked><span><b>Ritmo</b><small>Pasar antes a la siguiente fotografía, sin saltos.</small></span></label>
+              <label class="choice"><input type="radio" name="Primer ajuste del recorrido" value="Reducir los textos de las escenas"><span><b>Textos</b><small>Dejar sólo el nombre de cada espacio.</small></span></label>
+              <label class="choice"><input type="radio" name="Primer ajuste del recorrido" value="Simplificar el indicador de avance"><span><b>Indicador</b><small>Menos presencia visual del progreso.</small></span></label>
+              <label class="choice"><input type="radio" name="Primer ajuste del recorrido" value="Cambiar las fotos o su orden"><span><b>Fotos u orden</b><small>Elegir otras escenas sin cambiar la mecánica.</small></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="question" data-summary-group="EXPERIENCIA Y MATERIALES">
+            <legend><span class="number">07 / </span>¿Qué elemento debe conservarse tal como está?</legend>
+            <p class="explain">Si la siguiente iteración pudiera proteger una sola decisión visual, ¿cuál sería?</p>
+            <div class="choices choices--compact">
+              <label class="choice"><input type="radio" name="Elemento a conservar" value="La portada fotográfica" checked><span><b>Portada fotográfica</b><small>Escala, imagen y datos inmediatos.</small></span></label>
+              <label class="choice"><input type="radio" name="Elemento a conservar" value="El recorrido de tres escenas"><span><b>Recorrido</b><small>La secuencia a pantalla completa.</small></span></label>
+              <label class="choice"><input type="radio" name="Elemento a conservar" value="La composición de los datos"><span><b>Datos de la vivienda</b><small>Jerarquía visual y lectura rápida.</small></span></label>
+              <label class="choice"><input type="radio" name="Elemento a conservar" value="La galería completa"><span><b>Galería</b><small>La inspección tranquila de todas las fotos.</small></span></label>
+              <label class="choice"><input type="radio" name="Elemento a conservar" value="La presentación de Augusto y la visita"><span><b>Augusto y visita</b><small>Contacto personal y CTA principal.</small></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="question" data-summary-group="EXPERIENCIA Y MATERIALES">
+            <legend><span class="number">08 / </span>¿Cuál es el único cambio prioritario?</legend>
+            <p class="explain">Elegid una zona de la ficha que mejorar antes de publicar. Si no hay ninguna, marcadlo expresamente.</p>
+            <div class="choices choices--compact">
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Mejorar la portada" required><span><b>Portada</b><small>Imagen, precio o datos del primer vistazo.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Ajustar el recorrido fotográfico"><span><b>Recorrido</b><small>Ritmo, fotos, textos o indicador.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Mejorar la lectura de los datos"><span><b>Datos</b><small>Orden, claridad y contraste.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Mejorar la galería"><span><b>Galería</b><small>Selección y exploración de imágenes.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Mejorar la presentación de Augusto o el CTA"><span><b>Augusto y visita</b><small>Identidad, contacto o solicitud de visita.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="Mejorar la experiencia móvil o la carga"><span><b>Móvil y carga</b><small>Legibilidad, fluidez o rendimiento.</small></span></label>
+              <label class="choice"><input type="radio" name="Cambio prioritario" value="No hay un cambio visual imprescindible"><span><b>Ninguno imprescindible</b><small>La siguiente tarea es confirmar datos y permisos.</small></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="question" data-summary-group="EXPERIENCIA Y MATERIALES">
+            <legend><span class="number">09 / </span>¿Qué hacer con el dossier provisional?</legend>
+            <p class="explain">El PDF no es imprescindible si la ficha ya cuenta bien la vivienda. Puede incorporarse después de corregir contenido/contacto y aclarar dirección y derechos.</p>
             <div class="choices">
               <label class="choice"><input type="radio" name="Dossier" value="Publicar la ficha sin PDF por ahora" checked><span><b>Ficha primero</b><em>Recomendado</em><small>Se publica sin hueco ni promesa de descarga; se añade después.</small></span></label>
-              <label class="choice"><input type="radio" name="Dossier" value="Corregir y añadir PDF antes de publicar"><span><b>PDF en la primera salida</b><small>Lo revisamos y habilitamos vista previa y descarga libre.</small></span></label>
+              <label class="choice"><input type="radio" name="Dossier" value="Corregir y añadir PDF antes de publicar"><span><b>PDF en la primera salida</b><small>Requiere revisión y después vista previa y descarga libre.</small></span></label>
               <label class="choice"><input type="radio" name="Dossier" value="No usar PDF digital"><span><b>Sólo impreso o no usarlo</b><small>El book puede servir en visita aunque no esté en el hub.</small></span></label>
             </div>
           </fieldset>
 
           <div class="question" aria-labelledby="response-title">
-            <p class="eyebrow">Cierre · Enviadnos una respuesta, no un «me gusta»</p>
-            <h2 id="response-title">Con esto decidimos la siguiente iteración.</h2>
-            <p class="section-intro" style="margin-top:14px">Las respuestas se guardan sólo en este navegador. No se envían a ningún servidor. Copiadlas para WhatsApp o descargad un .txt y enviádnoslo.</p>
+            <p class="eyebrow">Cierre · Una respuesta concreta, no un «me gusta»</p>
+            <h2 id="response-title">Con esto preparo la siguiente iteración.</h2>
+            <p class="section-intro" style="margin-top:14px">Las respuestas se guardan sólo en este navegador; no se envían a ningún servidor. Copiadlas para WhatsApp o descargad un .txt y enviádmelas.</p>
+            <div class="freeform"><label class="freeform-label" for="exception-note">Matiz imprescindible no cubierto por las opciones (opcional)</label><textarea id="exception-note" name="Matiz excepcional" placeholder="Sólo si hace falta aclarar un dato, permiso o decisión."></textarea></div>
             <div class="actions"><button class="button primary" type="button" id="copy">Copiar respuestas</button><button class="button" type="button" id="download">Descargar .txt</button><button class="button tertiary" type="reset" form="review-form">Restaurar valores</button></div>
-            <p class="privacy">Si alguna cifra o permiso sigue pendiente, dejadlo así. Nos sirve más un «sin verificar, lo confirma Augusto» que un sí por cortesía. No incluyáis documentos personales ni datos sensibles en las notas.</p>
+            <p class="privacy">Si una cifra o permiso sigue pendiente, dejadlo así: un «sin verificar» es más útil que un sí por cortesía. No incluyáis documentos personales ni datos sensibles en la nota.</p>
             <details class="preview-edit"><summary>Cambiar el enlace de la ficha en este navegador</summary><label for="preview-url">Nueva URL de la preview</label><input type="url" id="preview-url" value="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" placeholder="https://…" inputmode="url"><p class="privacy">El cambio modifica los botones de esta copia y se guarda localmente. Para compartir otra URL a todo el equipo, hay que actualizar el HTML.</p></details>
           </div>
         </form>
@@ -259,7 +291,7 @@
     </section>
   </main>
 
-  <footer class="footer"><div class="wrap footer-inner"><span>ALFARO &amp; PARTNERS · Ibiza, Retiro · Revisión de la primera ficha</span><span>Documento de decisión · No es un anuncio inmobiliario</span></div></footer>
+  <footer class="footer"><div class="wrap footer-inner"><span>ALFARO &amp; PARTNERS · Ibiza, Retiro · Revisión de la primera ficha</span><span>PRE público · Datos pendientes de verificar</span></div></footer>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
@@ -267,7 +299,12 @@
       const form = document.querySelector('#review-form');
       const urlInput = document.querySelector('#preview-url');
       const toast = document.querySelector('#toast');
-      const storageKey = 'ap-ibiza-retiro-publication-review-v1';
+      const storageKey = 'ap-ibiza-retiro-publication-review-v2';
+      const legacyStorageKey = 'ap-ibiza-retiro-publication-review-v1';
+      const tourRefinement = document.querySelector('#tour-refinement');
+      const energyRatingRow = document.querySelector('#energy-rating-row');
+      const energyRating = document.querySelector('#energy-rating');
+      const exceptionNote = document.querySelector('#exception-note');
       const defaults = { url: urlInput.value };
       let toastTimer;
 
@@ -286,20 +323,44 @@
         const data = new FormData(form);
         return [...data.entries()].map(([key, value]) => [key, String(value).trim()]);
       }
+      function syncTourRefinement() {
+        const choice = form.querySelector('input[name="Recorrido fotográfico"]:checked');
+        const show = choice?.value === 'Mantener, pero simplificar';
+        tourRefinement.hidden = !show;
+        tourRefinement.disabled = !show;
+      }
+      function syncEnergyRating() {
+        const hasLabel = form.querySelector('input[name="Eficiencia energética"]:checked')?.value === 'Etiqueta disponible; documento por enviar';
+        energyRatingRow.hidden = !hasLabel;
+        energyRating.disabled = !hasLabel;
+        if (!hasLabel) energyRating.value = 'No indicada todavía';
+      }
       function summary() {
         const lines = [
           'A&P — Ibiza, Retiro · Revisión para publicar',
           'Fecha: ' + new Date().toLocaleDateString('es-ES'),
           'Nota: las respuestas no sustituyen documentos o permisos de publicación.',
-          '',
-          'DATOS Y PUBLICACIÓN',
         ];
-        const entries = values();
-        entries.forEach(([key, value], index) => {
-          if (index === 12) lines.push('', 'EXPERIENCIA Y MATERIALES');
-          lines.push(key + ': ' + (value || '—'));
-        });
-        lines.push('URL de revisión: ' + (urlInput.value.trim() || '—'));
+        const data = new FormData(form);
+        let currentGroup = '';
+        for (const fieldset of form.querySelectorAll('fieldset[data-summary-group]')) {
+          if (fieldset.disabled) continue;
+          const group = fieldset.dataset.summaryGroup;
+          if (group !== currentGroup) {
+            lines.push('', group);
+            currentGroup = group;
+          }
+          lines.push('', fieldset.querySelector('legend').textContent.replace(/\s+/g, ' ').trim());
+          const controls = [...fieldset.querySelectorAll('[name]')];
+          for (const name of new Set(controls.map((control) => control.name))) {
+            const value = String(data.get(name) ?? '').trim();
+            const first = controls.find((control) => control.name === name);
+            if (first instanceof HTMLTextAreaElement && !value) continue;
+            lines.push(name + ': ' + (value || 'Pendiente de elegir'));
+          }
+        }
+        if (exceptionNote.value.trim()) lines.push('', 'MATIZ ADICIONAL', exceptionNote.value.trim());
+        lines.push('', 'URL de revisión: ' + (urlInput.value.trim() || defaults.url));
         return lines.join('\n');
       }
       function save() {
@@ -307,20 +368,41 @@
       }
       function restore() {
         try {
-          const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
-          if (!saved) return;
-          for (const [name, value] of saved.entries || []) {
+          const current = localStorage.getItem(storageKey);
+          const saved = JSON.parse(current || localStorage.getItem(legacyStorageKey) || 'null');
+          if (!saved) return false;
+          for (const [name, storedValue] of saved.entries || []) {
             const field = form.elements.namedItem(name);
             if (!field) continue;
+            const value = name === 'Eficiencia energética' && storedValue.startsWith('Etiqueta/certificado disponible')
+              ? 'Etiqueta disponible; documento por enviar'
+              : storedValue;
             if (field instanceof RadioNodeList) {
-              for (const option of field) option.checked = option.value === value;
+              const matching = [...field].find((option) => option.value === value);
+              if (matching) matching.checked = true;
+            } else if (field instanceof HTMLSelectElement) {
+              if ([...field.options].some((option) => option.value === value)) field.value = value;
             } else field.value = value;
           }
+          if (!current) {
+            const oldNotes = new Map(saved.entries || []);
+            const names = ['Detalle de eficiencia energética', 'Notas de derechos y contacto', 'Detalle del recorrido', 'Lo mejor de la ficha', 'Cambio visual prioritario'];
+            const previous = names.filter((name) => oldNotes.get(name)?.trim()).map((name) => name + ': ' + oldNotes.get(name).trim());
+            if (previous.length) exceptionNote.value = 'Respuestas previas para revisar:\n' + previous.join('\n');
+          }
           if (saved.url && !saved.url.includes('cloudflare.com')) urlInput.value = saved.url;
-          refreshLinks();
-        } catch { /* Invalid/blocked storage should not prevent answering. */ }
+          return !current;
+        } catch { return false; /* Invalid/blocked storage should not prevent answering. */ }
+      }
+      function readyToExport() {
+        const priority = form.querySelector('input[name="Cambio prioritario"]:checked');
+        if (priority) return true;
+        form.querySelector('input[name="Cambio prioritario"]').focus();
+        notify('Elegid un cambio prioritario o «ninguno imprescindible».');
+        return false;
       }
       async function copy() {
+        if (!readyToExport()) return;
         const content = summary();
         try {
           await navigator.clipboard.writeText(content);
@@ -340,6 +422,7 @@
       }
       document.querySelector('#copy').addEventListener('click', copy);
       document.querySelector('#download').addEventListener('click', () => {
+        if (!readyToExport()) return;
         const blob = new Blob([summary()], { type: 'text/plain;charset=utf-8' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
@@ -351,15 +434,30 @@
         notify('Archivo de respuestas descargado');
       });
       form.addEventListener('input', save);
-      form.addEventListener('change', save);
+      form.addEventListener('change', (event) => {
+        if (event.target?.name === 'Recorrido fotográfico') syncTourRefinement();
+        if (event.target?.name === 'Eficiencia energética') syncEnergyRating();
+        save();
+      });
       form.addEventListener('reset', () => {
-        try { localStorage.removeItem(storageKey); } catch { /* No persistence available. */ }
-        urlInput.value = defaults.url;
-        refreshLinks();
-        notify('Valores iniciales restaurados');
+        try {
+          localStorage.removeItem(storageKey);
+          localStorage.removeItem(legacyStorageKey);
+        } catch { /* No persistence available. */ }
+        setTimeout(() => {
+          urlInput.value = defaults.url;
+          syncTourRefinement();
+          syncEnergyRating();
+          refreshLinks();
+          notify('Valores iniciales restaurados');
+        }, 0);
       });
       urlInput.addEventListener('input', () => { refreshLinks(); save(); });
-      restore();
+      const migrated = restore();
+      syncTourRefinement();
+      syncEnergyRating();
+      refreshLinks();
+      if (migrated) save();
     })();
   </script>
 </body>
