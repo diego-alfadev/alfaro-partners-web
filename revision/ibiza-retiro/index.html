@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>A&amp;P · Ibiza, Retiro · Revisión para publicar</title>
+  <style>
+    :root {
+      --navy: #0d1322;
+      --deep: #070c18;
+      --raised: #12182a;
+      --line: rgba(238,236,235,.16);
+      --text: #eeeceb;
+      --muted: #b8bdc7;
+      --gold: #c9a44a;
+      --gold-light: #efdc9a;
+      --serif: "Libre Baskerville", "Iowan Old Style", Baskerville, Georgia, serif;
+      --sans: Satoshi, Aptos, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --max: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--deep); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; }
+    .skip { position: absolute; z-index: 10; top: -80px; left: 16px; background: var(--gold-light); color: var(--deep); padding: 10px 14px; }
+    .skip:focus { top: 16px; }
+    .wrap { width: min(calc(100% - 48px), var(--max)); margin-inline: auto; }
+    .eyebrow { margin: 0 0 18px; color: var(--gold-light); font-size: .72rem; font-weight: 700; letter-spacing: .2em; line-height: 1.5; text-transform: uppercase; }
+    .masthead { border-bottom: 1px solid var(--line); background: var(--navy); }
+    .masthead-inner { min-height: 84px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; flex-direction: column; text-decoration: none; white-space: nowrap; }
+    .brand strong { font: 400 clamp(1.1rem, 2.3vw, 1.5rem)/1.15 var(--serif); letter-spacing: .16em; }
+    .brand small { margin-top: 5px; color: var(--muted); font-size: .54rem; font-weight: 600; letter-spacing: .45em; text-align: center; text-transform: uppercase; }
+    .masthead-note { margin: 0; color: var(--muted); font-size: .75rem; letter-spacing: .13em; text-transform: uppercase; }
+    .hero { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); }
+    .hero::after { content: ""; position: absolute; z-index: -1; width: min(70vw, 900px); aspect-ratio: 1; right: -25%; top: -62%; border: 1px solid rgba(201,164,74,.16); border-radius: 50%; box-shadow: 0 0 0 85px rgba(201,164,74,.025), 0 0 0 170px rgba(201,164,74,.018); pointer-events: none; }
+    .hero-inner { padding-block: clamp(76px, 11vw, 150px) clamp(72px, 10vw, 120px); }
+    .hero h1 { max-width: 850px; margin: 0; font: 400 clamp(2.8rem, 6.4vw, 5.75rem)/1.08 var(--serif); letter-spacing: -.03em; text-wrap: balance; }
+    .hero h1 em { color: var(--gold-light); font-style: normal; }
+    .hero-lede { max-width: 60ch; margin: 30px 0 0; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); text-wrap: pretty; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 34px; }
+    .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 11px 20px; border: 1px solid rgba(239,220,154,.52); border-radius: 2px; background: transparent; color: var(--text); font-size: .8rem; font-weight: 700; letter-spacing: .1em; line-height: 1.3; text-align: center; text-decoration: none; text-transform: uppercase; transition: background-color .18s ease, border-color .18s ease, color .18s ease; }
+    .button:hover { background: rgba(239,220,154,.1); border-color: var(--gold-light); }
+    .button.primary { border-color: var(--gold-light); background: var(--gold-light); color: var(--deep); }
+    .button.primary:hover { background: #f7e8b6; }
+    .button.tertiary { border-color: var(--line); color: var(--muted); }
+    .preview-strip { border-top: 1px solid var(--line); background: var(--raised); }
+    .preview-inner { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 28px; align-items: center; padding-block: 25px; }
+    .preview-inner p { margin: 0; }
+    .preview-inner strong { display: block; font-size: .92rem; font-weight: 650; }
+    .preview-inner small { display: block; margin-top: 3px; color: var(--muted); font-size: .78rem; }
+    .preview-link { color: var(--gold-light); font-size: .82rem; font-weight: 700; letter-spacing: .07em; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+    .section { padding-block: clamp(70px, 10vw, 122px); border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 28px 70px; align-items: end; margin-bottom: 34px; }
+    h2 { max-width: 24ch; margin: 0; font: 400 clamp(2.2rem, 4vw, 3.4rem)/1.14 var(--serif); letter-spacing: -.02em; text-wrap: balance; }
+    .section-intro { max-width: 42ch; margin: 0 0 3px; color: var(--muted); font-size: .98rem; text-wrap: pretty; }
+    .path-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1px; margin-top: 38px; border: 1px solid var(--line); background: var(--line); }
+    .path { min-width: 0; padding: clamp(25px, 4vw, 44px); background: var(--navy); }
+    .path span { color: var(--gold-light); font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .path h3 { margin: 16px 0 12px; font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.23 var(--serif); }
+    .path p { max-width: 50ch; margin: 0; color: var(--muted); font-size: .93rem; }
+    .path--offer { background: #172031; }
+    .fact-band { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 35px; }
+    .fact-band span { border: 1px solid var(--line); padding: 8px 12px; color: var(--text); font-size: .82rem; font-variant-numeric: tabular-nums; }
+    .fact-band-note { margin: 12px 0 0; color: var(--muted); font-size: .77rem; }
+    .questionnaire { display: grid; gap: 16px; }
+    fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .question { padding: clamp(23px, 4vw, 42px); border: 1px solid var(--line); background: var(--navy); }
+    .question-heading { display: flex; align-items: start; gap: 16px; margin-bottom: 22px; }
+    .number { flex: none; min-width: 35px; padding-top: 6px; color: var(--gold-light); font-size: .78rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+    legend { width: 100%; padding: 0; font: 400 clamp(1.35rem, 2.3vw, 1.85rem)/1.3 var(--serif); text-wrap: balance; }
+    .question > legend { margin-bottom: 11px; }
+    .explain { max-width: 75ch; margin: 0 0 22px; color: var(--muted); font-size: .9rem; text-wrap: pretty; }
+    .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .input-row { min-width: 0; }
+    .input-row label, .freeform-label { display: block; margin: 0 0 7px; color: var(--text); font-size: .83rem; font-weight: 700; }
+    .input-row small { display: block; min-height: 2.2em; margin-top: 6px; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    select, textarea, input[type="url"] { width: 100%; min-height: 47px; padding: 10px 13px; border: 1px solid rgba(238,236,235,.24); border-radius: 2px; background: var(--raised); color: var(--text); }
+    textarea { min-height: 102px; resize: vertical; }
+    select:hover, textarea:hover, input[type="url"]:hover { border-color: rgba(239,220,154,.6); }
+    .freeform { margin-top: 20px; }
+    .choices { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+    .choice { position: relative; display: block; min-width: 0; }
+    .choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .choice span { height: 100%; min-height: 122px; display: flex; flex-direction: column; justify-content: start; gap: 7px; padding: 18px; border: 1px solid var(--line); background: var(--raised); cursor: pointer; transition: border-color .18s ease, background-color .18s ease; }
+    .choice b { font-size: .9rem; font-weight: 700; line-height: 1.4; }
+    .choice small { color: var(--muted); font-size: .79rem; line-height: 1.5; }
+    .choice em { color: var(--gold-light); font-size: .68rem; font-style: normal; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .choice input:checked + span { border-color: var(--gold-light); background: #20283a; }
+    .choice input:focus-visible + span { outline: 2px solid var(--gold-light); outline-offset: 4px; }
+    .choice span:hover { border-color: var(--gold); }
+    .note { margin: 18px 0 0; padding-left: 16px; border-left: 2px solid var(--gold); color: var(--muted); font-size: .82rem; }
+    .note a { color: var(--gold-light); text-underline-offset: 3px; }
+    .decision-divider { display: flex; align-items: center; gap: 18px; margin: 18px 0 3px; color: var(--gold-light); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .decision-divider::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+    .final-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 24px; }
+    .privacy { max-width: 70ch; margin: 20px 0 0; color: var(--muted); font-size: .8rem; }
+    .preview-edit { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
+    .preview-edit summary { width: fit-content; color: var(--gold-light); font-size: .82rem; cursor: pointer; }
+    .preview-edit label { display: block; margin: 16px 0 7px; color: var(--muted); font-size: .8rem; }
+    .preview-edit input { max-width: 710px; }
+    .footer { border-top: 1px solid var(--line); padding: 34px 0; background: var(--navy); }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: .77rem; }
+    .toast { position: fixed; z-index: 9; bottom: 20px; left: 50%; width: max-content; max-width: calc(100% - 32px); padding: 10px 16px; background: var(--gold-light); color: var(--deep); font-size: .83rem; font-weight: 700; opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity .18s ease, transform .18s ease; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 850px) { .section-head, .path-grid { grid-template-columns: 1fr; } .section-head { gap: 19px; } .choices { grid-template-columns: 1fr; } .choice span { min-height: auto; } }
+    @media (max-width: 650px) { .wrap { width: min(calc(100% - 32px), var(--max)); } .masthead-inner { min-height: 72px; } .masthead-note, .brand small { display: none; } .hero-inner { padding-block: 68px 72px; } .preview-inner, .mini-grid, .final-grid { grid-template-columns: 1fr; } .preview-inner { gap: 10px; } .question { padding: 22px; } .footer-inner { flex-direction: column; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0s !important; animation-duration: 0s !important; } }
+    @media print { body { background: white; color: #142038; } .masthead, .hero-actions, .actions, .toast, .preview-edit { display: none !important; } .hero, .section, .question, .path, .path--offer { background: white; color: #142038; } .hero-inner { padding: 20px 0 28px; } .hero h1 { font-size: 36px; } .hero h1 em, .eyebrow, .number, .path span { color: #66501f; } .path, .question { break-inside: avoid; border-color: #999; } .choice span, select, textarea { background: #f5f5f5; color: #142038; } .explain, .section-intro, .hero-lede, .path p, .choice small, .note { color: #32425c; } .section { padding: 28px 0; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <div class="brand" aria-label="Alfaro &amp; Partners, Representación Inmobiliaria"><strong>ALFARO &amp; PARTNERS</strong><small>Representación Inmobiliaria</small></div>
+      <p class="masthead-note">Revisión de propiedad · Madrid</p>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-inner">
+        <p class="eyebrow">Ibiza, Retiro · Ficha 01 · Para el equipo A&amp;P</p>
+        <h1 id="hero-title">Una buena ficha.<br><em>Una decisión clara.</em></h1>
+        <p class="hero-lede">La primera versión ya se puede recorrer. Antes de publicar un anuncio de venta, necesitamos confirmar unos pocos hechos y elegir qué ajustar de la experiencia. Este documento evita respuestas del tipo «está muy chulo» y una nueva ronda de preguntas abiertas.</p>
+        <div class="hero-actions"><a class="button primary" data-preview-link href="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" target="_blank" rel="noopener noreferrer">Abrir ficha actual <span aria-hidden="true">↗</span></a><a class="button" href="#decisiones">Ir a las decisiones <span aria-hidden="true">↓</span></a></div>
+      </div>
+    </section>
+
+    <div class="preview-strip">
+      <div class="wrap preview-inner"><p><strong>Recomendamos verla primero en ordenador y después en móvil.</strong><small>Esta preview está alojada en un PRE público, separado de alfaropartners.es, y no depende del ordenador.</small></p><a class="preview-link" data-preview-link href="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" target="_blank" rel="noopener noreferrer">Ver la ficha ↗</a></div>
+    </div>
+
+    <section class="section" aria-labelledby="paths-title">
+      <div class="wrap">
+        <p class="eyebrow">Antes de responder · 01</p>
+        <div class="section-head"><h2 id="paths-title">Verla no equivale todavía a anunciarla.</h2><p class="section-intro">No queremos burocracia innecesaria. Sí separar una revisión visual de una oferta pública con precio y llamada a solicitar visita.</p></div>
+        <div class="path-grid">
+          <article class="path"><span>Ahora · Revisión del concepto</span><h3>Comprobar qué funciona</h3><p>Podéis revisar el diseño, el ritmo de las fotografías, los datos y el contacto. Señalad lo que cambiaríais. La preview pública no es una validación de los contenidos ni un permiso de uso de imágenes.</p></article>
+          <article class="path path--offer"><span>Después · Anuncio público</span><h3>Confirmar lo que se afirma</h3><p>Si la ficha se ofrece públicamente para venta, precio, disponibilidad, superficie, información energética, permisos de fotografía y ruta comercial deben estar confirmados. Vídeo, carrusel, plano y dossier pueden esperar.</p></article>
+        </div>
+        <p class="note">Un enlace sin indexación sigue siendo accesible para cualquiera que lo tenga. Como la ficha actual muestra precio y CTA, podría considerarse publicidad de venta; no asumimos que <code>noindex</code> la convierta en una revisión privada. El <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">RD 390/2021, arts. 15.2 y 17.3</a>, exige la etiqueta e información de calificación energética en ofertas y publicidad de venta, incluidas páginas web. También lo explica la <a href="https://www.comunidad.madrid/consumo/certificado-eficiencia-energetica-viviendas" target="_blank" rel="noopener noreferrer">Comunidad de Madrid</a>. Antes de usar esta preview como anuncio, confirmemos ese punto.</p>
+      </div>
+    </section>
+
+    <section class="section" id="decisiones" aria-labelledby="facts-title">
+      <div class="wrap">
+        <p class="eyebrow">Decisiones de publicación · 02</p>
+        <div class="section-head"><h2 id="facts-title">Cerrar los datos, sin otra ronda de reuniones.</h2><p class="section-intro">Estos valores proceden del material recibido o de la ficha actual. No son una certificación. «Pendiente» es una respuesta válida: nos dice exactamente qué no debemos afirmar aún.</p></div>
+        <div class="fact-band" aria-label="Datos mostrados en la ficha de revisión"><span>929.000 €</span><span>72 m²</span><span>2 dormitorios</span><span>2 baños</span><span>Ibiza · Retiro</span><span>Augusto</span></div>
+        <p class="fact-band-note">La dirección exacta no aparece en la URL ni en el texto público. Se omiten por ahora vídeo, plano y PDF.</p>
+
+        <form id="review-form" class="questionnaire" autocomplete="on">
+          <fieldset class="question">
+            <legend><span class="number">01 / </span>¿Son correctos los datos con los que venderíamos la vivienda?</legend>
+            <p class="explain">Confirmad cada dato por separado. Si algo cambia, indicad el valor correcto y quién lo valida. La superficie necesita especificar si es construida o útil.</p>
+            <div class="mini-grid">
+              <div class="input-row"><label for="price-status">Precio anunciado: 929.000 €</label><select id="price-status" name="Precio (929.000 €)"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmado vigente">Confirmado vigente</option><option value="Hay que corregirlo">Hay que corregirlo</option></select></div>
+              <div class="input-row"><label for="availability-status">Disponibilidad para visitas/venta</label><select id="availability-status" name="Disponibilidad"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Disponible para venta y visitas">Disponible para venta y visitas</option><option value="Hay una restricción o cambio">Hay una restricción o cambio</option></select></div>
+              <div class="input-row"><label for="area-status">Superficie anunciada: 72 m²</label><select id="area-status" name="Superficie (72 m²)"><option value="Pendiente: falta tipo de superficie">Pendiente: falta tipo de superficie</option><option value="72 m² construidos confirmados">72 m² construidos confirmados</option><option value="72 m² útiles confirmados">72 m² útiles confirmados</option><option value="Otra cifra o definición">Otra cifra o definición</option></select><small>La hoja aporta 72 m², no su definición.</small></div>
+              <div class="input-row"><label for="rooms-status">Distribución: 2 dormitorios y 2 baños</label><select id="rooms-status" name="Distribución (2 dormitorios, 2 baños)"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmada">Confirmada</option><option value="Hay que corregirla">Hay que corregirla</option></select></div>
+              <div class="input-row"><label for="ac-status">Aire acondicionado</label><select id="ac-status" name="Aire acondicionado"><option value="Omitir hasta verificar">Omitir hasta verificar</option><option value="Sí, con respaldo">Sí, con respaldo</option><option value="No, con respaldo">No, con respaldo</option></select><small>Las fuentes recibidas no coinciden; no lo afirmaremos por inercia.</small></div>
+            </div>
+            <div class="freeform"><label class="freeform-label" for="facts-correction">Correcciones, fuente y persona que las confirma</label><textarea id="facts-correction" name="Correcciones de datos" placeholder="Ej.: superficie construida según nota simple; precio confirmado por Augusto el…"></textarea></div>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">02 / </span>¿Tenemos la etiqueta energética que corresponde a esta vivienda?</legend>
+            <p class="explain">Es una condición específica de publicidad inmobiliaria, no un criterio estético nuestro. Necesitamos la calificación y el soporte aplicable para mostrarla correctamente, sin inventar una letra.</p>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Pendiente; no lanzar oferta pública todavía" checked><span><b>Pendiente o en trámite</b><small>Seguimos iterando la ficha, pero no la trataremos como anuncio listo para publicar.</small></span></label>
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Etiqueta/certificado disponible; enviaremos los datos"><span><b>Tenemos la etiqueta</b><small>Facilitamos la calificación y el documento/identificación necesaria para publicarla.</small></span></label>
+              <label class="choice"><input type="radio" name="Eficiencia energética" value="Otro supuesto: explicar y revisar"><span><b>Otro supuesto</b><small>Indicarlo abajo para revisar si existe una excepción aplicable; no asumirla.</small></span></label>
+            </div>
+            <div class="freeform"><label class="freeform-label" for="energy-note">Calificación / estado / responsable de aportarla</label><textarea id="energy-note" name="Detalle de eficiencia energética" placeholder="Ej.: clase E; Augusto enviará la etiqueta registrada. No adjuntéis datos privados en este formulario."></textarea></div>
+            <p class="note">Referencia: <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2021-9176" target="_blank" rel="noopener noreferrer">texto consolidado del RD 390/2021</a>. Si dudamos sobre un supuesto excepcional, conviene validarlo con el responsable jurídico/comercial antes de lanzar una oferta pública.</p>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">03 / </span>¿Podemos usar estas fotos y dirigir las visitas a Augusto?</legend>
+            <p class="explain">Que las imágenes ya estén en otra plataforma no prueba por sí solo el permiso de reutilización por A&amp;P. La ficha usa 12 fotografías y presenta a Augusto con teléfono y correo directos.</p>
+            <div class="mini-grid">
+              <div class="input-row"><label for="photo-rights">Fotografías en la web de A&amp;P</label><select id="photo-rights" name="Derechos de fotografía"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Autorizadas para web y reutilización">Autorizadas para web y reutilización</option><option value="Necesitan sustitución o crédito">Necesitan sustitución o crédito</option></select></div>
+              <div class="input-row"><label for="contact-status">Augusto: nombre, foto, teléfono y visitas</label><select id="contact-status" name="Contacto y visitas con Augusto"><option value="Pendiente de confirmar">Pendiente de confirmar</option><option value="Confirmado como responsable">Confirmado como responsable</option><option value="Cambiar datos o responsable">Cambiar datos o responsable</option></select></div>
+            </div>
+            <div class="freeform"><label class="freeform-label" for="rights-note">Matiz o persona que da el visto bueno</label><textarea id="rights-note" name="Notas de derechos y contacto" placeholder="Ej.: fotógrafo autoriza web de A&P; crédito requerido en la ficha…"></textarea></div>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">04 / </span>¿Qué localización podemos mostrar públicamente?</legend>
+            <p class="explain">La opción actual —barrio de Ibiza y distrito Retiro— permite mantener la ficha y su URL sin exponer calle, número ni planta. Sólo ampliaremos la precisión con autorización expresa.</p>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Localización pública" value="Sólo barrio/distrito, como ahora" checked><span><b>Zona, como ahora</b><em>Recomendado</em><small>No requiere publicar una dirección exacta.</small></span></label>
+              <label class="choice"><input type="radio" name="Localización pública" value="Calle sin número, con autorización"><span><b>Calle, sin número</b><small>Necesita autorización y cambiar URL, metadatos y mapa si procede.</small></span></label>
+              <label class="choice"><input type="radio" name="Localización pública" value="Calle y número, con autorización expresa"><span><b>Calle y número</b><small>Sólo con autorización expresa; revisar también fotos, PDF y metadatos.</small></span></label>
+            </div>
+            <p class="note">La dirección puede compartirse por un canal privado a interesados cualificados sin aparecer en la ficha pública. Si se habilita un dossier descargable, habrá que decidir por separado si ese PDF puede mostrarla.</p>
+          </fieldset>
+
+          <div class="decision-divider">La experiencia · ajustes, no bloqueos</div>
+
+          <fieldset class="question">
+            <legend><span class="number">05 / </span>¿Qué debería hacer la portada?</legend>
+            <p class="explain">Viendo las mismas fotos y la ficha completa, decidid si la imagen única ya genera el impacto necesario o si falta variación antes de empezar el recorrido.</p>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Hero" value="Mantener una fotografía protagonista" checked><span><b>Una imagen protagonista</b><em>Recomendado por ahora</em><small>Más clara, rápida y sin duplicar el recorrido fotográfico.</small></span></label>
+              <label class="choice"><input type="radio" name="Hero" value="Probar carrusel controlado de 2–3 fotos"><span><b>Probar 2–3 fotos</b><small>Carrusel controlado, sin avance automático; requiere elegir tomas distintas.</small></span></label>
+              <label class="choice"><input type="radio" name="Hero" value="Probar vídeo sólo tras calidad y derechos"><span><b>Vídeo si lo merece</b><small>Solo con material profesional, permisos y buena carga en móvil.</small></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">06 / </span>¿El recorrido de tres escenas aporta algo?</legend>
+            <p class="explain">Valorad la visita guiada completa: transiciones ligadas al scroll, indicador de avance y los textos breves sobre cocina, dormitorio y baño. En móvil se lee como tres fotografías normales.</p>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Mantenerlo como está" checked><span><b>Mantener</b><small>El ritmo ayuda a imaginar la vivienda.</small></span></label>
+              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Mantener, pero simplificar"><span><b>Simplificar</b><small>Indicar qué distrae: tiempo, textos, indicador o selección de fotos.</small></span></label>
+              <label class="choice"><input type="radio" name="Recorrido fotográfico" value="Retirarlo"><span><b>Retirar</b><small>Preferimos ir de portada a datos y galería tradicional.</small></span></label>
+            </div>
+            <div class="freeform"><label class="freeform-label" for="tour-note">Si cambiaríais algo del recorrido, ¿qué exactamente?</label><textarea id="tour-note" name="Detalle del recorrido" placeholder="Ej.: la segunda escena es la más fuerte; reducir el tiempo de transición…"></textarea></div>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">07 / </span>Si sólo hiciéramos una mejora visual antes de salir, ¿cuál sería?</legend>
+            <p class="explain">No hace falta una lista de gustos. Señalad el tramo que frena la impresión premium o la comprensión del inmueble: portada, datos, galería, Augusto, móvil u otro.</p>
+            <div class="final-grid">
+              <div><label class="freeform-label" for="best">Lo que sí conservaríais</label><textarea id="best" name="Lo mejor de la ficha" placeholder="La parte que más se parece a A&P y por qué…"></textarea></div>
+              <div><label class="freeform-label" for="change">La única mejora prioritaria</label><textarea id="change" name="Cambio visual prioritario" placeholder="Qué cambiaríais, en qué tramo y qué debería conseguir…"></textarea></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="question">
+            <legend><span class="number">08 / </span>¿Qué hacemos con el dossier provisional?</legend>
+            <p class="explain">No necesitamos el PDF para publicar la ficha si la ficha ya cuenta bien la vivienda. El dossier puede incorporarse en una segunda pasada, después de corregir contacto/contenido y aclarar dirección y derechos.</p>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="Dossier" value="Publicar la ficha sin PDF por ahora" checked><span><b>Ficha primero</b><em>Recomendado</em><small>Se publica sin hueco ni promesa de descarga; se añade después.</small></span></label>
+              <label class="choice"><input type="radio" name="Dossier" value="Corregir y añadir PDF antes de publicar"><span><b>PDF en la primera salida</b><small>Lo revisamos y habilitamos vista previa y descarga libre.</small></span></label>
+              <label class="choice"><input type="radio" name="Dossier" value="No usar PDF digital"><span><b>Sólo impreso o no usarlo</b><small>El book puede servir en visita aunque no esté en el hub.</small></span></label>
+            </div>
+          </fieldset>
+
+          <div class="question" aria-labelledby="response-title">
+            <p class="eyebrow">Cierre · Enviadnos una respuesta, no un «me gusta»</p>
+            <h2 id="response-title">Con esto decidimos la siguiente iteración.</h2>
+            <p class="section-intro" style="margin-top:14px">Las respuestas se guardan sólo en este navegador. No se envían a ningún servidor. Copiadlas para WhatsApp o descargad un .txt y enviádnoslo.</p>
+            <div class="actions"><button class="button primary" type="button" id="copy">Copiar respuestas</button><button class="button" type="button" id="download">Descargar .txt</button><button class="button tertiary" type="reset" form="review-form">Restaurar valores</button></div>
+            <p class="privacy">Si alguna cifra o permiso sigue pendiente, dejadlo así. Nos sirve más un «sin verificar, lo confirma Augusto» que un sí por cortesía. No incluyáis documentos personales ni datos sensibles en las notas.</p>
+            <details class="preview-edit"><summary>Cambiar el enlace de la ficha en este navegador</summary><label for="preview-url">Nueva URL de la preview</label><input type="url" id="preview-url" value="https://diego-alfadev.github.io/alfaro-partners-web/inmuebles/ibiza-madrid-ap-k7r2/" placeholder="https://…" inputmode="url"><p class="privacy">El cambio modifica los botones de esta copia y se guarda localmente. Para compartir otra URL a todo el equipo, hay que actualizar el HTML.</p></details>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap footer-inner"><span>ALFARO &amp; PARTNERS · Ibiza, Retiro · Revisión de la primera ficha</span><span>Documento de decisión · No es un anuncio inmobiliario</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const form = document.querySelector('#review-form');
+      const urlInput = document.querySelector('#preview-url');
+      const toast = document.querySelector('#toast');
+      const storageKey = 'ap-ibiza-retiro-publication-review-v1';
+      const defaults = { url: urlInput.value };
+      let toastTimer;
+
+      function notify(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+      }
+      function refreshLinks() {
+        const value = urlInput.value.trim();
+        const safe = /^https?:\/\//i.test(value) ? value : defaults.url;
+        for (const link of document.querySelectorAll('[data-preview-link]')) link.href = safe;
+      }
+      function values() {
+        const data = new FormData(form);
+        return [...data.entries()].map(([key, value]) => [key, String(value).trim()]);
+      }
+      function summary() {
+        const lines = [
+          'A&P — Ibiza, Retiro · Revisión para publicar',
+          'Fecha: ' + new Date().toLocaleDateString('es-ES'),
+          'Nota: las respuestas no sustituyen documentos o permisos de publicación.',
+          '',
+          'DATOS Y PUBLICACIÓN',
+        ];
+        const entries = values();
+        entries.forEach(([key, value], index) => {
+          if (index === 12) lines.push('', 'EXPERIENCIA Y MATERIALES');
+          lines.push(key + ': ' + (value || '—'));
+        });
+        lines.push('URL de revisión: ' + (urlInput.value.trim() || '—'));
+        return lines.join('\n');
+      }
+      function save() {
+        try { localStorage.setItem(storageKey, JSON.stringify({ entries: values(), url: urlInput.value })); } catch { /* Local storage may be unavailable in file:// contexts. */ }
+      }
+      function restore() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+          if (!saved) return;
+          for (const [name, value] of saved.entries || []) {
+            const field = form.elements.namedItem(name);
+            if (!field) continue;
+            if (field instanceof RadioNodeList) {
+              for (const option of field) option.checked = option.value === value;
+            } else field.value = value;
+          }
+          if (saved.url) urlInput.value = saved.url;
+          refreshLinks();
+        } catch { /* Invalid/blocked storage should not prevent answering. */ }
+      }
+      async function copy() {
+        const content = summary();
+        try {
+          await navigator.clipboard.writeText(content);
+          notify('Respuestas copiadas');
+        } catch {
+          const fallback = document.createElement('textarea');
+          fallback.value = content;
+          fallback.setAttribute('aria-hidden', 'true');
+          fallback.style.position = 'fixed';
+          fallback.style.opacity = '0';
+          document.body.append(fallback);
+          fallback.select();
+          const ok = document.execCommand('copy');
+          fallback.remove();
+          notify(ok ? 'Respuestas copiadas' : 'No se pudo copiar. Usa Descargar .txt');
+        }
+      }
+      document.querySelector('#copy').addEventListener('click', copy);
+      document.querySelector('#download').addEventListener('click', () => {
+        const blob = new Blob([summary()], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'respuestas-ibiza-retiro-alfaro-partners.txt';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        notify('Archivo de respuestas descargado');
+      });
+      form.addEventListener('input', save);
+      form.addEventListener('change', save);
+      form.addEventListener('reset', () => {
+        try { localStorage.removeItem(storageKey); } catch { /* No persistence available. */ }
+        urlInput.value = defaults.url;
+        refreshLinks();
+        notify('Valores iniciales restaurados');
+      });
+      urlInput.addEventListener('input', () => { refreshLinks(); save(); });
+      restore();
+    })();
+  </script>
+</body>
+</html>

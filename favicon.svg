@@ -1,9 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
-    <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
-    <style>
-        path { fill: #000; }
-        @media (prefers-color-scheme: dark) {
-            path { fill: #FFF; }
-        }
-    </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Alfaro &amp; Partners">
+  <defs>
+    <radialGradient id="bg" cx="35%" cy="25%" r="85%">
+      <stop offset="0%" stop-color="#202a3a"/>
+      <stop offset="55%" stop-color="#0d1118"/>
+      <stop offset="100%" stop-color="#05070b"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="16" y1="18" x2="112" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8a6e2f"/>
+      <stop offset="35%" stop-color="#f0e0a6"/>
+      <stop offset="62%" stop-color="#c9a44a"/>
+      <stop offset="100%" stop-color="#8a6e2f"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="24" fill="url(#bg)"/>
+  <rect x="10" y="10" width="108" height="108" rx="18" fill="none" stroke="url(#gold)" stroke-width="3" opacity=".88"/>
+  <path d="M28 91 47 30h10l19 61h-9l-5-17H42l-5 17h-9Zm17-25h15L53 42h-1l-7 24Z" fill="url(#gold)"/>
+  <text x="77" y="78" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" fill="#f0e0a6">&amp;</text>
+  <path d="M86 91V30h16c10 0 17 7 17 17s-7 17-17 17h-7v27h-9Zm9-35h7c5 0 9-4 9-9s-4-9-9-9h-7v18Z" fill="url(#gold)"/>
 </svg>
