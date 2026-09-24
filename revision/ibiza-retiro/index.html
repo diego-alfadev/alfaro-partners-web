@@ -316,7 +316,7 @@
               for (const option of field) option.checked = option.value === value;
             } else field.value = value;
           }
-          if (saved.url) urlInput.value = saved.url;
+          if (saved.url && !saved.url.includes('cloudflare.com')) urlInput.value = saved.url;
           refreshLinks();
         } catch { /* Invalid/blocked storage should not prevent answering. */ }
       }
