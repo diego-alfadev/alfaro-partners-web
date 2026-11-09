@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://diego-alfadev.github.io/alfaro-partners-web/revisiones/ed9cc47ca8dd4a22838af4399e4edaf69baf9a8081c361869733f1fbe0384ade/sitemap-index.xml
