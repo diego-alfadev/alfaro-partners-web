@@ -99,14 +99,21 @@ if __name__=='__main__':
 
 
 class WorkflowSafetyTest(unittest.TestCase):
-    def test_installation_has_no_automatic_trigger_or_production_credentials(self):
-        workflow = Path(__file__).resolve().parents[2]/'.github/workflows/deploy-ionos.yml'
-        source = workflow.read_text()
+    def test_manual_bound_transaction_has_no_source_build_or_automatic_trigger(self):
+        source=(Path(__file__).resolve().parents[2]/'.github/workflows/deploy-ionos.yml').read_text()
         self.assertIn('workflow_dispatch:',source)
         self.assertNotRegex(source,r'(?m)^  (push|schedule|pull_request|workflow_run):')
-        self.assertNotIn('secrets.',source)
-        self.assertNotIn('SFTP',source)
-        self.assertIn('test "$AP_DEPLOY" = false',source)
         self.assertIn("refs/heads/automation/sheet-production",source)
+        self.assertIn('ref: ${{ github.sha }}',source)
         self.assertIn('persist-credentials: false',source)
+        self.assertIn('contents: read',source)
+        self.assertIn('group: ionos-production',source)
+        self.assertIn('cancel-in-progress: false',source)
+        self.assertIn('validate:false|deploy:true|reconcile:true|recover:true',source)
         self.assertIn('--expected-payload "$AP_ARTIFACT_SHA"',source)
+        self.assertIn('--expected-claim "$AP_CLAIM_SHA"',source)
+        self.assertNotIn('bun run',source)
+        self.assertLess(source.index('Validate exact launch binding without credentials'),source.index('secrets.IONOS_SFTP_PASSWORD'))
+        self.assertIn('path: ${{ runner.temp }}/ap-worker-result.json',source)
+        self.assertNotIn('path: .ap-release',source)
+        self.assertNotRegex(source,r'run:.*\$\{\{ inputs\.')

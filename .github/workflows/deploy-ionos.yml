@@ -1,70 +1,142 @@
-name: Validate AP Sheet production payload
+name: AP approved property transaction
 
-# Technical branch only. No push, timer or production write is installed here.
+# Manual, exact public artifact only. Never build the source website here.
 on:
   workflow_dispatch:
     inputs:
+      operation:
+        description: "Validate offline, deploy exact claim, reconcile, or recover original attempt"
+        required: true
+        default: "validate"
+        type: choice
+        options: [validate, deploy, reconcile, recover]
       deploy:
-        description: "Production is not activated; only false is accepted"
+        description: "Explicit authenticated operation gate (also required for reconcile/recover)"
         required: true
         default: "false"
         type: choice
-        options:
-          - "false"
+        options: ["false", "true"]
       expected_payload:
-        description: "Exact public payload.json SHA-256; empty checks installation only"
+        description: "Exact public payload.json SHA-256; empty validates installation only"
+        required: false
+        default: ""
+        type: string
+      expected_claim:
+        description: "Independently recorded launch claim SHA-256"
+        required: false
+        default: ""
+        type: string
+      attempt:
+        description: "Exact original 32 lowercase hex attempt ID"
+        required: false
+        default: ""
+        type: string
+      control_commit:
+        description: "Exact trusted transport/control implementation commit (not property source)"
+        required: false
+        default: ""
+        type: string
+      original_commit:
+        description: "Original hosted run head SHA; required only for reconcile/recover"
+        required: false
+        default: ""
+        type: string
+      original_run_id:
+        description: "Original numeric deployment run ID; required only for reconcile/recover"
         required: false
         default: ""
         type: string
 
 permissions:
   contents: read
-
 concurrency:
-  group: ap-sheet-artifact-validation
+  group: ionos-production
   cancel-in-progress: false
 
 jobs:
-  validate:
+  transaction:
     if: github.ref == 'refs/heads/automation/sheet-production'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     env:
       PYTHONDONTWRITEBYTECODE: "1"
+      AP_OPERATION: ${{ inputs.operation }}
       AP_DEPLOY: ${{ inputs.deploy }}
       AP_ARTIFACT_SHA: ${{ inputs.expected_payload }}
+      AP_CLAIM_SHA: ${{ inputs.expected_claim }}
+      AP_ATTEMPT: ${{ inputs.attempt }}
+      AP_CONTROL_COMMIT: ${{ inputs.control_commit }}
+      AP_ORIGINAL_COMMIT: ${{ inputs.original_commit }}
+      AP_OWNER_COMMIT: ${{ inputs.original_commit || github.sha }}
+      AP_ORIGINAL_RUN: ${{ inputs.original_run_id }}
     steps:
       - name: Checkout exact dispatch revision
         uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-
-      - name: Refuse production and verify validator tests
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install locked shared transport
+        run: python -m pip install --require-hashes -r scripts/ap-ops/requirements.txt
+      - name: Verify public transaction and shared helper tests
         shell: bash
         run: |
           set -euo pipefail
-          test "$AP_DEPLOY" = false
-          python3 -m unittest discover -s scripts/ap-production -p 'test_*.py' -v
-
-      - name: Validate public artifact or check empty installation
+          python -m unittest discover -s scripts/ap-production -p 'test_*.py' -v
+          python -m unittest discover -s scripts/ap-ops -p 'test_*.py' -v
+      - name: Validate exact launch binding without credentials
         shell: bash
         run: |
           set -euo pipefail
+          case "$AP_OPERATION:$AP_DEPLOY" in
+            validate:false|deploy:true|reconcile:true|recover:true) ;;
+            *) exit 1 ;;
+          esac
           if [ -z "$AP_ARTIFACT_SHA" ]; then
+            test "$AP_OPERATION" = validate
+            test "$AP_DEPLOY" = false
             test ! -e .ap-release
-            echo 'Installation checked; no payload and no publication.'
+            test ! -e .ap-claim.json
           else
-            python3 scripts/ap-production/payload.py \
-              --root .ap-release --expected-payload "$AP_ARTIFACT_SHA" \
-              --stage "$RUNNER_TEMP/ap-validated-site"
+            operation="$AP_OPERATION"
+            if [ "$operation" = validate ]; then operation=deploy; fi
+            python scripts/ap-production/transaction.py --root .ap-release \
+              --expected-payload "$AP_ARTIFACT_SHA" --claim .ap-claim.json \
+              --expected-claim "$AP_CLAIM_SHA" --attempt "$AP_ATTEMPT" \
+              --control-commit "$AP_CONTROL_COMMIT" --operation "$operation"
           fi
-
-      - name: Retain validated public bytes only
-        if: inputs.expected_payload != ''
+      - name: Execute bound transaction under shared protected lease
+        if: inputs.operation != 'validate' && inputs.deploy == 'true'
+        env:
+          IONOS_SFTP_SERVER: ${{ secrets.IONOS_SFTP_SERVER }}
+          IONOS_SFTP_PORT: ${{ secrets.IONOS_SFTP_PORT }}
+          IONOS_SFTP_USERNAME: ${{ secrets.IONOS_SFTP_USERNAME }}
+          IONOS_SFTP_PASSWORD: ${{ secrets.IONOS_SFTP_PASSWORD }}
+          IONOS_SFTP_REMOTE_PATH: ${{ secrets.IONOS_SFTP_REMOTE_PATH }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          owner_run="$GITHUB_RUN_ID"
+          if [ "$AP_OPERATION" != deploy ]; then
+            test -n "$AP_ORIGINAL_RUN"
+            test -n "$AP_ORIGINAL_COMMIT"
+            owner_run="$AP_ORIGINAL_RUN"
+          else
+            test -z "$AP_ORIGINAL_RUN"
+            test -z "$AP_ORIGINAL_COMMIT"
+            test "$AP_OWNER_COMMIT" = "$GITHUB_SHA"
+          fi
+          python scripts/ap-production/transaction.py --root .ap-release \
+            --expected-payload "$AP_ARTIFACT_SHA" --claim .ap-claim.json \
+            --expected-claim "$AP_CLAIM_SHA" --attempt "$AP_ATTEMPT" \
+            --control-commit "$AP_CONTROL_COMMIT" --operation "$AP_OPERATION" \
+            --run-id "$owner_run" --commit "$AP_OWNER_COMMIT" --apply | tee "$RUNNER_TEMP/ap-worker-result.json"
+      - name: Retain public worker result only
+        if: always() && inputs.operation != 'validate' && inputs.deploy == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: ap-validated-site
-          path: ${{ runner.temp }}/ap-validated-site/
-          include-hidden-files: true
+          name: ap-prod-worker-result
+          path: ${{ runner.temp }}/ap-worker-result.json
           if-no-files-found: error
