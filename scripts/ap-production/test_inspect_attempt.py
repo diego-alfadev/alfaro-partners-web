@@ -104,3 +104,18 @@ class InspectTest(unittest.TestCase):
         malformed = inspect_attempt(BUNDLE,s,ROOT,OWNER,
                          lambda p: (200, HOME) if p=='index.html' else (403,b''))
         self.assertEqual((malformed['attempt'],malformed['lock']),('mismatch','owned_unknown'))
+
+    def test_baseline_detail_distinguishes_missing_and_changed_without_private_bytes(self):
+        from copy import deepcopy
+        s = ReadOnlyServer()
+        bundle = deepcopy(BUNDLE)
+        bundle['document']['rollback'].update({'.nojekyll':sha(b''),'.htaccess':sha(b'expected rules')})
+        s.files[ROOT+'/.htaccess'] = b'unexpected private rules'
+        result=inspect_attempt(bundle,s,ROOT,OWNER,
+                             lambda p:(200, HOME) if p=='index.html' else (300,b''))
+        self.assertEqual(result['baseline_detail'], {
+            'missing':['.nojekyll'], 'different':['.htaccess'], 'matched':1})
+        self.assertFalse(result['baseline_matches'])
+        self.assertNotIn('private rules', repr(result))
+        self.assertNotIn(ROOT, repr(result))
+        self.assertEqual(s.files[ROOT+'/.htaccess'], b'unexpected private rules')

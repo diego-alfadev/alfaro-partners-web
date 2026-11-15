@@ -73,7 +73,17 @@ def inspect_attempt(bundle, sftp, root, owner, http=http_get):
                 result['attempt'] = record['phase']
     before = bundle['document']['rollback']
     additions = bundle['document']['site'].keys() - before.keys()
-    result['baseline_matches'] = all(current_hash(sftp, root, n) == h for n, h in before.items())
+    detail = {'missing': [], 'different': [], 'matched': 0}
+    for name, expected in sorted(before.items()):
+        observed = current_hash(sftp, root, name)
+        if observed is None:
+            detail['missing'].append(name)
+        elif observed != expected:
+            detail['different'].append(name)
+        else:
+            detail['matched'] += 1
+    result['baseline_detail'] = detail
+    result['baseline_matches'] = not (detail['missing'] or detail['different'])
     result['additions_absent'] = all(current_hash(sftp, root, n) is None for n in additions)
     return result
 
