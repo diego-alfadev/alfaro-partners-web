@@ -1,0 +1,10 @@
+{
+  "attempt": "6094f7d7c7ce49aa9a6e3c3600cc0444",
+  "control_commit": "9f8018db0b37f15213bfc033399d19edff6b4883",
+  "expires_at": 1794789548,
+  "issued_at": 1794787748,
+  "origin": "https://alfaropartners.es",
+  "payload": "1e0bfba2fbd154aaafbb8bab144200dd22b8c12e0da4f771e9f2ad608f513629",
+  "review": "c5f2614148d3ad2c221c5b39d09f869c7f5a2d871fc7ef7045bf4aeb225e3389",
+  "schema": "ap-production-claim/1"
+}
