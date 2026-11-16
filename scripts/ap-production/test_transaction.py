@@ -138,3 +138,24 @@ class TransactionTest(unittest.TestCase):
         with self.assertRaises(OSError):self.run_tx()
         self.assertNotIn('/web/.ap-ops/lock',self.s.dirs)
         self.assertEqual(self.s.files['/web/index.html'],b'live home')
+
+    def assert_no_write_after_lease_race(self, name):
+        acquire = tx.Lease.acquire
+        external = b'concurrent foreign bytes'
+        before = dict(self.s.files)
+        def raced(lease):
+            acquire(lease)
+            self.s.files['/web/'+name] = external
+        with patch.object(tx.Lease, 'acquire', raced), self.assertRaises(ValueError):
+            self.run_tx()
+        self.assertEqual([p for p in self.s.replacements if not p.startswith('/web/.ap-ops/')], [])
+        self.assertEqual({p:b for p,b in self.s.files.items() if not p.startswith('/web/.ap-ops/')},
+                         dict(before, **{'/web/'+name: external}))
+        self.assertNotIn('/web/.ap-ops/lock', self.s.dirs)
+        self.assertFalse(any(p.startswith('/web/.ap-ops/transaction-') for p in self.s.dirs))
+
+    def test_baseline_drift_at_lease_acquisition_refuses_before_public_writes(self):
+        self.assert_no_write_after_lease_race('.htaccess')
+
+    def test_added_path_collision_at_lease_acquisition_refuses_before_public_writes(self):
+        self.assert_no_write_after_lease_race('sitemap-properties.xml')

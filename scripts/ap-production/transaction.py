@@ -188,6 +188,17 @@ def execute(bundle,sftp,root,owner,operation='deploy',http=http_get):
     require(exists(sftp,record_path) is None)
     lease.acquire()
     try:
+        # A concurrent writer may have finished between preflight and acquisition.
+        # Rebind the whole baseline/addition inventory while holding our lease,
+        # before staging or persisting any intent to change public bytes.
+        lease.check_owner()
+        inspect_paths(sftp,root,bundle['site'])
+        for name,checksum in bundle['document']['rollback'].items():
+            require(current_hash(sftp,root,name)==checksum)
+        for name in bundle['site'].keys()-bundle['before'].keys():
+            require(current_hash(sftp,root,name) is None)
+        require(exists(sftp,record_path) is None)
+        lease.check_owner()
         stage=lease.control+'/transaction-'+owner['attempt'];sftp.mkdir(stage)
         backups={}
         for i,name in enumerate(sorted(bundle['before'])):

@@ -87,7 +87,10 @@ it never uses ambient SSH agents or keys. Before public writes the worker proves
 the fixed HTTPS index matches the canonical SFTP root, verifies every baseline
 file (including dotfiles), and proves every added candidate target absent.
 
-Under the exclusive owned `.ap-ops/lock`, it checks HTTP protection, stages and
+Under the exclusive owned `.ap-ops/lock`, it repeats the complete baseline hash
+and added-path absence checks before staging or any public-write intent. Drift
+since preflight refuses without replacing public files; only its own proven
+no-write lease is released. It then checks HTTP protection, stages and
 reads back all candidate and baseline bytes, and probes POSIX overwrite rename
 inside inert protected storage. A canonical protected transaction record binds
 owner/review/payload/claim, exact hash sets, retained backups and created-directory
