@@ -1,4 +1,4 @@
-"""Publish an exact public payload under the shared lease; reconcile or recover that attempt only.
+"""Publish or withdraw an exact public payload under the shared lease; reconcile or recover that attempt only.
 
 Default is offline validation. Claims bind dispatch intent, not independent Sheet truth.
 Per-file rename is atomic; whole-site replacement is not. Unknown outcomes retain the lease.
@@ -137,6 +137,9 @@ def restore(bundle,sftp,root,lease,record,record_path,http):
 
 
 def execute(bundle,sftp,root,owner,operation='deploy',http=http_get):
+    if bundle['document']['schema']=='ap-production-withdrawal/1':
+        from withdrawal_transaction import execute as withdraw
+        return withdraw(bundle,sftp,root,owner,operation,http,api=sys.modules[__name__])
     owner_bytes(owner);require(owner['attempt']==bundle['claim']['attempt'])
     require(operation in ('deploy','reconcile','recover') and canonical_root(sftp,root)==root)
     require(http('index.html')==(200,read(sftp,root.rstrip('/')+'/index.html')))
@@ -276,11 +279,16 @@ def main(argv=None):
                     fresh=args.operation=='deploy')
         if not args.apply:
             value={'schema':'ap-prod-worker/1','status':'planned','publication':False,'attempt':args.attempt}
+            if bundle['document']['schema']=='ap-production-withdrawal/1':
+                value.update(schema='ap-prod-withdrawal-worker/1',operation='withdraw')
         else:
             owner={'run_id':args.run_id,'commit':args.commit,'attempt':args.attempt};owner_bytes(owner)
             with open_sftp(os.environ) as session:
                 value=execute(bundle,session.sftp,session.root,owner,args.operation)
         code=0 if value.get('publication') or value.get('status')=='planned' else 1
+        if (value.get('schema')=='ap-prod-withdrawal-worker/1' and value.get('status')=='withdrawn'
+                and value.get('verified') is True and value.get('publication') is False):
+            code=0
     except Exception:
         value={'schema':'ap-prod-worker/1','status':'refused','verified':False,'publication':False,
                'reconciliation_required':bool(args.apply)};code=1

@@ -45,6 +45,9 @@ def validate(root, expected):
     blob = manifest_path.read_bytes()
     require(hashlib.sha256(blob).hexdigest()==expected)
     document = json.loads(blob,object_pairs_hook=unique)
+    if isinstance(document,dict) and document.get('schema')=='ap-production-withdrawal/1':
+        from withdrawal_payload import validate_document
+        return validate_document(root,document,actual)
     require(set(document)=={'schema','destination','review_id','properties','site','rollback'}
             and document['schema']=='ap-production-payload/1'
             and document['destination']=='https://alfaropartners.es'

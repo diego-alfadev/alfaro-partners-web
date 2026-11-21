@@ -142,3 +142,49 @@ transport is authorized. Payload validation tests were not weakened.
 Synthetic proofs do not establish an actual IONOS deployment. Real Sheet gates,
 accepted technical checks, hosted execution and final URL confirmation remain
 outside these offline tests. No scheduler or group announcement is enabled here.
+
+## Versioned withdrawal (not activated by this worker alone)
+
+The explicit `ap-production-withdrawal/1` payload reuses the existing
+`deploy`, `reconcile` and `recover` lifecycle operations. Publication payload v1
+keeps its existing contract and still rejects deletions.
+
+Withdrawal binds one property, a predecessor history SHA, the complete known
+rollback/site inventories and an exact `deleted` hash map. No additions are
+allowed. Only catalogue/sitemap bytes may change among surviving files; all
+other known bytes, including protected policy and other property pages, remain
+unchanged. Existing target references and other catalogue/sitemap locations are
+checked before authentication.
+
+Under the existing shared exact-owner lease, the complete known baseline is
+rechecked before staging. Backups are read back and retained. Catalogue/sitemap
+references are removed before individual target page/media deletions. Every
+mutation has persisted intent. Directories are not recursively deleted: only
+empty ancestors derived from deleted files inside the exact route/media roots
+are removed, deepest first. Shared parents and the reserved route `media` are
+never owned. Unexpected content blocks cleanup and recovers known bytes without
+deleting foreign content.
+
+The worker proves surviving SFTP/HTTP hashes, deleted-file and owned-directory
+absence, and direct 404/410 responses for target hub/tour slash and slashless
+aliases. Redirects, 403, soft-404 and upstream errors do not count as removal.
+An empty directory without an index may otherwise remain reachable, so deleting
+an index file alone is not this proof. HTTP uses the existing no-redirect client.
+
+Recovery preflights every known path, backup and directory scope. It recreates
+missing owned directories shallow first, restores pages/media before their
+catalogue/sitemap references, and does not consume backups. A lost mkdir
+acknowledgement with an unattributable existing directory keeps the lock/journal
+for resolution rather than repeating or overwriting it. Unknown outcomes retain
+the same attempt and owner; do not dispatch another attempt blindly.
+
+A successful receipt is `ap-prod-withdrawal-worker/1`, `operation: withdraw`,
+`status: withdrawn`, `verified: true`, `publication: false`. Only that verified
+withdrawal result has successful CLI exit; rollback/refusal is not publication
+or withdrawal success. The receipt has no published property URL. Offline plans
+remain credential-free. A verified rollback can be reconciled after a lost
+completion acknowledgement without repeating public writes.
+
+The pipeline must separately validate explicit office false intent, predecessor,
+receipt/history and successor baseline before enabling this operation. This
+worker change alone does not activate Sheet controls or a schedule.
