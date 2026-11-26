@@ -1,7 +1,6 @@
 """Synthetic SFTP guards: never connect to a real account."""
 import errno
 import io
-import json
 import stat
 import unittest
 from types import SimpleNamespace
@@ -23,8 +22,6 @@ class FakeSFTP:
         self.dirs = {'/', '/web'}
         self.files = {'/web/index.html': b'live'}
         self.links = set()
-        self.replacements = []
-        self.support_rename = True
     def normalize(self, path):
         import posixpath
         return posixpath.normpath(path if path.startswith('/') else '/'+path)
@@ -40,18 +37,17 @@ class FakeSFTP:
     def file(self, path, mode):
         if 'w' in mode: return Writer(self,path)
         return io.BytesIO(self.files[path])
+    def listdir_attr(self, path):
+        children={p for p in self.dirs|set(self.files)|self.links
+                  if p!=path and p.rsplit('/',1)[0]==path}
+        return [SimpleNamespace(filename=c.rsplit('/',1)[1],st_mode=self.lstat(c).st_mode)
+                for c in sorted(children)]
     def remove(self, path): del self.files[path]
     def rmdir(self, path):
-        if any(p.startswith(path+'/') for p in self.files) or any(p.startswith(path+'/') for p in self.dirs): raise OSError('not empty')
+        if any(p.startswith(path+'/') for p in self.dirs|set(self.files)|self.links): raise OSError('not empty')
         self.dirs.remove(path)
-    def posix_rename(self, source, target):
-        if not self.support_rename: raise OSError('unsupported')
-        self.replacements.append(target); self.files[target]=self.files.pop(source)
     def get_channel(self): return Mock()
     def close(self): pass
-
-
-OWNER = {'run_id':'123', 'commit':'a'*40, 'attempt':'b'*32}
 
 
 class SessionTest(unittest.TestCase):
@@ -89,47 +85,6 @@ class SessionTest(unittest.TestCase):
         with self.assertRaises(ValueError): guard.canonical_root(s,'/web')
         s=FakeSFTP(); s.links.add('/web/index.html')
         with self.assertRaises(ValueError): guard.safe_path(s,'/web','index.html')
-
-    def test_owner_schema_and_noncanonical_owner_bytes_refuse(self):
-        for bad in (dict(OWNER,extra='no'),dict(OWNER,run_id='not-numeric'),
-                    dict(OWNER,commit='bad'),dict(OWNER,attempt='bad')):
-            with self.assertRaises(ValueError): guard.owner_bytes(bad)
-        s=FakeSFTP(); lease=self.lease(s); lease.acquire()
-        s.files[lease.owner_path]=json.dumps(OWNER).encode()
-        with self.assertRaises(ValueError): lease.release_no_write()
-
-    def test_unproved_existing_protection_or_symlink_control_refuses(self):
-        s=FakeSFTP(); lease=self.lease(s); lease.acquire(); lease.release_no_write()
-        before=dict(s.files)
-        with self.assertRaises(ValueError): self.lease(s,lambda _:(200,b'visible')).acquire()
-        self.assertEqual(before,s.files)
-        s.links.add('/web/.ap-ops')
-        with self.assertRaises(ValueError): self.lease(s).acquire()
-
-    def lease(self, s=None, http=None):
-        return guard.Lease(s or FakeSFTP(),'/web',OWNER,http or (lambda _: (403,b'')))
-
-    def test_unprotected_or_unknown_control_refuses_without_metadata(self):
-        s=FakeSFTP()
-        with self.assertRaises(ValueError): self.lease(s,lambda _: (200,b'public')).acquire()
-        self.assertNotIn('/web/.ap-ops/lock/owner.json',s.files)
-        s=FakeSFTP(); s.dirs.add('/web/.ap-ops')
-        with self.assertRaises((ValueError,OSError)): self.lease(s).acquire()
-        self.assertEqual(s.files,{'/web/index.html':b'live'})
-
-    def test_exclusive_lock_owner_and_public_intent_are_never_broken(self):
-        s=FakeSFTP(); a=self.lease(s); a.acquire()
-        with self.assertRaises(OSError): self.lease(s).acquire()
-        a.journal('replacing', 'index.html', public_intent=True)
-        with self.assertRaises(ValueError): a.release_no_write()
-        self.assertIn('/web/.ap-ops/lock',s.dirs)
-        s.files[a.owner_path]=b'wrong owner'
-        with self.assertRaises(ValueError): a.complete()
-
-    def test_owned_no_write_and_verified_completion_release(self):
-        s=FakeSFTP(); a=self.lease(s); a.acquire(); a.release_no_write()
-        b=self.lease(s); b.acquire(); b.journal('verified',public_intent=True); b.complete()
-        self.assertNotIn('/web/.ap-ops/lock',s.dirs)
 
 
 if __name__=='__main__': unittest.main()

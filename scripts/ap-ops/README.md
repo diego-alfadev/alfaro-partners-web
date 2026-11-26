@@ -31,14 +31,22 @@ python scripts/ap-ops/simple_upload.py --source dist --apply   # deploy job
 The apply path checks that the public `index.html` matches the remote one (the
 right document root), then overwrites each file in place, assets before pages and
 the sitemap last, and finally fetches every file over HTTPS to compare bytes. It
-takes no lock, so a rerun after a failure is safe. It never deletes live files.
-Root dotfiles keep the old selection: only `.htaccess` is uploaded. A failure
-prints its phase (`collect`, `connect`, `root-check`, `write`, `http-verify`), the
-relative file, the exception class and errno; never the exception text.
+takes no lock, so a rerun after a failure is safe.
 
-`legacy_upload.py` (staged, leased, atomic-rename upload) is no longer used by the
-workflow. Its two production runs on 2026-11-26 refused before replacing any
-public file and may have left a lock under the HTTP-denied `.ap-ops/`.
+Only once every file is verified, it deletes the files under `inmuebles/` that the
+build no longer contains, and the folders left empty: that is how a withdrawn
+listing's page and media leave the server. It skips dotfiles and links, deletes
+nothing outside `inmuebles/`, and deletes nothing when the build lacks
+`inmuebles/index.html`.
+
+Root dotfiles keep the old selection: only `.htaccess` is uploaded. A failure
+prints its phase (`collect`, `connect`, `root-check`, `write`, `http-verify`,
+`prune`), the relative file, the exception class and errno; never the exception
+text.
+
+The HTTP-denied `.ap-ops/` folder on IONOS is a leftover of the earlier staged
+upload; nothing writes to it any more. The webspace is 50 MB, so never stage or
+back up the site on the server.
 
 ## Offline checks
 
@@ -48,5 +56,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 ```
 
 Tests use synthetic credentials and in-memory SFTP/SSH transports. Passing tests
-or a public-host-key probe does not prove a real upload, production approval or
-server support for the protection/atomic-rename behavior.
+or a public-host-key probe does not prove a real upload; the deploy job's public
+byte comparison does.

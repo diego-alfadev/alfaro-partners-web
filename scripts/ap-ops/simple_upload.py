@@ -1,7 +1,8 @@
 """Upload an existing dist/ to IONOS over the pinned SFTP session, overwriting in place.
 
-No lock, journal or staging, so a rerun is idempotent. Files removed from dist stay
-on the server. A failure prints its phase, the relative file, the exception class
+No lock, journal or staging, so a rerun is idempotent. After every file is verified,
+files under inmuebles/ that the build no longer has (a withdrawn listing) are deleted;
+nothing outside inmuebles/ is ever deleted. A failure prints its phase, the relative file, the exception class
 and errno, never the exception text, host, user or remote root (logs are public).
 """
 import argparse
@@ -9,9 +10,47 @@ import json
 import os
 from pathlib import Path
 import posixpath
+import re
+import stat
 
-from legacy_upload import collect
-from sftp_session import http_get, open_sftp, read, safe_path
+from sftp_session import http_get, open_sftp, read, require, safe_path
+
+CATALOGUE = 'inmuebles'
+PUBLIC_EXTENSIONS = {'.html','.css','.js','.mjs','.json','.xml','.txt','.svg','.png',
+                     '.jpg','.jpeg','.webp','.gif','.ico','.woff','.woff2','.ttf',
+                     '.otf','.mp4','.webm','.mp3','.pdf','.avif','.map'}
+
+
+def public_name(name):
+    require(isinstance(name,str) and name and not name.startswith('/')
+            and len(name)<=512)
+    require(name=='.htaccess' or
+            all(re.fullmatch(r'[A-Za-z0-9_@.-]+',p) and not p.startswith('.')
+                and p not in ('.','..') for p in name.split('/'))
+            and Path(name).suffix.lower() in PUBLIC_EXTENSIONS)
+    return name
+
+
+def collect(source):
+    require(not source.is_symlink())
+    source=source.resolve(strict=True)
+    require(source.is_dir())
+    files={}
+    total=0
+    # Root dotfiles and dot-folders stay local; only the Apache configuration ships.
+    for path in sorted(source.rglob('*')):
+        relative=path.relative_to(source)
+        require(not path.is_symlink() and (path.is_file() or path.is_dir()))
+        if relative.parts[0].startswith('.') and str(relative)!='.htaccess':
+            continue
+        if path.is_file():
+            public_name(relative.as_posix())
+            require(not path.stat().st_mode & 0o111 and path.stat().st_size<=64*1024*1024)
+            data=path.read_bytes()
+            total+=len(data); require(total<=256*1024*1024)
+            files[relative.as_posix()]=data
+    require(files.get('index.html') and len(files)<=4096)
+    return files
 
 
 class Failed(Exception):
@@ -23,6 +62,42 @@ class Failed(Exception):
 def order(name):
     # Assets precede the pages that reference them; the sitemap goes last.
     return (2 if name.endswith('.xml') else 1 if name.endswith('.html') else 0, name)
+
+
+def prune(files, sftp, root, log=print):
+    # A build without the catalogue page is broken, not a withdrawal of everything.
+    if CATALOGUE+'/index.html' not in files:
+        return 0
+    needed=set()
+    for name in files:
+        folder=posixpath.dirname(name)
+        while folder:
+            needed.add(folder); folder=posixpath.dirname(folder)
+    removed=0
+
+    def walk(folder):
+        nonlocal removed
+        for entry in sftp.listdir_attr(posixpath.join(root,folder)):
+            name=folder+'/'+entry.filename
+            if entry.filename.startswith('.'):
+                continue
+            try:
+                if stat.S_ISDIR(entry.st_mode):
+                    walk(name)
+                    path=posixpath.join(root,name)
+                    if name not in needed and not sftp.listdir_attr(path):
+                        sftp.rmdir(path)
+                elif stat.S_ISREG(entry.st_mode) and name not in files:
+                    sftp.remove(posixpath.join(root,name))
+                    removed+=1
+                    log(f'removed {name}', flush=True)
+            except Failed:
+                raise
+            except Exception as exc:
+                raise Failed('prune', name) from exc
+
+    walk(CATALOGUE)
+    return removed
 
 
 def upload(files, sftp, root, http=http_get, log=print):
@@ -54,7 +129,7 @@ def upload(files, sftp, root, http=http_get, log=print):
             mismatches.append([name, status])
     if mismatches:
         raise Failed('http-verify', mismatches=mismatches[:20])
-    return {'status': 'uploaded', 'files': len(names)}
+    return {'status': 'uploaded', 'files': len(names), 'pruned': prune(files, sftp, root, log)}
 
 
 def main(argv=None):
