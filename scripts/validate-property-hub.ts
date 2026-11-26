@@ -3,11 +3,17 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { ibizaRetiroListing } from '../src/data/listings/ibiza-retiro-ap-l8v3';
 import { ibizaListing } from '../src/data/listings/ibiza-ap-k7r2';
-import { listingImages, canPublishListing } from '../src/lib/listings';
+import { listingImages, canPublishListing, supplierCollaborationNotice } from '../src/lib/listings';
 import { listingEntries } from '../src/data/listings';
 import { tourScripts } from '../src/data/tours';
 
 const root = new URL('..', import.meta.url).pathname;
+
+// Arctempus contract, clause 4: name both parties on their listings only.
+assert.equal(supplierCollaborationNotice.arctempus, 'Comercialización en colaboración con Labotec Market S.L. y Arctempus.');
+for (const { listing } of listingEntries) assert.equal(listing.supplier, 'arctempus', listing.publicId);
+const hubSource = readFileSync(join(root, 'src/pages/inmuebles/[routeKey].astro'), 'utf8');
+assert.match(hubSource, /listing\.supplier && <p class="wrap property-contact__supplier">\{supplierCollaborationNotice\[listing\.supplier\]\}<\/p>/);
 
 // Media inventory and release gates.
 assert.equal(ibizaRetiroListing.media.gallery.length, 13);

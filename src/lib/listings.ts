@@ -28,9 +28,17 @@ export type ListingDocument = {
   format: 'pdf';
 };
 
+/** Contractual collaboration line, shown only on that supplier's listings. */
+export const supplierCollaborationNotice = {
+  arctempus: 'Comercialización en colaboración con Labotec Market S.L. y Arctempus.',
+} as const;
+
+export type ListingSupplier = keyof typeof supplierCollaborationNotice;
+
 export type Listing = {
   publicId: string;
   routeKey: string;
+  supplier?: ListingSupplier;
   propertyType: 'apartment' | 'house';
   transaction: 'sale' | 'rent';
   availability: 'available' | 'reserved' | 'sold' | 'unconfirmed';

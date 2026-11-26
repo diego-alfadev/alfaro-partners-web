@@ -5,6 +5,7 @@ export const intakeDrafts: { listing: Listing; readiness: ListingReleaseReadines
   {
     "listing": {
       "publicId": "ap-1744a0",
+      "supplier": "arctempus",
       "routeKey": "ibiza-retiro-madrid-ap-1744a0",
       "propertyType": "apartment",
       "transaction": "sale",
@@ -230,6 +231,7 @@ export const intakeDrafts: { listing: Listing; readiness: ListingReleaseReadines
   {
     "listing": {
       "publicId": "ap-ae0279",
+      "supplier": "arctempus",
       "routeKey": "ibiza-retiro-madrid-ap-ae0279",
       "propertyType": "apartment",
       "transaction": "sale",
@@ -485,6 +487,7 @@ export const intakeDrafts: { listing: Listing; readiness: ListingReleaseReadines
   {
     "listing": {
       "publicId": "ap-a6ddef",
+      "supplier": "arctempus",
       "routeKey": "ibiza-retiro-madrid-ap-a6ddef",
       "propertyType": "apartment",
       "transaction": "sale",
@@ -741,6 +744,7 @@ export const intakeDrafts: { listing: Listing; readiness: ListingReleaseReadines
   {
     "listing": {
       "publicId": "ap-97df49",
+      "supplier": "arctempus",
       "routeKey": "ibiza-retiro-madrid-ap-97df49",
       "propertyType": "apartment",
       "transaction": "sale",
@@ -981,6 +985,7 @@ export const intakeDrafts: { listing: Listing; readiness: ListingReleaseReadines
   {
     "listing": {
       "publicId": "ap-3a9c6b",
+      "supplier": "arctempus",
       "routeKey": "ibiza-retiro-madrid-ap-3a9c6b",
       "propertyType": "apartment",
       "transaction": "sale",

@@ -43,6 +43,7 @@ const photos: ListingImage[] = [
 // First release omits the provisional PDF; no rights-cleared hero video is supplied.
 export const ibizaListing: Listing = {
   publicId: 'ap-k7r2',
+  supplier: 'arctempus',
   routeKey: 'ibiza-madrid-ap-k7r2',
   propertyType: 'apartment',
   transaction: 'sale',

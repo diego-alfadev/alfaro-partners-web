@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { visibleListingEntries } from '../../data/listings';
 import { generatedListingEntries } from '../../data/listings/generated-batch';
-import { canPublishListing, type Listing } from '../../lib/listings';
+import { canPublishListing, supplierCollaborationNotice, type Listing } from '../../lib/listings';
 import { tourScripts } from '../../data/tours';
 import { resolveShot } from '../../lib/guided-tour';
 import '../../styles/property.css';
@@ -303,6 +303,7 @@ const seoSchema = isDraft ? undefined : listingSchema(listing, pageUrl, homeUrl,
           </div>
         </aside>
       </div>
+      {listing.supplier && <p class="wrap property-contact__supplier">{supplierCollaborationNotice[listing.supplier]}</p>}
     </section>
   </article>
 

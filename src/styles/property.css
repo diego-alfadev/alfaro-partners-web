@@ -307,6 +307,7 @@ body:has(.property-hero) .float-wa:not(.is-property-visible) {
 .property-contact__copy .property-action { margin-top: 2rem; }
 .property-contact__phone { display: flex; width: fit-content; margin-top: 1.2rem; }
 .property-contact__agent { min-width: 0; }
+.property-contact__supplier { margin-block: clamp(2.5rem, 5vw, 4rem) 0; color: var(--color-mist); font-size: .8rem; line-height: 1.5; }
 /* Uncropped portrait, capped in height so name and CTA stay within one view. */
 .property-contact__portrait { display: flex; justify-content: center; align-items: end; background: var(--color-obsidian-800); }
 .property-contact__portrait img { width: auto; max-width: 100%; height: auto; max-height: min(30rem, 62svh); object-fit: contain; }

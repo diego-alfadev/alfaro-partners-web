@@ -37,6 +37,7 @@ const reportImages: ListingImage[] = [
 // and community fees are omitted. Source provenance stays in the local task document.
 export const ibizaRetiroListing: Listing = {
   publicId: 'ap-l8v3',
+  supplier: 'arctempus',
   routeKey: 'ibiza-retiro-madrid-ap-l8v3',
   propertyType: 'apartment', transaction: 'sale', availability: 'available',
   location: {
