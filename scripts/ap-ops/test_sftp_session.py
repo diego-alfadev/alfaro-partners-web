@@ -37,6 +37,15 @@ class FakeSFTP:
     def file(self, path, mode):
         if 'w' in mode: return Writer(self,path)
         return io.BytesIO(self.files[path])
+    def listdir_attr(self, path):
+        children={p for p in self.dirs|set(self.files)|self.links
+                  if p!=path and p.rsplit('/',1)[0]==path}
+        return [SimpleNamespace(filename=c.rsplit('/',1)[1],st_mode=self.lstat(c).st_mode)
+                for c in sorted(children)]
+    def remove(self, path): del self.files[path]
+    def rmdir(self, path):
+        if any(p.startswith(path+'/') for p in self.dirs|set(self.files)|self.links): raise OSError('not empty')
+        self.dirs.remove(path)
     def get_channel(self): return Mock()
     def close(self): pass
 

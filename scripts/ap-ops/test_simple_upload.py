@@ -90,6 +90,63 @@ class SimpleUploadTest(unittest.TestCase):
         self.assertEqual((code,result['phase']),(1,'collect'))
         self.assertFalse(self.written)
 
+    def listing(self,*names):
+        for name in names:
+            path=self.root/name; path.parent.mkdir(parents=True,exist_ok=True); path.write_bytes(b'page')
+
+    def remote(self,*names):
+        for name in names:
+            parts=name.split('/')
+            for i in range(1,len(parts)):
+                self.s.dirs.add('/web/'+'/'.join(parts[:i]))
+            self.s.files['/web/'+name]=b'old'
+
+    def test_withdrawn_listing_files_and_empty_folders_are_removed(self):
+        self.listing('inmuebles/index.html','inmuebles/lope-ap-1/index.html')
+        self.remote('inmuebles/old-ap-2/index.html','inmuebles/old-ap-2/reportaje/index.html',
+                    'inmuebles/media/ap-2/a.webp','inmuebles/lope-ap-1/index.html')
+        code,result,_=self.run_cli()
+        self.assertEqual((code,result['status'],result['pruned']),(0,'uploaded',3))
+        self.assertEqual(self.s.files['/web/inmuebles/lope-ap-1/index.html'],b'page')
+        self.assertFalse(any('old-ap-2' in p or 'ap-2/' in p for p in self.s.dirs|set(self.s.files)))
+        self.assertNotIn('/web/inmuebles/media',self.s.dirs)
+        self.assertIn('/web/inmuebles/lope-ap-1',self.s.dirs)
+        self.assertEqual(self.s.files['/web/unrelated.html'],b'preserve')
+
+    def test_build_without_catalogue_prunes_nothing(self):
+        self.remote('inmuebles/index.html','inmuebles/old-ap-2/index.html')
+        code,result,_=self.run_cli()
+        self.assertEqual((code,result['pruned']),(0,0))
+        self.assertIn('/web/inmuebles/old-ap-2/index.html',self.s.files)
+
+    def test_prune_keeps_dotfiles_and_never_follows_links(self):
+        self.listing('inmuebles/index.html')
+        self.remote('inmuebles/.htaccess','inmuebles/old/index.html')
+        self.s.links.add('/web/inmuebles/link')
+        code,result,_=self.run_cli()
+        self.assertEqual((code,result['pruned']),(0,1))
+        self.assertIn('/web/inmuebles/.htaccess',self.s.files)
+        self.assertIn('/web/inmuebles/link',self.s.links)
+
+    def test_failed_verification_prunes_nothing(self):
+        self.listing('inmuebles/index.html')
+        self.remote('inmuebles/old/index.html')
+        self.get=lambda name:(200,b'new page') if name=='index.html' else (200,b'stale')
+        self.s.files['/web/index.html']=b'new page'
+        code,result,_=self.run_cli()
+        self.assertEqual((code,result['phase']),(1,'http-verify'))
+        self.assertIn('/web/inmuebles/old/index.html',self.s.files)
+
+    def test_failed_delete_names_phase_and_file(self):
+        self.listing('inmuebles/index.html')
+        self.remote('inmuebles/old/index.html')
+        def denied(path): raise OSError(13,'NEVER-EXPOSE')
+        self.s.remove=denied
+        code,result,text=self.run_cli()
+        self.assertEqual((code,result['phase'],result['file'],result['errno']),
+                         (1,'prune','inmuebles/old/index.html',13))
+        self.assertNotIn('NEVER-EXPOSE',text)
+
     def test_plan_is_offline(self):
         with patch.object(upload,'open_sftp',side_effect=AssertionError), patch('sys.stdout') as output:
             code=upload.main(['--source',str(self.root)])
