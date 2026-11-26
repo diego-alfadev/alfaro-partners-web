@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { Icon } from 'astro-icon/components';
 import { Font } from 'astro:assets';
 import { BUSINESS_INFO } from '../lib/constants';
+import { buildListingEntries } from '../data/listings';
 
 interface Breadcrumb {
   name: string;
@@ -15,10 +16,13 @@ interface Props {
   path?: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: 'website' | 'article' | 'profile';
   robots?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   breadcrumbs?: Breadcrumb[];
+  pageSchema?: Record<string, unknown>;
 }
 
 const {
@@ -27,10 +31,13 @@ const {
   path = '',
   image = BUSINESS_INFO.site.defaultImage,
   imageAlt = 'Alfaro & Partners — representación inmobiliaria en Madrid',
+  imageWidth = 1200,
+  imageHeight = 630,
   type = 'website',
   robots = 'index, follow, max-image-preview:large',
   structuredData,
   breadcrumbs,
+  pageSchema,
 } = Astro.props;
 
 const {
@@ -54,7 +61,9 @@ const canonicalUrl = new URL(`${basePath}${cleanPath(path)}`, siteOrigin).toStri
 const imageUrl = new URL(withBase(image), siteOrigin).toString();
 const homeUrl = new URL(basePath, siteOrigin).toString();
 const isPngImage = imageUrl.endsWith('.png');
-const googleTagId = import.meta.env.PROD ? analytics.googleTagId : undefined;
+const googleTagId = import.meta.env.PROD && !robots.startsWith('noindex') ? analytics.googleTagId : undefined;
+const hasListings = buildListingEntries().length > 0;
+const inListings = cleanPath(path).startsWith('inmuebles');
 
 // SEO hardening (SDD alfaro-seo-hardening, Phase 6a): one @graph per page,
 // linked via @id references instead of the previous two disconnected
@@ -67,7 +76,7 @@ const organizationNode = {
   '@id': `${homeUrl}#organization`,
   name: BUSINESS_INFO.brandName,
   alternateName: 'Alfaro and Partners',
-  image: imageUrl,
+  image: new URL(withBase(site.defaultImage), siteOrigin).toString(),
   url: homeUrl,
   telephone: `+${CONTACT_PHONE}`,
   email: BUSINESS_INFO.email,
@@ -138,7 +147,9 @@ const webPageNode = {
   '@id': `${canonicalUrl}#webpage`,
   url: canonicalUrl,
   name: title,
-  isPartOf: { '@id': `${homeUrl}#organization` },
+  isPartOf: { '@id': `${homeUrl}#website` },
+  publisher: { '@id': `${homeUrl}#organization` },
+  ...pageSchema,
   ...(breadcrumbNode ? { breadcrumb: { '@id': breadcrumbNode['@id'] } } : {}),
 };
 
@@ -153,9 +164,17 @@ const pageNodes = structuredData
     })
   : [];
 
+const websiteNode = {
+  '@type': 'WebSite',
+  '@id': `${homeUrl}#website`,
+  url: homeUrl,
+  name: BUSINESS_INFO.brandName,
+  publisher: { '@id': `${homeUrl}#organization` },
+};
+
 const schema = {
   '@context': 'https://schema.org',
-  '@graph': [organizationNode, founderNode, webPageNode, breadcrumbNode, ...pageNodes].filter(Boolean),
+  '@graph': [organizationNode, founderNode, websiteNode, webPageNode, breadcrumbNode, ...pageNodes].filter(Boolean),
 };
 ---
 
@@ -189,8 +208,9 @@ const schema = {
   <meta property="og:image:secure_url" content={imageUrl} />
   <meta property="og:image:alt" content={imageAlt} />
   {isPngImage && <meta property="og:image:type" content="image/png" />}
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  {imageUrl.endsWith('.webp') && <meta property="og:image:type" content="image/webp" />}
+  <meta property="og:image:width" content={String(imageWidth)} />
+  <meta property="og:image:height" content={String(imageHeight)} />
   <meta property="og:site_name" content="Alfaro & Partners" />
   <meta property="og:locale" content="es_ES" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -225,6 +245,7 @@ const schema = {
       <nav class="nav" aria-label="Principal">
         <a class="nav__link" href={withBase('#firma')}>La Firma</a>
         <a class="nav__link" href={withBase('#servicios')}>Servicios</a>
+        {hasListings && <a class="nav__link" href={withBase('inmuebles/')} aria-current={inListings ? 'page' : undefined}>Inmuebles</a>}
           <a class="nav__link" href={withBase('actualidad/')}>Actualidad</a>
         <a class="nav__link" href={withBase('zonas/')}>Zonas</a>
         <a class="nav__link" href={withBase('partners/')}>Partners</a>
@@ -239,6 +260,7 @@ const schema = {
         <div class="nav-panel__inner wrap">
           <a class="nav-panel__link" href={withBase('#firma')}>La Firma</a>
           <a class="nav-panel__link" href={withBase('#servicios')}>Servicios</a>
+          {hasListings && <a class="nav-panel__link" href={withBase('inmuebles/')} aria-current={inListings ? 'page' : undefined}>Inmuebles</a>}
           <a class="nav-panel__link" href={withBase('actualidad/')}>Actualidad</a>
           <a class="nav-panel__link" href={withBase('zonas/')}>Zonas</a>
           <a class="nav-panel__link" href={withBase('partners/')}>Partners</a>
@@ -421,6 +443,7 @@ const schema = {
       const eventName =
         leadKind === 'partner' ? 'partner_application' :
         leadKind === 'partner-contact' ? 'partner_contact' :
+        leadKind === 'property' && method === 'email' ? 'generate_lead' :
         defaultEvent;
 
       const payload = {
@@ -442,6 +465,10 @@ const schema = {
       if (leadKind === 'partner-contact') {
         payload.partner_id = scope.getAttribute('data-partner-id') ?? 'unknown';
         payload.partner_category = scope.getAttribute('data-partner-category') ?? 'unknown';
+      }
+
+      if (leadKind === 'property') {
+        payload.property_id = scope.getAttribute('data-property-id') ?? 'unknown';
       }
 
       window.gtag('event', eventName, payload);

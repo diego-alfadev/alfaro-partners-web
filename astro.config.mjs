@@ -40,7 +40,9 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      filter: (page) => !sitemapExcludedPaths.some((path) => page.endsWith(path)),
+      filter: (page) =>
+        !sitemapExcludedPaths.some((path) => page.endsWith(path)) &&
+        !(process.env.PROPERTY_DRAFT_PREVIEW === '1' && page.includes('/inmuebles/')),
       // SEO hardening (SDD alfaro-seo-hardening, Phase 9): stamp every sitemap
       // entry with a lastmod so crawlers can prioritize revisits. No per-page
       // content-modified tracking exists yet, so every entry gets the build date.

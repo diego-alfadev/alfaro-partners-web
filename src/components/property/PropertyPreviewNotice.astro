@@ -1,0 +1,68 @@
+---
+import type { PropertyPreviewNotice } from '../../data/listings/preview-notices';
+import PropertyReviewIssues from './PropertyReviewIssues.astro';
+
+interface Props {
+  notice: PropertyPreviewNotice;
+}
+
+const { notice } = Astro.props;
+---
+
+<aside class="property-preview" aria-label="Estado de publicación">
+  <details>
+    <summary>
+      <span>Vista previa · pendiente de aprobación</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+    </summary>
+    <div class="property-preview__body">
+      <p>Versión para revisar. No es una publicación definitiva ni confirma la disponibilidad actual.</p>
+      {notice.confirmed?.map((text) => <p>{text}</p>)}
+      <p><strong>Qué falta para publicar:</strong></p>
+      <ul>{notice.pending.map((text) => <li>{text}</li>)}</ul>
+      <PropertyReviewIssues issues={notice.issues} />
+    </div>
+  </details>
+</aside>
+
+<style>
+  .property-preview {
+    position: absolute;
+    top: calc(var(--header-h) + 1rem);
+    left: var(--gutter);
+    z-index: 7;
+    width: min(38rem, calc(100% - 2 * var(--gutter) - 3.5rem));
+    background: #e5bd5a;
+    color: var(--color-obsidian-950);
+    box-shadow: 0 .65rem 1.5rem rgba(3, 7, 16, .28);
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    min-height: 44px;
+    padding: .65rem .85rem;
+    cursor: pointer;
+    font-weight: 700;
+    list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary svg { flex: 0 0 auto; transition: transform .15s ease-out; }
+  details[open] summary svg { transform: rotate(180deg); }
+  summary:hover { background: rgba(3, 7, 16, .05); }
+  summary:focus-visible { outline: 2px solid var(--color-obsidian-950); outline-offset: -4px; }
+  .property-preview__body {
+    max-height: 55svh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 .85rem .85rem;
+    border-top: 1px solid rgba(3, 7, 16, .2);
+  }
+  .property-preview__body p { margin: .7rem 0; }
+  .property-preview__body ul { margin: .5rem 0 0; padding-left: 1.2rem; }
+  .property-preview__body li + li { margin-top: .5rem; }
+  @media (prefers-reduced-motion: reduce) { summary svg { transition: none; } }
+</style>

@@ -1,5 +1,11 @@
 import { spawnSync } from 'node:child_process';
 
+if (process.env.PROPERTY_DRAFT_PREVIEW === '1') {
+  console.error('IONOS production build refused: PROPERTY_DRAFT_PREVIEW=1 would include unpublished property pages and media.');
+  console.error('Use `bun run astro build` for an explicit local draft preview; never upload that output.');
+  process.exit(1);
+}
+
 const siteUrl = process.env.PUBLIC_SITE_URL;
 
 if (!siteUrl || !siteUrl.startsWith('https://') || siteUrl.includes('tu-dominio')) {

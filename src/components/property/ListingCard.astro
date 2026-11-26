@@ -1,0 +1,67 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Listing } from '../../lib/listings';
+import { factsOf } from '../../lib/listing-search';
+
+interface Props {
+  listing: Listing;
+  isDraft?: boolean;
+  eager?: boolean;
+  level?: 'h2' | 'h3';
+}
+
+const { listing, isDraft = false, eager = false, level = 'h2' } = Astro.props;
+const Heading = level;
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const withBase = (path: string) => `${basePath}${path.replace(/^\/+/, '')}`;
+const facts = factsOf(listing);
+const { hero } = listing.media;
+const price = new Intl.NumberFormat('es-ES', {
+  style: 'currency', currency: listing.price.currency, maximumFractionDigits: 0,
+}).format(listing.price.amount);
+const areaUnit = listing.area.measurement === 'usable' ? ' útiles' : listing.area.measurement === 'built' ? ' construidos' : '';
+const count = (value: number, one: string, many: string) => `${value} ${value === 1 ? one : many}`;
+const zone = `${listing.location.neighborhood} · ${listing.location.district}`;
+---
+
+<li
+  class="listing-card"
+  data-listing
+  data-price={facts.price}
+  data-bedrooms={facts.bedrooms}
+  data-area={facts.area}
+  data-operation={facts.operation}
+  data-type={facts.type}
+  data-zone={facts.zone}
+>
+  <div class="listing-card__media">
+    <picture>
+      <source media="(max-width: 720px)" srcset={withBase(hero.compact.url)} />
+      <img
+        src={withBase(hero.large.url)}
+        alt={hero.alt}
+        width={hero.large.width}
+        height={hero.large.height}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    </picture>
+    {isDraft && <span class="listing-card__tag">Vista previa</span>}
+  </div>
+  <div class="listing-card__body">
+    <Heading class="listing-card__title">
+      <a href={withBase(`inmuebles/${listing.routeKey}/`)}>{listing.editorial.title}</a>
+    </Heading>
+    <p class="listing-card__zone">{zone}</p>
+    <p class="listing-card__summary">{listing.editorial.summary}</p>
+    <div class="listing-card__foot">
+      <p class="listing-card__price">{price}</p>
+      <p class="listing-card__facts">
+        {listing.area.squareMeters} m²{areaUnit} <span aria-hidden="true">·</span> {count(listing.rooms.bedrooms, 'dormitorio', 'dormitorios')} <span aria-hidden="true">·</span> {count(listing.rooms.bathrooms, 'baño', 'baños')}
+      </p>
+      <span class="listing-card__go" aria-hidden="true"><Icon name="lucide:arrow-up-right" width="18" height="18" /></span>
+    </div>
+  </div>
+</li>

@@ -3,8 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialSplit from '../components/EditorialSplit.astro';
 import { Icon } from 'astro-icon/components';
 import { Image } from 'astro:assets';
+import ListingCard from '../components/property/ListingCard.astro';
+import { buildListingEntries } from '../data/listings';
+import { canPublishListing } from '../lib/listings';
 import { BUSINESS_INFO } from '../lib/constants';
 import { getMediaReferences } from '../lib/mediaReferences';
+import '../styles/listings.css';
 import alfaroHero from '../assets/alfaro-hero.png';
 import despacho from '../assets/despacho.png';
 import fachadaOficina from '../assets/oficina/fachada-narvaez-31.jpg';
@@ -13,6 +17,7 @@ import salaOficina from '../assets/oficina/sala-narvaez-31.jpg';
 
 const { booking, social, zones } = BUSINESS_INFO;
 const featuredReferences = getMediaReferences().filter((reference) => reference.featured).slice(0, 3);
+const homeListings = buildListingEntries().slice(0, 2);
 const basePath = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
@@ -231,6 +236,22 @@ const signatureStats = [
     </div>
   </section>
 
+  {homeListings.length > 0 && (
+    <section class="section home-listings" id="inmuebles" aria-labelledby="home-listings-title">
+      <div class="wrap">
+        <div class="home-listings__head">
+          <h2 id="home-listings-title" class="section-head__title">Viviendas que representamos</h2>
+          <a class="btn btn--ghost" href={withBase('inmuebles/')}>Ver todos los inmuebles <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+        </div>
+        <ul class="listing-grid">
+          {homeListings.map(({ listing, readiness }) => (
+            <ListingCard listing={listing} isDraft={!canPublishListing(listing, readiness)} level="h3" />
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
   <section class="section inheritance-insight" id="herencias">
     <div class="wrap">
       <div class="inheritance-insight__shell surface surface--deep" data-reveal>
@@ -387,3 +408,14 @@ const signatureStats = [
     }
   </script>
 </BaseLayout>
+
+<style>
+  .home-listings__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-10);
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+</style>
