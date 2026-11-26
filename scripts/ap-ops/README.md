@@ -10,11 +10,8 @@ are ignored by the existing source-deployment trigger. Normal content pushes
 retain their deployment trigger. Manual `operation=host-key` skips both website
 build and upload; `operation=standard` retains the existing `deploy` choice.
 
-All participating deployments must use `ionos-production` with cancellation off
-**and** the same remote lease. A failed/uncertain upload keeps its lease; a later
-run must not break it or retry the upload blindly. The future property channel
-must adopt this lease before activation; GitHub concurrency alone is not proof
-of remote transaction completion.
+Production uploads are serialized only by the `ionos-production` concurrency
+group (cancellation off). The deploy workflow is the only writer to IONOS.
 
 ## Trusted server identity
 
@@ -24,25 +21,24 @@ Actions credentials stay in their configured secret channel. No host, username,
 password, local key or credential JSON is printed or transferred into artifacts.
 The dependency and all transitive dependencies are hash-locked.
 
-## Legacy artifact upload
+## Upload
 
 ```sh
-python scripts/ap-ops/legacy_upload.py --source dist             # offline plan
-python scripts/ap-ops/legacy_upload.py --source dist --apply \
-  --run-id "$GITHUB_RUN_ID" --commit "$GITHUB_SHA"                # guarded apply
+python scripts/ap-ops/simple_upload.py --source dist           # offline plan
+python scripts/ap-ops/simple_upload.py --source dist --apply   # deploy job
 ```
 
-The apply path verifies the document-root mapping, rejects symlinks, establishes
-an HTTP-protected `.ap-ops/` directory, acquires an exclusive owned lease, stages
-and reads back payload bytes, tests atomic replacement support, journals before
-live writes, uploads assets before documents, and verifies SFTP/HTTP results.
-It does not remove unrelated live files. Root dotfiles retain the old selection
-behavior: only the explicitly handled `.htaccess` is included.
+The apply path checks that the public `index.html` matches the remote one (the
+right document root), then overwrites each file in place, assets before pages and
+the sitemap last, and finally fetches every file over HTTPS to compare bytes. It
+takes no lock, so a rerun after a failure is safe. It never deletes live files.
+Root dotfiles keep the old selection: only `.htaccess` is uploaded. A failure
+prints its phase (`collect`, `connect`, `root-check`, `write`, `http-verify`), the
+relative file, the exception class and errno; never the exception text.
 
-A lock left after partial/uncertain writes is a recovery requirement, not a stale
-file to delete. Inspect its owned journal and reconcile actual bytes before any
-further deployment. There is no unconditional cleanup or automatic legacy
-rollback. Property rollback remains a separate pending transaction capability.
+`legacy_upload.py` (staged, leased, atomic-rename upload) is no longer used by the
+workflow. Its two production runs on 2026-11-26 refused before replacing any
+public file and may have left a lock under the HTTP-denied `.ap-ops/`.
 
 ## Offline checks
 
