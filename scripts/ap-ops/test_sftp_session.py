@@ -12,6 +12,7 @@ import sftp_session as guard
 class Writer(io.BytesIO):
     def __init__(self, fs, path):
         super().__init__(); self.fs, self.path = fs, path
+    def set_pipelined(self, pipelined=True): pass
     def close(self):
         self.fs.files[self.path] = self.getvalue()
         super().close()

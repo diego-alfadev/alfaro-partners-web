@@ -154,7 +154,7 @@ jobs:
           name: alfaro-partners-dist
           path: dist/
 
-      - name: Upload verified artifact under shared protected lock
+      - name: Upload dist over the pinned SFTP session and verify it publicly
         env:
           PYTHONDONTWRITEBYTECODE: '1'
           IONOS_SFTP_SERVER: ${{ secrets.IONOS_SFTP_SERVER }}
@@ -165,5 +165,4 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/ap-ops/legacy_upload.py --source dist --apply \
-            --run-id "$GITHUB_RUN_ID" --commit "$GITHUB_SHA"
+          python scripts/ap-ops/simple_upload.py --source dist --apply
