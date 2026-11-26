@@ -17,7 +17,7 @@ from sftp_session import (Lease, canonical_root, directory, exists, http_get,
 
 PUBLIC_EXTENSIONS = {'.html','.css','.js','.mjs','.json','.xml','.txt','.svg','.png',
                      '.jpg','.jpeg','.webp','.gif','.ico','.woff','.woff2','.ttf',
-                     '.otf','.mp4','.webm','.pdf','.avif','.map'}
+                     '.otf','.mp4','.webm','.mp3','.pdf','.avif','.map'}
 
 
 def public_name(name):

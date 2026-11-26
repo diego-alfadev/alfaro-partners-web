@@ -34,6 +34,10 @@ class UploadTest(unittest.TestCase):
         files=upload.collect(self.root)
         self.assertIn('.htaccess',files); self.assertNotIn('.nojekyll',files)
         self.assertFalse(any(k.startswith('.private/') for k in files))
+    def test_collects_published_audio_clip(self):
+        (self.root/'media').mkdir()
+        (self.root/'media/interview.mp3').write_bytes(b'ID3')
+        self.assertEqual(upload.collect(self.root)['media/interview.mp3'],b'ID3')
     def test_refuses_symlinks_and_private_control_paths_before_remote(self):
         (self.root/'bad').symlink_to(self.root/'index.html')
         with self.assertRaises(ValueError): upload.collect(self.root)
