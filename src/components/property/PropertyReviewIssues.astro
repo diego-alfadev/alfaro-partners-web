@@ -1,0 +1,32 @@
+---
+import { reviewIssueViews, type ReviewIssue } from '../../lib/review-issues';
+interface Props { issues?: readonly ReviewIssue[] }
+const issues = reviewIssueViews(Astro.props.issues);
+---
+{issues.length > 0 && <section class="review-issues" aria-label="Avisos de revisión">
+  <h2>Avisos de revisión</h2>
+  <ol>
+    {issues.map((issue) => <li data-review-code={issue.code} data-review-severity={issue.severity}>
+      <div class="review-issues__heading"><strong>{issue.fieldLabel}</strong><span>{issue.severityLabel} · {issue.statusLabel}</span></div>
+      <dl>
+        <div><dt>Excel consolidado</dt><dd>{issue.office}</dd></div>
+        <div><dt>Aplicado en esta ficha</dt><dd>{issue.applied}</dd></div>
+        {issue.sources.map((source) => <div><dt>{source.label}</dt><dd>{source.value}</dd></div>)}
+      </dl>
+      <p>{issue.resolution}</p>
+    </li>)}
+  </ol>
+</section>}
+<style>
+  .review-issues { margin-top: 1rem; }
+  h2 { font: inherit; font-weight: 700; margin: 0 0 .65rem; }
+  ol { list-style: none; margin: 0; padding: 0; }
+  li { border-top: 1px solid rgba(3, 7, 16, .25); padding: .8rem 0; }
+  .review-issues__heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem .8rem; }
+  .review-issues__heading span { font-size: .9em; }
+  dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem 1rem; margin: .8rem 0; }
+  dt { font-size: .88em; }
+  dd { margin: .15rem 0 0; font-weight: 650; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+  p { margin: .5rem 0 0; }
+  @media (max-width: 420px) { dl { grid-template-columns: 1fr; } }
+</style>

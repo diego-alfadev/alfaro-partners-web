@@ -1,0 +1,302 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ListingCard from '../../components/property/ListingCard.astro';
+import { buildListingEntries } from '../../data/listings';
+import { canPublishListing, type Listing } from '../../lib/listings';
+import { BUSINESS_INFO } from '../../lib/constants';
+import { AREA_STEPS, BEDROOM_STEPS, PRICE_STEPS, categoricalOptions } from '../../lib/listing-search';
+import '../../styles/listings.css';
+
+export function getStaticPaths() {
+  const entries = buildListingEntries();
+  if (entries.length === 0) return [];
+  return [{ params: { path: undefined }, props: {
+    listings: entries.map(({ listing, readiness }) => ({ listing, isDraft: !canPublishListing(listing, readiness) })),
+    isDraft: entries.some(({ listing, readiness }) => !canPublishListing(listing, readiness)),
+  } }];
+}
+
+interface Props {
+  listings: { listing: Listing; isDraft: boolean }[];
+  isDraft: boolean;
+}
+
+const { listings, isDraft } = Astro.props;
+const firstListing = listings[0]!.listing;
+const options = categoricalOptions(listings.map(({ listing }) => listing));
+const euros = (amount: number) => new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(amount);
+const countLabel = (shown: number) => `${shown} ${shown === 1 ? 'vivienda' : 'viviendas'}`;
+---
+
+<BaseLayout
+  title="Inmuebles en Madrid · Alfaro & Partners"
+  description="Una selección de viviendas representadas por Alfaro & Partners en Madrid. Cada inmueble, contado con el criterio y la atención que merece."
+  path="inmuebles/"
+  image={firstListing.media.hero.large.url}
+  imageAlt={firstListing.media.hero.alt}
+  imageWidth={firstListing.media.hero.large.width}
+  imageHeight={firstListing.media.hero.large.height}
+  robots={isDraft ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large'}
+  breadcrumbs={[{ name: 'Inicio', path: '' }, { name: 'Inmuebles', path: 'inmuebles/' }]}
+>
+  <div class="collection">
+    {isDraft && (
+      <aside class="collection__notice" aria-label="Estado de publicación">
+        Vista previa · datos pendientes de verificar
+      </aside>
+    )}
+
+    <header class="collection__intro wrap">
+      <h1>Espacios con una historia propia.</h1>
+      <p>Una selección deliberada. Cada vivienda se presenta por lo que la hace singular, no por un molde compartido.</p>
+    </header>
+
+    <form class="finder" aria-label="Buscar inmuebles" data-finder hidden>
+      <div class="finder__inner wrap">
+        <div class="finder__fields">
+          {options.operation.length > 0 && (
+            <label class="finder__field"><span>Operación</span>
+              <select name="operacion"><option value="">Todas</option>{options.operation.map((o) => <option value={o.value}>{o.label}</option>)}</select>
+            </label>
+          )}
+          {options.type.length > 0 && (
+            <label class="finder__field"><span>Tipo</span>
+              <select name="tipo"><option value="">Todos</option>{options.type.map((o) => <option value={o.value}>{o.label}</option>)}</select>
+            </label>
+          )}
+          {options.zone.length > 0 && (
+            <label class="finder__field"><span>Zona</span>
+              <select name="zona"><option value="">Todas</option>{options.zone.map((o) => <option value={o.value}>{o.label}</option>)}</select>
+            </label>
+          )}
+          <label class="finder__field"><span>Precio hasta</span>
+            <select name="precio"><option value="">Sin límite</option>{PRICE_STEPS.map((v) => <option value={v}>{euros(v)}</option>)}</select>
+          </label>
+          <label class="finder__field"><span>Dormitorios</span>
+            <select name="dormitorios"><option value="">Todos</option>{BEDROOM_STEPS.map((n) => <option value={n}>{n} o más</option>)}</select>
+          </label>
+          <label class="finder__field"><span>Superficie</span>
+            <select name="superficie"><option value="">Cualquiera</option>{AREA_STEPS.map((v) => <option value={v}>{v} m² o más</option>)}</select>
+          </label>
+        </div>
+        <div class="finder__result">
+          <p class="finder__count" role="status" aria-live="polite" data-count data-total={listings.length}>{countLabel(listings.length)}</p>
+          <button class="finder__reset" type="button" data-reset hidden>Quitar filtros</button>
+        </div>
+      </div>
+    </form>
+    <script is:inline>document.querySelector('[data-finder]')?.removeAttribute('hidden');</script>
+
+    <section class="collection__list wrap" aria-label="Viviendas">
+      <ul class="listing-grid" data-grid>
+        {listings.map(({ listing, isDraft: listingDraft }, index) => (
+          <ListingCard listing={listing} isDraft={listingDraft} eager={index < 2} />
+        ))}
+      </ul>
+      <div class="collection__empty" data-empty hidden>
+        <h2>Ninguna vivienda encaja con estos criterios.</h2>
+        <p>Prueba con otro precio o una superficie distinta.</p>
+        <button class="btn btn--ghost" type="button" data-reset>Quitar filtros</button>
+      </div>
+    </section>
+
+    <section class="collection__closing wrap" aria-labelledby="collection-closing">
+      <h2 id="collection-closing">¿Buscas algo concreto?</h2>
+      <div>
+        <p>Cuéntanos qué necesitas y lo estudiamos contigo, sin presión comercial.</p>
+        <a class="btn btn--primary" href={BUSINESS_INFO.booking.url} target="_blank" rel="noopener noreferrer">Reservar cita <Icon name="lucide:arrow-up-right" width="16" height="16" aria-hidden="true" /></a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { filtersFromParams, filtersToParams, hasActiveFilters, listingMatches } from '../../lib/listing-search';
+  import type { ListingFacts } from '../../lib/listing-search';
+
+  const form = document.querySelector<HTMLFormElement>('[data-finder]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-listing]')];
+  const countEl = document.querySelector<HTMLElement>('[data-count]');
+  const emptyEl = document.querySelector<HTMLElement>('[data-empty]');
+  const gridEl = document.querySelector<HTMLElement>('[data-grid]');
+
+  const factsOfCard = (card: HTMLElement): ListingFacts => ({
+    price: Number(card.dataset.price),
+    bedrooms: Number(card.dataset.bedrooms),
+    area: Number(card.dataset.area),
+    operation: card.dataset.operation as ListingFacts['operation'],
+    type: card.dataset.type as ListingFacts['type'],
+    zone: card.dataset.zone ?? '',
+  });
+
+  const countLabel = (shown: number, total: number) => {
+    const noun = (n: number) => (n === 1 ? 'vivienda' : 'viviendas');
+    return shown === total ? `${total} ${noun(total)}` : `${shown} de ${total} ${noun(total)}`;
+  };
+
+  if (form && countEl && emptyEl && gridEl) {
+    const total = cards.length;
+
+    const apply = () => {
+      const data = new FormData(form);
+      const params = new URLSearchParams();
+      data.forEach((value, key) => { if (typeof value === 'string') params.set(key, value); });
+      const filters = filtersFromParams(params);
+      let shown = 0;
+      for (const card of cards) {
+        const match = listingMatches(factsOfCard(card), filters);
+        card.hidden = !match;
+        if (match) shown += 1;
+      }
+      countEl.textContent = shown === 0 ? 'Ninguna vivienda' : countLabel(shown, total);
+      gridEl.hidden = shown === 0;
+      emptyEl.hidden = shown !== 0;
+      document.querySelectorAll<HTMLElement>('[data-finder] [data-reset]').forEach((el) => { el.hidden = !hasActiveFilters(filters); });
+      const query = filtersToParams(filters).toString();
+      history.replaceState(null, '', query ? `?${query}` : location.pathname);
+    };
+
+    const restore = () => {
+      const params = new URLSearchParams(location.search);
+      form.querySelectorAll<HTMLSelectElement>('select').forEach((select) => {
+        const wanted = params.get(select.name);
+        if (wanted && [...select.options].some((option) => option.value === wanted)) select.value = wanted;
+      });
+    };
+
+    const reset = () => { form.reset(); apply(); };
+
+    form.addEventListener('change', apply);
+    form.addEventListener('submit', (event) => event.preventDefault());
+    document.querySelectorAll('[data-reset]').forEach((button) => button.addEventListener('click', reset));
+    restore();
+    apply();
+  }
+</script>
+
+<style>
+  .collection { overflow: clip; padding-top: var(--header-h); background: var(--color-obsidian-950); color: var(--color-offwhite); }
+
+  .collection__notice {
+    padding: .65rem var(--gutter);
+    background: var(--color-obsidian-800);
+    border-bottom: var(--hairline-gold);
+    color: var(--color-gold-light);
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-align: center;
+  }
+
+  .collection__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-6) clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 4vw, 3.5rem);
+  }
+  .collection__intro h1 {
+    max-width: 14ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.4vw + .5rem, 4.75rem);
+    font-weight: 400;
+    line-height: var(--leading-display);
+    text-wrap: balance;
+  }
+  .collection__intro p {
+    max-width: var(--measure);
+    margin: 0;
+    color: var(--color-mist);
+    font-size: var(--fs-body-lg);
+    line-height: var(--leading-base);
+  }
+
+  .finder { background: var(--color-obsidian-900); border-block: var(--hairline-strong); }
+  .finder[hidden] { display: none; }
+  .finder__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-5) var(--space-10);
+    align-items: end;
+    padding-block: var(--space-6);
+  }
+  .finder__fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-4); }
+  .finder__field { display: grid; gap: var(--space-2); min-width: 0; }
+  .finder__field span {
+    color: var(--color-mist);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .finder__field select {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0 2.5rem 0 var(--space-4);
+    appearance: none;
+    background: var(--color-obsidian-800) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23b8bdc7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right var(--space-4) center;
+    border: var(--hairline-strong);
+    border-radius: var(--radius-0);
+    color: var(--color-offwhite);
+    color-scheme: dark;
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color var(--t-fast) var(--ease-soft);
+  }
+  .finder__field select:hover { border-color: rgba(201, 164, 74, .5); }
+  .finder__field select:not(:has(option[value=""]:checked)) { border-color: var(--color-gold); }
+  .finder__field select:focus-visible { outline: 2px solid var(--color-gold-light); outline-offset: 2px; }
+
+  .finder__result { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); min-width: 9rem; }
+  .finder__count { margin: 0; color: var(--color-offwhite); font-size: var(--fs-body); font-variant-numeric: tabular-nums; }
+  .finder__reset {
+    min-height: 2.75rem;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--color-gold);
+    color: var(--color-gold-light);
+    font: inherit;
+    font-size: var(--fs-body-sm);
+    cursor: pointer;
+  }
+  .finder__reset[hidden] { display: none; }
+  .finder__reset:hover { color: #fff; border-color: #fff; }
+  .finder__reset:focus-visible { outline: 2px solid var(--color-gold-light); outline-offset: 2px; }
+
+  .collection__list { padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(4rem, 8vw, 7rem); }
+  .collection__empty { max-width: 34rem; padding-block: var(--space-12); }
+  .collection__empty[hidden] { display: none; }
+  .collection__empty h2 { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 400; line-height: var(--leading-tight); }
+  .collection__empty p { margin: var(--space-3) 0 var(--space-6); color: var(--color-mist); }
+
+  .collection__closing {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-6) clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    padding-block: clamp(3rem, 6vw, 5rem) clamp(5rem, 9vw, 8rem);
+    border-top: var(--hairline-strong);
+  }
+  .collection__closing h2 { max-width: 16ch; font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 400; line-height: var(--leading-display); text-wrap: balance; }
+  .collection__closing p { margin: 0 0 var(--space-6); max-width: var(--measure-tight); color: var(--color-mist); line-height: var(--leading-base); }
+
+  @media (max-width: 860px) {
+    .collection__intro, .collection__closing { grid-template-columns: 1fr; }
+    .finder__inner { grid-template-columns: 1fr; }
+    .finder__result { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+  @media (max-width: 560px) {
+    .collection__intro { gap: var(--space-4); padding-block: var(--space-8) var(--space-6); }
+    .collection__intro h1 { font-size: 2.25rem; }
+    .collection__intro p { font-size: var(--fs-body); }
+    .finder__inner { gap: var(--space-3); padding-block: var(--space-4); }
+    .finder__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+    .finder__field { gap: var(--space-1); }
+    .finder__field select { min-height: 2.75rem; }
+    .finder__field:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .collection__list { padding-top: var(--space-8); }
+  }
+</style>

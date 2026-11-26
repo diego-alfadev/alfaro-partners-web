@@ -1,0 +1,162 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Listing } from '../../lib/listings';
+import { resolveShot, sidePanelShift, tourFacts, type ResolvedShot, type TourScript } from '../../lib/guided-tour';
+import '../../styles/property-guided-tour.css';
+
+interface Props { listing: Listing; script: TourScript; hub: string; withBase: (path: string) => string }
+const { listing, script, hub, withBase } = Astro.props;
+
+const shot = (value: Parameters<typeof resolveShot>[1]) => resolveShot(listing, value);
+const img = ({ image, focus }: ResolvedShot, sizes: string, eager = false) => ({
+  src: withBase(image.large.url),
+  srcset: `${withBase(image.compact.url)} ${image.compact.width}w, ${withBase(image.large.url)} ${image.large.width}w`,
+  sizes, alt: image.alt, width: image.large.width, height: image.large.height,
+  style: focus ? `object-position: ${focus}` : undefined,
+  loading: eager ? 'eager' as const : 'lazy' as const,
+  fetchpriority: eager ? 'high' as const : undefined,
+  decoding: 'async' as const,
+});
+const facts = tourFacts(listing);
+const acts = script.acts;
+const number = (index: number) => String(index).padStart(2, '0');
+const choreography = (act: (typeof acts)[number]) => (act.template === 'reveal' && act.shot.travel ? 'reveal-travel' : act.template);
+---
+<div class="tour" data-tour>
+  <header class="tour__header">
+    <a href={hub} aria-label="Alfaro & Partners: volver a la ficha"><img src={withBase('images/logo-blanco.svg')} alt="Alfaro & Partners" width="718" height="99" /></a>
+    <a href={hub} class="tour__back">Ficha de la vivienda <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+  </header>
+
+  <main>
+    {acts.map((act, index) => (
+      <section id={act.id} class={`tour-act tour-act--${act.template}`} data-act={choreography(act)} data-mode={act.template === 'pair' ? act.relation : undefined} data-entry={act.template === 'reveal' ? act.entry ?? 'inset' : undefined} style={act.template === 'reveal' && act.entry === 'side' ? `--side-shift: ${sidePanelShift(act.shot.focus)}` : undefined} data-enter={act.enter} data-clip-pilot={'clip' in act && act.clip ? '' : undefined} data-label={act.label} aria-labelledby={`${act.id}-title`}>
+        <div class={`tour-stage${act.template === 'cover' ? '' : ' obsidian obsidian--rich'}`} data-stage>
+          {act.template === 'cover' && (
+            <>
+              <figure class="tour-media" data-media><img {...img(shot(act.shot), '100vw', true)} /></figure>
+              <div class="tour-veil" data-veil></div>
+              <div class="tour-faldon" data-faldon></div>
+              <div class="tour-cover__copy" data-title>
+                <p class="tour-eyebrow">{act.eyebrow}</p>
+                <h1 id={`${act.id}-title`}>{act.title}</h1>
+                <div class="tour-cover__base">
+                  <p class="tour-cover__lede" data-lede>{act.lede}</p>
+                  <div class="tour-facts" data-facts>
+                    <dl class="tour-facts__primary">
+                      {facts.primary.map(({ label, value }) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
+                    </dl>
+                    <ul class="tour-facts__secondary">{facts.secondary.map((fact) => <li>{fact}</li>)}</ul>
+                  </div>
+                </div>
+              </div>
+              <span class="tour-cue" data-cue aria-hidden="true"><Icon name="lucide:chevron-down" /></span>
+            </>
+          )}
+          {act.template === 'arrival' && (
+            <>
+              <div class="tour-light" data-light aria-hidden="true"></div>
+              <figure class="tour-frame tour-frame--arrival" data-frame><img data-zoom {...img(shot(act.shot), '(min-width: 900px) 46vw, 100vw')} /></figure>
+              <div class="tour-arrival__copy" data-title>
+                <p class="tour-eyebrow">{act.eyebrow}</p>
+                <h2 id={`${act.id}-title`}>{act.title}</h2>
+                <p class="tour-arrival__text">{act.text}</p>
+                <ol class="tour-route">
+                  {acts.slice(index + 1).map((stop, i) => (
+                    <li data-item={i}><a href={`#${stop.id}`} data-goto={stop.id}><span>{number(index + 1 + i)}</span>{stop.label}</a></li>
+                  ))}
+                </ol>
+              </div>
+            </>
+          )}
+          {act.template === 'reveal' && (
+            <>
+              <div class="tour-light" data-light aria-hidden="true"></div>
+              <figure class="tour-frame" data-frame>
+                <div class="tour-travel" data-travel={act.shot.travel ? '' : undefined} data-scale={act.shot.travel?.scale} style={act.shot.travel ? `transform-origin: ${act.shot.travel.to}` : undefined}>
+                  <img data-zoom {...img(shot({ ...act.shot, focus: act.shot.travel?.to ?? act.shot.focus }), '100vw')} />
+                </div>
+              </figure>
+              <div class="tour-scrim" data-shade></div>
+              <div class="tour-reveal__copy" data-copy>
+                <div class="tour-reveal__head" data-head>
+                  <p class="tour-index">{number(index)} · {act.label}</p>
+                  <h2 id={`${act.id}-title`}>{act.title}</h2>
+                </div>
+                <div class="tour-reveal__captions">
+                  <p class="tour-caption" data-caption>{act.text}</p>
+                  {act.shot.travel && <p class="tour-caption" data-caption-next>{act.shot.travel.caption}</p>}
+                </div>
+              </div>
+            </>
+          )}
+          {act.template === 'pair' && (
+            <>
+              <div class="tour-light" data-light aria-hidden="true"></div>
+              <div class="tour-strip" data-strip>
+                {act.shots.map((photo, i) => (
+                  <figure class="tour-slide" data-slide={i}>
+                    <img data-pan {...img(shot(photo), i === 1 && act.relation === 'detail' ? '(min-width: 900px) 46vw, 100vw' : (act.relation === 'rooms' ? '(min-width: 900px) 50vw, 100vw' : '100vw'))} />
+                    <div class="tour-slide__dim" data-dim></div>
+                  </figure>
+                ))}
+                {act.clip && <video class="tour-clip" data-clip data-src={withBase(`inmuebles/media/${listing.publicId}/${act.clip}.mp4`)} muted playsinline preload="none" aria-hidden="true"></video>}
+              </div>
+              <div class="tour-scrim" data-shade></div>
+              <div class="tour-pair__copy" data-title>
+                <p class="tour-index">{number(index)} · {act.label}</p>
+                <h2 id={`${act.id}-title`}>{act.title}</h2>
+                <p>{act.text}</p>
+              </div>
+              {act.shots[1].caption && <p class="tour-pair__caption" data-caption>{act.shots[1].caption}</p>}
+            </>
+          )}
+          {act.template === 'close' && (
+            <>
+              <div class="tour-light tour-light--ambient" aria-hidden="true"></div>
+              <div class="tour-close__copy" data-title>
+                <img class="tour-close__mark" src={withBase('images/logo-blanco.svg')} alt="" width="718" height="99" />
+                <p class="tour-eyebrow">{listing.location.displayName}</p>
+                <h2 id={`${act.id}-title`}>{act.title}</h2>
+                <p>{act.text}</p>
+                <div class="tour-close__actions">
+                  <a class="tour-button" href={`${hub}#visita`}>{act.action} <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+                  <a class="tour-link" href={hub}>Ver la ficha completa</a>
+                </div>
+                <button type="button" class="tour-restart" data-restart><Icon name="lucide:rotate-ccw" aria-hidden="true" /> Volver al inicio de la visita</button>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <p class="tour-hint" data-hint aria-hidden="true">
+    <span class="tour-hint__keys"><kbd>↑</kbd><kbd>↓</kbd></span>
+    <span class="tour-hint__desktop">Usa las flechas o desliza una vez para pasar de escena</span>
+    <span class="tour-hint__touch">Desliza o toca la foto para avanzar</span>
+  </p>
+  <nav class="tour-dock" aria-label="Visita guiada" data-dock>
+    <span class="tour-dock__segments" aria-hidden="true">{acts.map(() => <span data-segment></span>)}</span>
+    <button type="button" class="tour-dock__step" data-previous aria-label="Anterior"><Icon name="lucide:arrow-up" aria-hidden="true" /></button>
+    <button type="button" class="tour-dock__label" popovertarget="tour-chapters" aria-label="Elegir estancia">
+      <span data-current>{acts[0].label}</span><span class="tour-dock__count" data-count>1 / {acts.length}</span>
+    </button>
+    <button type="button" class="tour-dock__step" data-next aria-label="Siguiente"><Icon name="lucide:arrow-down" aria-hidden="true" /></button>
+    <div id="tour-chapters" class="tour-chapters" popover>
+      <ol>{acts.map(({ id, label }, i) => <li><a href={`#${id}`} data-goto={id} data-chapter-link><span>{number(i)}</span>{label}</a></li>)}</ol>
+    </div>
+  </nav>
+  <div class="tour-curtain" data-curtain aria-hidden="true"></div>
+  <p class="tour-sr" aria-live="polite" data-announcement></p>
+</div>
+
+<script>
+  import { mountTour } from '../../lib/guided-tour-motion';
+  let dispose: (() => void) | undefined;
+  const mount = () => { dispose?.(); dispose = mountTour(); };
+  mount();
+  document.addEventListener('astro:page-load', mount);
+  document.addEventListener('astro:before-swap', () => { dispose?.(); dispose = undefined; });
+</script>

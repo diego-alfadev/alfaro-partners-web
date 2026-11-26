@@ -1,0 +1,42 @@
+---
+import { Font } from 'astro:assets';
+import '../../../../styles/global.css';
+import GuidedTour from '../../../../components/property/GuidedTour.astro';
+import { visibleListingEntries } from '../../../../data/listings';
+import { tourScripts } from '../../../../data/tours';
+import { canPublishListing, type Listing } from '../../../../lib/listings';
+
+export function getStaticPaths() {
+  const preview = import.meta.env.DEV || process.env.PROPERTY_DRAFT_PREVIEW === '1';
+  return visibleListingEntries(preview).filter(({ listing }) => tourScripts.some(({ publicId }) => publicId === listing.publicId))
+    .map(({ listing, readiness }) => ({ params: { routeKey: listing.routeKey },
+      props: { listing, isDraft: preview || !canPublishListing(listing, readiness) } }));
+}
+interface Props { listing: Listing; isDraft: boolean }
+const { listing, isDraft } = Astro.props;
+const script = tourScripts.find(({ publicId }) => publicId === listing.publicId)!;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const withBase = (path: string) => `${base}${path.replace(/^\/+/, '')}`;
+const hub = withBase(`inmuebles/${listing.routeKey}/`);
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{script.title} | Alfaro &amp; Partners</title>
+  <meta name="description" content={script.description} />
+  <meta name="robots" content={isDraft ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large'} />
+  <meta name="theme-color" content="#070c18" />
+  <script is:inline>
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('tour-motion');
+  </script>
+  <Font cssVariable="--font-display-src" preload />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" />
+  <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
+</head>
+<body class="tour-page">
+  <GuidedTour listing={listing} script={script} hub={hub} withBase={withBase} />
+</body>
+</html>

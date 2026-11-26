@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { BUSINESS_INFO } from '../../lib/constants';
+import { buildListingEntries } from '../../data/listings';
 
 const { booking } = BUSINESS_INFO;
+const hasIbizaListing = buildListingEntries().some(({ listing }) => listing.location.neighborhood === 'Ibiza');
+const basePath = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout
@@ -41,6 +46,9 @@ const { booking } = BUSINESS_INFO;
               con cada inmueble y cómo presentar la operación sin caer en expectativas poco realistas.
             </p>
           </div>
+          {hasIbizaListing && (
+            <a class="btn btn--secondary" href={`${basePath}inmuebles/`} style="margin-top: var(--space-8);">Explorar inmuebles en Ibiza <span aria-hidden="true">↗</span></a>
+          )}
         </div>
         <div class="surface surface--gold" style="padding: var(--space-12);">
           <h2 class="card__title">Qué conviene analizar</h2>
