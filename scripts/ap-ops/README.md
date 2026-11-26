@@ -36,9 +36,9 @@ Root dotfiles keep the old selection: only `.htaccess` is uploaded. A failure
 prints its phase (`collect`, `connect`, `root-check`, `write`, `http-verify`), the
 relative file, the exception class and errno; never the exception text.
 
-`legacy_upload.py` (staged, leased, atomic-rename upload) is no longer used by the
-workflow. Its two production runs on 2026-11-26 refused before replacing any
-public file and may have left a lock under the HTTP-denied `.ap-ops/`.
+The HTTP-denied `.ap-ops/` folder on IONOS is a leftover of the earlier staged
+upload; nothing writes to it any more. The webspace is 50 MB, so never stage or
+back up the site on the server.
 
 ## Offline checks
 
@@ -48,5 +48,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 ```
 
 Tests use synthetic credentials and in-memory SFTP/SSH transports. Passing tests
-or a public-host-key probe does not prove a real upload, production approval or
-server support for the protection/atomic-rename behavior.
+or a public-host-key probe does not prove a real upload; the deploy job's public
+byte comparison does.

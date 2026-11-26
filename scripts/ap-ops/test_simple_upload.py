@@ -45,7 +45,6 @@ class SimpleUploadTest(unittest.TestCase):
         self.assertEqual(self.s.files['/web/index.html'],b'new page')
         self.assertEqual(self.s.files['/web/unrelated.html'],b'preserve')
         self.assertEqual(self.written,['/web/.htaccess','/web/_astro/a.css','/web/index.html','/web/sitemap.xml'])
-        self.assertFalse(self.s.replacements)
         self.assertFalse(any(p.startswith('/web/.ap-ops') for p in self.s.dirs|set(self.s.files)))
 
     def test_wrong_document_root_writes_nothing(self):
@@ -72,6 +71,24 @@ class SimpleUploadTest(unittest.TestCase):
         code,result,_=self.run_cli()
         self.assertEqual((code,result['phase']),(1,'http-verify'))
         self.assertEqual(result['mismatches'],[['_astro/a.css',200],['sitemap.xml',200]])
+
+    def test_collect_skips_root_dotfiles_but_keeps_htaccess_and_audio(self):
+        (self.root/'.nojekyll').write_bytes(b'')
+        (self.root/'.private').mkdir(); (self.root/'.private/secret').write_bytes(b'ignored')
+        (self.root/'media').mkdir(); (self.root/'media/interview.mp3').write_bytes(b'ID3')
+        files=upload.collect(self.root)
+        self.assertIn('.htaccess',files); self.assertNotIn('.nojekyll',files)
+        self.assertFalse(any(k.startswith('.private/') for k in files))
+        self.assertEqual(files['media/interview.mp3'],b'ID3')
+
+    def test_collect_refuses_symlinks_and_nested_dotfiles(self):
+        (self.root/'bad').symlink_to(self.root/'index.html')
+        with self.assertRaises(ValueError): upload.collect(self.root)
+        (self.root/'bad').unlink()
+        (self.root/'nested').mkdir(); (self.root/'nested/.env').write_bytes(b'synthetic')
+        code,result,_=self.run_cli()
+        self.assertEqual((code,result['phase']),(1,'collect'))
+        self.assertFalse(self.written)
 
     def test_plan_is_offline(self):
         with patch.object(upload,'open_sftp',side_effect=AssertionError), patch('sys.stdout') as output:

@@ -9,9 +9,45 @@ import json
 import os
 from pathlib import Path
 import posixpath
+import re
 
-from legacy_upload import collect
-from sftp_session import http_get, open_sftp, read, safe_path
+from sftp_session import http_get, open_sftp, read, require, safe_path
+
+PUBLIC_EXTENSIONS = {'.html','.css','.js','.mjs','.json','.xml','.txt','.svg','.png',
+                     '.jpg','.jpeg','.webp','.gif','.ico','.woff','.woff2','.ttf',
+                     '.otf','.mp4','.webm','.mp3','.pdf','.avif','.map'}
+
+
+def public_name(name):
+    require(isinstance(name,str) and name and not name.startswith('/')
+            and len(name)<=512)
+    require(name=='.htaccess' or
+            all(re.fullmatch(r'[A-Za-z0-9_@.-]+',p) and not p.startswith('.')
+                and p not in ('.','..') for p in name.split('/'))
+            and Path(name).suffix.lower() in PUBLIC_EXTENSIONS)
+    return name
+
+
+def collect(source):
+    require(not source.is_symlink())
+    source=source.resolve(strict=True)
+    require(source.is_dir())
+    files={}
+    total=0
+    # Root dotfiles and dot-folders stay local; only the Apache configuration ships.
+    for path in sorted(source.rglob('*')):
+        relative=path.relative_to(source)
+        require(not path.is_symlink() and (path.is_file() or path.is_dir()))
+        if relative.parts[0].startswith('.') and str(relative)!='.htaccess':
+            continue
+        if path.is_file():
+            public_name(relative.as_posix())
+            require(not path.stat().st_mode & 0o111 and path.stat().st_size<=64*1024*1024)
+            data=path.read_bytes()
+            total+=len(data); require(total<=256*1024*1024)
+            files[relative.as_posix()]=data
+    require(files.get('index.html') and len(files)<=4096)
+    return files
 
 
 class Failed(Exception):

@@ -1,8 +1,6 @@
-"""Pinned password-only session and shared protected deployment lease."""
+"""Pinned password-only SFTP session and path guards for the IONOS docroot."""
 from contextlib import contextmanager
 import errno
-import hashlib
-import json
 import posixpath
 import re
 import stat
@@ -13,26 +11,11 @@ import urllib.request
 from host_policy import verify_host_key
 
 PUBLIC_ORIGIN = 'https://alfaropartners.es'
-DENY = b'Require all denied\nDeny from all\n'
-MARKER = b'ap-shared-deployment-control/1\n'
-PROBE = b'AP nonsecret protection probe\n'
 
 
 def require(value):
     if not value:
         raise ValueError('Deployment guard refused')
-
-
-def canonical_bytes(value):
-    return (json.dumps(value,sort_keys=True,separators=(',',':'))+'\n').encode()
-
-
-def owner_bytes(owner):
-    require(set(owner)=={'run_id','commit','attempt'}
-            and re.fullmatch(r'[0-9]{1,24}',owner['run_id'])
-            and re.fullmatch(r'[0-9a-f]{40}',owner['commit'])
-            and re.fullmatch(r'[0-9a-f]{32}',owner['attempt']))
-    return canonical_bytes(owner)
 
 
 def exists(sftp, path):
@@ -93,14 +76,6 @@ def read(sftp,path,limit=128*1024*1024):
     return data
 
 
-def write(sftp,path,data):
-    mode=exists(sftp,path)
-    require(mode is None or stat.S_ISREG(mode.st_mode))
-    with sftp.file(path,'wb') as stream:
-        stream.write(data)
-    require(read(sftp,path)==data)
-
-
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):
         return None
@@ -153,64 +128,3 @@ def open_sftp(environ):
             sftp.close()
         client.close()
 
-
-class Lease:
-    """Never break an existing lock; callers retain it on unknown outcomes.
-
-    acquire() may create protection only in a previously absent control directory.
-    complete() requires verified state; release_no_write() rejects any write intent.
-    Neither is an exception/finally unlock.
-    """
-    def __init__(self,sftp,root,owner,http=http_get):
-        self.sftp,self.root,self.owner,self.http=sftp,root,owner,http
-        self.encoded_owner=owner_bytes(owner)
-        self.control=posixpath.join(root,'.ap-ops')
-        self.lock=posixpath.join(self.control,'lock')
-        self.owner_path=posixpath.join(self.lock,'owner.json')
-
-    def acquire(self):
-        s=self.sftp
-        if exists(s,self.control) is None:
-            s.mkdir(self.control)
-            write(s,self.control+'/.htaccess',DENY)
-            write(s,self.control+'/probe.txt',PROBE)
-            require(self.http('.ap-ops/probe.txt')[0] in (403,404))
-            write(s,self.control+'/marker',MARKER)
-        else:
-            directory(s,self.control)
-            require(read(s,self.control+'/.htaccess')==DENY
-                    and read(s,self.control+'/probe.txt')==PROBE
-                    and read(s,self.control+'/marker')==MARKER)
-            require(self.http('.ap-ops/probe.txt')[0] in (403,404))
-        s.mkdir(self.lock)  # Atomic exclusive acquisition, never stale-lock removal.
-        write(s,self.owner_path,self.encoded_owner)
-        self.journal('acquired')
-
-    def check_owner(self):
-        directory(self.sftp,self.control); directory(self.sftp,self.lock)
-        require(read(self.sftp,self.owner_path)==self.encoded_owner)
-
-    def journal(self,phase,path=None,*,public_intent=False):
-        self.check_owner()
-        journal_path=self.lock+'/journal.json'
-        previous=exists(self.sftp,journal_path)
-        state=json.loads(read(self.sftp,journal_path)) if previous else {}
-        value={'owner':self.owner,'phase':phase,'path':path,
-               'public_intent':bool(public_intent or state.get('public_intent'))}
-        write(self.sftp,journal_path,canonical_bytes(value))
-
-    def _release(self,verified):
-        self.check_owner()
-        data=read(self.sftp,self.lock+'/journal.json')
-        state=json.loads(data)
-        require(data==canonical_bytes(state) and state['owner']==self.owner)
-        require(state['phase']=='verified' if verified else state['public_intent'] is False)
-        self.sftp.remove(self.lock+'/journal.json')
-        self.sftp.remove(self.owner_path)
-        self.sftp.rmdir(self.lock)
-
-    def release_no_write(self):
-        self._release(False)
-
-    def complete(self):
-        self._release(True)
