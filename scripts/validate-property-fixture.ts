@@ -63,14 +63,14 @@ console.log(`Validated ${ibizaListing.routeKey}: ${ibizaListing.media.gallery.le
 
 assert.equal(new Set(listingEntries.map(({ listing }) => listing.publicId)).size, listingEntries.length);
 assert.equal(new Set(listingEntries.map(({ listing }) => listing.routeKey)).size, listingEntries.length);
-assert.equal(visibleListingEntries(false).length, 0);
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3']);
 assert.equal(visibleListingEntries(true).length, 5);
 assert.equal(ibizaRetiroListing.publicId, 'ap-l8v3');
 assert.equal(ibizaRetiroListing.routeKey, 'ibiza-retiro-madrid-ap-l8v3');
-assert.equal(ibizaRetiroListing.price.amount, 1079000);
+assert.equal(ibizaRetiroListing.price.amount, 1049000);
 assert.equal(ibizaRetiroListing.area.squareMeters, 88);
 assert.equal(ibizaRetiroListing.area.measurement, 'unspecified');
-assert.equal(ibizaRetiroListing.availability, 'unconfirmed');
+assert.equal(ibizaRetiroListing.availability, 'available');
 assert.deepEqual(ibizaRetiroListing.rooms, { bedrooms: 2, bathrooms: 2 });
 assert.deepEqual(ibizaRetiroListing.energy, {
   rating: 'E', consumptionKwhPerSquareMeterYear: 211, emissionsKgPerSquareMeterYear: 44,
@@ -78,8 +78,8 @@ assert.deepEqual(ibizaRetiroListing.energy, {
 assert.equal(ibizaRetiroListing.contact.kind, 'team');
 assert.equal(ibizaRetiroListing.contact.portrait, null);
 assert.equal(ibizaRetiroListing.contact.profileUrl, null);
-assert.equal(ibizaRetiroReleaseReadiness.ready, false);
-assert.equal(canPublishListing(ibizaRetiroListing, ibizaRetiroReleaseReadiness), false);
+assert.equal(ibizaRetiroReleaseReadiness.ready, true);
+assert.equal(canPublishListing(ibizaRetiroListing, ibizaRetiroReleaseReadiness), true);
 assert.equal(canPublishListing({ ...ibizaRetiroListing, availability: 'available' }, { ready: true, blockers: [] }), true,
   'Qualified unspecified area is not a separate publication gate');
 assert.doesNotMatch(JSON.stringify(ibizaRetiroListing), /lope|rueda|4\s?ci\b|suroeste|sureste|130|112503941|019c90b7/i);
@@ -88,7 +88,7 @@ assert.equal(ibizaRetiroListing.media.gallery.length, 13);
 for (const { listing, readiness } of listingEntries) {
   assert.match(listing.publicId, /^ap-[a-z0-9]{4,}$/);
   assert.equal(listing.location.precision, 'neighborhood');
-  assert.ok(!canPublishListing(listing, readiness));
+  assert.equal(canPublishListing(listing, readiness), listing.publicId === 'ap-l8v3', listing.publicId);
   assert.equal(listing.media.film, null);
   assert.equal(listing.media.dossier, null);
   const expected = new Set(listingImages(listing).flatMap((photo) => [photo.large.url, photo.compact.url])

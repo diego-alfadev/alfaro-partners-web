@@ -5,7 +5,7 @@ import { propertyPreviewNotices } from '../src/data/listings/preview-notices';
 
 // Preview copy describes remaining evidence, never changes the release decision.
 assert.deepEqual(Object.keys(propertyPreviewNotices).sort(), listingEntries.map(({ listing }) => listing.publicId).sort());
-assert.equal(visibleListingEntries(false).length, 0);
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3']);
 assert.equal(visibleListingEntries(true).length, 5);
 for (const { listing } of listingEntries) {
   const notice = propertyPreviewNotices[listing.publicId];

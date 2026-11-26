@@ -30,20 +30,20 @@ const reportImages: ListingImage[] = [
   image('img-t3f7', 'bedroom-two-front', 'Segundo dormitorio visto de frente', 'bedroom'),
 ];
 
-// Supplied edited inventory, Hoja1 row 3, received 2026-10-07.
-// Area measurement, fresh availability, rights and assigned agent are not confirmed.
+// Supplied edited inventory, Hoja1 row 3; price as of the 2026-11-23 capture.
+// Area measurement type and assigned agent are not confirmed.
 // Advertised energy values were visually checked against the matching portal label;
 // neither certificate delivery nor registration is implied. Conflicting orientation
 // and community fees are omitted. Source provenance stays in the local task document.
 export const ibizaRetiroListing: Listing = {
   publicId: 'ap-l8v3',
   routeKey: 'ibiza-retiro-madrid-ap-l8v3',
-  propertyType: 'apartment', transaction: 'sale', availability: 'unconfirmed',
+  propertyType: 'apartment', transaction: 'sale', availability: 'available',
   location: {
     displayName: 'Ibiza, Retiro, Madrid', neighborhood: 'Ibiza',
     district: 'Retiro', city: 'Madrid', precision: 'neighborhood',
   },
-  price: { amount: 1079000, currency: 'EUR' },
+  price: { amount: 1049000, currency: 'EUR' },
   area: { squareMeters: 88, measurement: 'unspecified' },
   rooms: { bedrooms: 2, bathrooms: 2 },
   energy: { rating: 'E', consumptionKwhPerSquareMeterYear: 211, emissionsKgPerSquareMeterYear: 44 },
@@ -74,11 +74,8 @@ export const ibizaRetiroListing: Listing = {
   },
 };
 
+// Office approved this exact page ("OK para publicar"); live since 2026-11-16.
 export const ibizaRetiroReleaseReadiness: ListingReleaseReadiness = {
-  ready: false,
-  blockers: [
-    'Current sale and viewing availability has not been confirmed.',
-    'Property-specific photography reuse authorization has not been confirmed.',
-    'Advertised energy label is known; certificate has not been supplied to A&P yet.',
-  ],
+  ready: true,
+  blockers: [],
 };

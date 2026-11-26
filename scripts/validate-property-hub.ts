@@ -16,7 +16,7 @@ assert.equal(listingImages(ibizaRetiroListing).length, 16);
 assert.equal(new Set(listingImages(ibizaRetiroListing).map(({ id }) => id)).size, 16);
 assert.equal(listingImages(ibizaListing).length, 12);
 for (const { listing, readiness } of listingEntries) {
-  assert.equal(canPublishListing(listing, readiness), false);
+  assert.equal(canPublishListing(listing, readiness), listing.publicId === 'ap-l8v3', listing.publicId);
   assert.equal(listing.media.dossier, null);
   const images = listingImages(listing);
   assert.deepEqual(new Set(readdirSync(join(root, 'src/assets/properties', listing.publicId))), new Set(images.flatMap(({ compact, large }) => [compact.url, large.url]).map((url) => url.split('/').at(-1)!)));

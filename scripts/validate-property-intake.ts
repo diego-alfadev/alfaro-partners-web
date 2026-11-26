@@ -10,7 +10,7 @@ import { resolveShot } from '../src/lib/guided-tour';
 assert.equal(intakeDrafts.length, 5);
 assert.equal(intakeListingEntries.length, 3, 'Only the three source-sufficient additions enter PRE');
 assert.equal(listingEntries.length, 5, 'Keep the two existing fixtures and three qualifying new ones');
-assert.equal(visibleListingEntries(false).length, 0, 'No automatic production promotion');
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3'], 'Only explicitly approved listings reach production');
 assert.equal(visibleListingEntries(true).length, 5);
 for (const draft of intakeDrafts) {
   const { listing, readiness, previewEligible } = draft;
@@ -50,4 +50,4 @@ for (const draft of intakeDrafts) {
     }
   }
 }
-console.log('Intake validated: five photographic drafts, three added PRE candidates, two coverage holds, no production promotion.');
+console.log('Intake validated: five photographic drafts, three added PRE candidates, two coverage holds, only approved listings in production.');
