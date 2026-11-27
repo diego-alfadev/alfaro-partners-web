@@ -23,3 +23,4 @@ ffmpeg -v error -y -i "$input" -an \
 
 ffprobe -v error -show_entries stream=width,height,duration -show_entries format=size -of default=nw=1 "$out_dir/$name.mp4"
 echo "Installed $out_dir/$name.mp4"
+echo "Then publish its lighter copy: AP_MEDIA_MASTERS=<private folder> python3 scripts/optimize_media.py"
