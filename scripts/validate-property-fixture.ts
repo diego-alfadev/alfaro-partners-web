@@ -6,6 +6,7 @@ import { ibizaListing, ibizaListingReleaseReadiness } from '../src/data/listings
 import { canPublishListing, listingImages } from '../src/lib/listings';
 import { listingEntries, visibleListingEntries } from '../src/data/listings';
 import { ibizaRetiroListing, ibizaRetiroReleaseReadiness } from '../src/data/listings/ibiza-retiro-ap-l8v3';
+import { approvedListings } from './approved-listings';
 
 const root = new URL('..', import.meta.url).pathname;
 const serialized = JSON.stringify(ibizaListing);
@@ -63,8 +64,8 @@ console.log(`Validated ${ibizaListing.routeKey}: ${ibizaListing.media.gallery.le
 
 assert.equal(new Set(listingEntries.map(({ listing }) => listing.publicId)).size, listingEntries.length);
 assert.equal(new Set(listingEntries.map(({ listing }) => listing.routeKey)).size, listingEntries.length);
-assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3']);
-assert.equal(visibleListingEntries(true).length, 5);
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId).sort(), [...approvedListings].sort());
+assert.equal(visibleListingEntries(true).length, listingEntries.length);
 assert.equal(ibizaRetiroListing.publicId, 'ap-l8v3');
 assert.equal(ibizaRetiroListing.routeKey, 'ibiza-retiro-madrid-ap-l8v3');
 assert.equal(ibizaRetiroListing.price.amount, 1049000);
@@ -88,7 +89,7 @@ assert.equal(ibizaRetiroListing.media.gallery.length, 13);
 for (const { listing, readiness } of listingEntries) {
   assert.match(listing.publicId, /^ap-[a-z0-9]{4,}$/);
   assert.equal(listing.location.precision, 'neighborhood');
-  assert.equal(canPublishListing(listing, readiness), listing.publicId === 'ap-l8v3', listing.publicId);
+  assert.equal(canPublishListing(listing, readiness), approvedListings.includes(listing.publicId), listing.publicId);
   assert.equal(listing.media.film, null);
   assert.equal(listing.media.dossier, null);
   const expected = new Set(listingImages(listing).flatMap((photo) => [photo.large.url, photo.compact.url])
