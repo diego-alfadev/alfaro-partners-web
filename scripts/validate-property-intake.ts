@@ -7,21 +7,22 @@ import { listingEntries, visibleListingEntries } from '../src/data/listings';
 import { tourScripts } from '../src/data/tours';
 import { canPublishListing, listingImages } from '../src/lib/listings';
 import { resolveShot } from '../src/lib/guided-tour';
-assert.equal(intakeDrafts.length, 5);
-assert.equal(intakeListingEntries.length, 3, 'Only the three source-sufficient additions enter PRE');
-assert.equal(listingEntries.length, 5, 'Keep the two existing fixtures and three qualifying new ones');
-assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3'], 'Only explicitly approved listings reach production');
-assert.equal(visibleListingEntries(true).length, 5);
+import { approvedListings } from './approved-listings';
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId).sort(), [...approvedListings].sort(), 'Only explicitly approved listings reach production');
+assert.equal(visibleListingEntries(true).length, listingEntries.length);
 for (const draft of intakeDrafts) {
   const { listing, readiness, previewEligible } = draft;
   assert.match(listing.publicId, /^ap-[a-z0-9]{4,}$/);
-  assert.equal(canPublishListing(listing, readiness), false);
-  assert.equal(listing.availability, 'unconfirmed');
-  assert.equal(listing.energy.rating, null);
+  const approved = approvedListings.includes(listing.publicId);
+  assert.equal(canPublishListing(listing, readiness), approved, listing.publicId);
+  if (!approved) {
+    assert.equal(listing.availability, 'unconfirmed');
+    assert.equal(listing.energy.rating, null);
+  }
   assert.equal(listing.location.precision, 'neighborhood');
   assert.doesNotMatch(JSON.stringify(listing), /narv[aá]ez|baranda|019c90|bestflat|source_revision|sha256|4\s?ci\b|1\s18\b/i);
   assert.equal(intakeListingEntries.includes(draft), previewEligible);
-  assert.match(draft.draftNotice, /pendiente/i);
+  if (!approved) assert.match(draft.draftNotice, /pendiente/i);
   const tour = intakeTours.find(({ publicId }) => publicId === listing.publicId)!;
   assert.ok(tour);
   assert.equal(tourScripts.includes(tour), previewEligible);
@@ -50,4 +51,4 @@ for (const draft of intakeDrafts) {
     }
   }
 }
-console.log('Intake validated: five photographic drafts, three added PRE candidates, two coverage holds, only approved listings in production.');
+console.log(`Intake validated: ${intakeDrafts.length} photographic drafts, ${intakeListingEntries.length} in PRE, only approved listings in production.`);

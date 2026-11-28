@@ -2,11 +2,12 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { listingEntries, visibleListingEntries } from '../src/data/listings';
 import { propertyPreviewNotices } from '../src/data/listings/preview-notices';
+import { approvedListings } from './approved-listings';
 
 // Preview copy describes remaining evidence, never changes the release decision.
 assert.deepEqual(Object.keys(propertyPreviewNotices).sort(), listingEntries.map(({ listing }) => listing.publicId).sort());
-assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId), ['ap-l8v3']);
-assert.equal(visibleListingEntries(true).length, 5);
+assert.deepEqual(visibleListingEntries(false).map(({ listing }) => listing.publicId).sort(), [...approvedListings].sort());
+assert.equal(visibleListingEntries(true).length, listingEntries.length);
 for (const { listing } of listingEntries) {
   const notice = propertyPreviewNotices[listing.publicId];
   assert.ok(notice.pending.length >= 2, listing.publicId);

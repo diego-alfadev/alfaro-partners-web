@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "build:github": "PUBLIC_SITE_URL=https://diego-alfadev.github.io PUBLIC_BASE_PATH=/alfaro-partners-web astro build",
-    "build:ionos": "bun scripts/build-ionos.mjs"
+    "build:ionos": "bun scripts/build-ionos.mjs",
+    "validate:listings": "bun scripts/validate-property-fixture.ts && bun scripts/validate-property-hub.ts && bun scripts/validate-property-intake.ts && bun scripts/validate-property-preview.ts && bun scripts/validate-property-seo.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

@@ -115,6 +115,9 @@ jobs:
       - name: Audit dependencies
         run: bun audit
 
+      - name: Validate listings
+        run: bun run validate:listings
+
       - name: Build for production
         env:
           PUBLIC_SITE_URL: https://alfaropartners.es
